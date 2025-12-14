@@ -1,0 +1,135 @@
+import {
+    Crown,
+    UserCircle,
+    FileText,
+    DollarSign,
+    Users,
+    Megaphone,
+    MapPin,
+    Scale,
+    GraduationCap,
+    Heart,
+    Trophy,
+    Lightbulb
+} from "lucide-react";
+
+export interface ExecutiveCommitteeMember {
+    name: string;
+    position: string;
+    icon: React.ElementType;
+    description: string;
+    color: string;
+    image?: string;
+}
+
+import mukaImage from "@/images/muka.jpeg";
+
+export const executiveCommittee: ExecutiveCommitteeMember[] = [
+    {
+        name: "Ahou Abit Arok",
+        position: "Chairperson",
+        icon: Crown,
+        description: "Chief executive and representative of the organization",
+        color: "from-purple-500 to-pink-500",
+        image: mukaImage
+    },
+    {
+        name: "Yar Kuir Mabior",
+        position: "Deputy Chairperson",
+        icon: UserCircle,
+        description: "Supports chairperson and acts in their absence",
+        color: "from-blue-500 to-cyan-500"
+    },
+    {
+        name: "Ayak Majok Abit",
+        position: "Secretary General",
+        icon: FileText,
+        description: "Handles administrative duties and records",
+        color: "from-green-500 to-emerald-500"
+    },
+    {
+        name: "Yar Garang Akak",
+        position: "Deputy Secretary General",
+        icon: FileText,
+        description: "Assists the secretary general",
+        color: "from-teal-500 to-green-500"
+    },
+    {
+        name: "Nyandeng Deng Khot",
+        position: "Finance Secretary",
+        icon: DollarSign,
+        description: "Manages financial affairs and accounting",
+        color: "from-amber-500 to-orange-500"
+    },
+    {
+        name: "Ding Akoi Deu",
+        position: "Deputy Finance Secretary",
+        icon: DollarSign,
+        description: "Assists the finance secretary",
+        color: "from-yellow-500 to-amber-500"
+    },
+    {
+        name: "Alek Majok",
+        position: "Information Secretary",
+        icon: Megaphone,
+        description: "Manages communications and public relations",
+        color: "from-rose-500 to-pink-500"
+    },
+    {
+        name: "Athiei Lem",
+        position: "Deputy Information Secretary",
+        icon: Megaphone,
+        description: "Assists the information secretary",
+        color: "from-pink-500 to-rose-500"
+    },
+    {
+        name: "Abuol Sarah Chol",
+        position: "Secretary for Legal Affairs",
+        icon: Scale,
+        description: "Handles legal matters and compliance",
+        color: "from-indigo-500 to-purple-500"
+    },
+    {
+        name: "Amer Thon Malual",
+        position: "Secretary for Education",
+        icon: GraduationCap,
+        description: "Oversees educational programs and initiatives",
+        color: "from-blue-500 to-indigo-500"
+    },
+    {
+        name: "Yom Nhiany Biar",
+        position: "Secretary for Health",
+        icon: Heart,
+        description: "Manages health programs and wellness initiatives",
+        color: "from-red-500 to-pink-500"
+    },
+    {
+        name: "Abuk Mabior",
+        position: "Secretary for Culture and Sports",
+        icon: Trophy,
+        description: "Promotes cultural activities and sports programs",
+        color: "from-orange-500 to-red-500"
+    },
+    {
+        name: "Achol Garang",
+        position: "Advisor",
+        icon: Lightbulb,
+        description: "Provides strategic guidance and counsel",
+        color: "from-cyan-500 to-blue-500"
+    }
+];
+
+export interface PayamRepresentative {
+    name: string;
+    payam: string;
+}
+
+export const payamRepresentatives: PayamRepresentative[] = [
+    { name: "Representative Name", payam: "Ajuong" },
+    { name: "Representative Name", payam: "Kongor" },
+    { name: "Representative Name", payam: "Lith" },
+    { name: "Representative Name", payam: "Nyuak" },
+    { name: "Representative Name", payam: "Pakeer" },
+    { name: "Representative Name", payam: "Pawuoi" }
+];
+

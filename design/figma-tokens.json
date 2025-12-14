@@ -1,0 +1,73 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/gh/six7/figma-tokens@main/schemas/schema.json",
+  "color": {
+    "brand": {
+      "primary": {
+        "$type": "color",
+        "50": { "$value": "hsl(248 44% 97%)" },
+        "100": { "$value": "hsl(248 44% 94%)" },
+        "200": { "$value": "hsl(248 44% 88%)" },
+        "300": { "$value": "hsl(248 46% 76%)" },
+        "400": { "$value": "hsl(248 52% 62%)" },
+        "500": { "$value": "hsl(248 60% 50%)" },
+        "600": { "$value": "hsl(248 62% 38%)" },
+        "700": { "$value": "hsl(248 63% 28%)" },
+        "800": { "$value": "hsl(248 61% 16%)" },
+        "900": { "$value": "hsl(248 63% 12%)" },
+        "foreground": { "$value": "hsl(0 0% 100%)" }
+      },
+      "secondary": {
+        "$type": "color",
+        "50": { "$value": "hsl(193 100% 97%)" },
+        "100": { "$value": "hsl(193 96% 92%)" },
+        "200": { "$value": "hsl(193 95% 84%)" },
+        "300": { "$value": "hsl(193 95% 72%)" },
+        "400": { "$value": "hsl(193 96% 62%)" },
+        "500": { "$value": "hsl(193 100% 52%)" },
+        "600": { "$value": "hsl(193 100% 46%)" },
+        "700": { "$value": "hsl(193 96% 38%)" },
+        "800": { "$value": "hsl(193 90% 30%)" },
+        "900": { "$value": "hsl(193 88% 22%)" },
+        "foreground": { "$value": "hsl(210 100% 98%)" }
+      },
+      "feminine": {
+        "$type": "color",
+        "100": { "$value": "hsl(330 72% 96%)" },
+        "200": { "$value": "hsl(330 70% 92%)" },
+        "300": { "$value": "hsl(330 68% 86%)" },
+        "400": { "$value": "hsl(330 64% 80%)" },
+        "500": { "$value": "hsl(330 60% 72%)" },
+        "600": { "$value": "hsl(330 56% 64%)" },
+        "700": { "$value": "hsl(330 52% 54%)" },
+        "foreground": { "$value": "hsl(247 24% 14%)" }
+      },
+      "accent": {
+        "$type": "color",
+        "50": { "$value": "{color.brand.secondary.50}" },
+        "100": { "$value": "{color.brand.secondary.100}" },
+        "200": { "$value": "{color.brand.secondary.200}" },
+        "300": { "$value": "{color.brand.secondary.300}" },
+        "400": { "$value": "{color.brand.secondary.400}" },
+        "500": { "$value": "{color.brand.secondary.500}" },
+        "600": { "$value": "{color.brand.secondary.600}" },
+        "700": { "$value": "{color.brand.secondary.700}" },
+        "800": { "$value": "{color.brand.secondary.800}" },
+        "900": { "$value": "{color.brand.secondary.900}" },
+        "foreground": { "$value": "{color.brand.secondary.foreground}" }
+      }
+    },
+    "surface": {
+      "$type": "color",
+      "background": { "$value": "hsl(248 45% 98%)" },
+      "foreground": { "$value": "hsl(247 26% 12%)" },
+      "card": { "$value": "hsl(0 0% 100%)" },
+      "cardForeground": { "$value": "hsl(247 26% 12%)" },
+      "muted": { "$value": "hsl(248 32% 93%)" },
+      "mutedForeground": { "$value": "hsl(247 18% 36%)" },
+      "border": { "$value": "hsl(248 28% 86%)" },
+      "accent": { "$value": "hsl(193 96% 92%)" },
+      "accentForeground": { "$value": "hsl(248 63% 12%)" }
+    }
+  }
+}
+

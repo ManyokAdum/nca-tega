@@ -1,0 +1,95 @@
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
+import Index from "./pages/Index";
+import About from "./pages/About";
+import Leadership from "./pages/Leadership";
+import Governance from "./pages/Governance";
+import Contact from "./pages/Contact";
+import Events from "./pages/Events";
+import Documents from "./pages/Documents";
+import Membership from "./pages/Membership";
+import Elections from "./pages/Elections";
+import UpcomingEvents from "./pages/UpcomingEvents";
+import PastEvents from "./pages/PastEvents";
+import Constitution from "./pages/Constitution";
+import Regulations from "./pages/Regulations";
+import MemberPortal from "./pages/MemberPortal";
+import Payments from "./pages/Payments";
+import Directory from "./pages/Directory";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import Donate from "./pages/Donate";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminMembers from "./pages/admin/Members";
+import AdminEvents from "./pages/admin/Events";
+import AdminElections from "./pages/admin/Elections";
+import AdminLeadership from "./pages/admin/Leadership";
+import AdminDocuments from "./pages/admin/Documents";
+import AdminPayments from "./pages/admin/Payments";
+import AdminSettings from "./pages/admin/Settings";
+import AdminNotifications from "./pages/admin/Notifications";
+import { AdminRoute } from "./components/admin/AdminRoute";
+import NotFound from "./pages/NotFound";
+import { ScrollToTop } from "./components/ScrollToTop";
+
+const queryClient = new QueryClient();
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <ScrollToTop />
+            <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/leadership" element={<Leadership />} />
+          <Route path="/governance" element={<Governance />} />
+          <Route path="/membership" element={<Membership />} />
+          <Route path="/elections" element={<Elections />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/events/upcoming" element={<UpcomingEvents />} />
+          <Route path="/events/past" element={<PastEvents />} />
+          <Route path="/documents" element={<Documents />} />
+          <Route path="/documents/constitution" element={<Constitution />} />
+          <Route path="/documents/regulations" element={<Regulations />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/portal" element={<MemberPortal />} />
+          <Route path="/payments" element={<Payments />} />
+          <Route path="/directory" element={<Directory />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/donate" element={<Donate />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          {/* Admin Routes - Only accessible through /admin */}
+          <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+          <Route path="/admin/members" element={<AdminRoute><AdminMembers /></AdminRoute>} />
+          <Route path="/admin/events" element={<AdminRoute><AdminEvents /></AdminRoute>} />
+          <Route path="/admin/elections" element={<AdminRoute><AdminElections /></AdminRoute>} />
+          <Route path="/admin/leadership" element={<AdminRoute><AdminLeadership /></AdminRoute>} />
+          <Route path="/admin/documents" element={<AdminRoute><AdminDocuments /></AdminRoute>} />
+          <Route path="/admin/payments" element={<AdminRoute><AdminPayments /></AdminRoute>} />
+          <Route path="/admin/notifications" element={<AdminRoute><AdminNotifications /></AdminRoute>} />
+          <Route path="/admin/settings" element={<AdminRoute><AdminSettings /></AdminRoute>} />
+          {/* Catch-all 404 route */}
+          <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
+      </LanguageProvider>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
+
+export default App;
