@@ -53,25 +53,25 @@ const Settings = () => {
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <div className="space-y-2">
                                         <Label htmlFor="orgName">Organization Name</Label>
-                                        <Input id="orgName" defaultValue="Nyan Cit Arialbeek" />
+                                        <Input id="orgName" placeholder="Enter organization name" />
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="email">Contact Email</Label>
-                                        <Input id="email" type="email" defaultValue="info@ncatwiceast.org" />
+                                        <Input id="email" type="email" placeholder="contact@example.org" />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="address">Address</Label>
-                                    <Textarea id="address" defaultValue="NCA Hall, Juba, South Sudan" rows={2} />
+                                    <Textarea id="address" placeholder="Enter organization address" rows={2} />
                                 </div>
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <div className="space-y-2">
                                         <Label htmlFor="phone">Phone</Label>
-                                        <Input id="phone" defaultValue="+211 912 345 678" />
+                                        <Input id="phone" placeholder="+211 000 000 000" />
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="website">Website</Label>
-                                        <Input id="website" defaultValue="https://ncatwiceast.org" />
+                                        <Input id="website" placeholder="https://example.org" />
                                     </div>
                                 </div>
                             </CardContent>
@@ -86,11 +86,11 @@ const Settings = () => {
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <div className="space-y-2">
                                         <Label htmlFor="regularFee">Regular Membership Fee (SSP)</Label>
-                                        <Input id="regularFee" type="number" defaultValue="100" />
+                                        <Input id="regularFee" type="number" defaultValue={0} />
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="lifeFee">Life Membership Fee (SSP)</Label>
-                                        <Input id="lifeFee" type="number" defaultValue="5000" />
+                                        <Input id="lifeFee" type="number" defaultValue={0} />
                                     </div>
                                 </div>
                                 <div className="flex items-center justify-between">
@@ -191,11 +191,11 @@ const Settings = () => {
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <div className="space-y-2">
                                         <Label htmlFor="smtpHost">SMTP Host</Label>
-                                        <Input id="smtpHost" defaultValue="smtp.example.com" />
+                                        <Input id="smtpHost" placeholder="smtp.example.com" />
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="smtpPort">SMTP Port</Label>
-                                        <Input id="smtpPort" type="number" defaultValue="587" />
+                                        <Input id="smtpPort" type="number" defaultValue={0} />
                                     </div>
                                 </div>
                                 <div className="space-y-2">

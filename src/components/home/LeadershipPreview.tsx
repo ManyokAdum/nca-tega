@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { executiveCommittee } from "@/data/leadership";
 
+// Single shared gradient for all leadership accents
+const leadershipGradient = "from-[hsl(278_42%_34%)] to-[hsl(276_46%_30%)]";
+
 export const LeadershipPreview = () => {
     // Display only the top 3 executive committee members
     // This data is sourced from the centralized leadership data
@@ -30,7 +33,7 @@ export const LeadershipPreview = () => {
                                 className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-background to-muted/30 p-8 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                             >
                                 {/* Gradient overlay matching Leadership page style */}
-                                <div className={`absolute inset-0 bg-gradient-to-br ${member.color} opacity-0 transition-opacity duration-300 group-hover:opacity-10`} />
+                                <div className={`absolute inset-0 bg-gradient-to-br ${leadershipGradient} opacity-0 transition-opacity duration-300 group-hover:opacity-10`} />
 
                                 <div className="relative">
                                     {/* Image or Icon */}
@@ -44,7 +47,7 @@ export const LeadershipPreview = () => {
                                                 />
                                             </div>
                                         ) : (
-                                            <div className={`flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br ${member.color} shadow-lg`}>
+                                            <div className={`flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br ${leadershipGradient} shadow-lg`}>
                                                 <Icon className="h-10 w-10 text-white" />
                                             </div>
                                         )}
@@ -56,7 +59,7 @@ export const LeadershipPreview = () => {
                                     </h3>
 
                                     {/* Position */}
-                                    <p className={`mb-3 text-center font-semibold bg-gradient-to-r ${member.color} bg-clip-text text-transparent`}>
+                                    <p className={`mb-3 text-center font-semibold bg-gradient-to-r ${leadershipGradient} bg-clip-text text-transparent`}>
                                         {member.position}
                                     </p>
 

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
     Bell, 
@@ -17,125 +16,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useToast } from "@/hooks/use-toast";
+import { useAdminData } from "@/contexts/AdminDataContext";
 import { cn } from "@/lib/utils";
-
-interface Notification {
-    id: number;
-    type: "approval" | "message";
-    title: string;
-    description: string;
-    time: string;
-    unread: boolean;
-    link: string;
-    icon: React.ElementType;
-    color: string;
-}
 
 const Notifications = () => {
     const navigate = useNavigate();
     const { toast } = useToast();
-
-    // Mock notifications data - in production, this would come from an API
-    const [notifications, setNotifications] = useState<Notification[]>([
-        {
-            id: 1,
-            type: "approval",
-            title: "23 Membership Applications",
-            description: "New membership applications pending approval",
-            time: "2 hours ago",
-            unread: true,
-            link: "/admin/members",
-            icon: Users,
-            color: "text-amber-600"
-        },
-        {
-            id: 2,
-            type: "approval",
-            title: "5 Election Nominations",
-            description: "Election nominations awaiting verification",
-            time: "4 hours ago",
-            unread: true,
-            link: "/admin/elections",
-            icon: Vote,
-            color: "text-blue-600"
-        },
-        {
-            id: 3,
-            type: "approval",
-            title: "15 Pending Payments",
-            description: "Payment confirmations needed",
-            time: "1 day ago",
-            unread: true,
-            link: "/admin/payments",
-            icon: DollarSign,
-            color: "text-green-600"
-        },
-        {
-            id: 4,
-            type: "message",
-            title: "New Message from Member",
-            description: "Nyakong Deng sent a message regarding membership",
-            time: "3 hours ago",
-            unread: true,
-            link: "/admin/members",
-            icon: MessageSquare,
-            color: "text-purple-600"
-        },
-        {
-            id: 5,
-            type: "message",
-            title: "Event Registration Question",
-            description: "Member inquiry about upcoming event registration",
-            time: "5 hours ago",
-            unread: true,
-            link: "/admin/events",
-            icon: Calendar,
-            color: "text-indigo-600"
-        },
-        {
-            id: 6,
-            type: "message",
-            title: "Payment Inquiry",
-            description: "Member has a question about payment status",
-            time: "6 hours ago",
-            unread: false,
-            link: "/admin/payments",
-            icon: DollarSign,
-            color: "text-emerald-600"
-        },
-        {
-            id: 7,
-            type: "approval",
-            title: "10 Membership Applications",
-            description: "Previously reviewed applications",
-            time: "2 days ago",
-            unread: false,
-            link: "/admin/members",
-            icon: Users,
-            color: "text-amber-600"
-        },
-        {
-            id: 8,
-            type: "message",
-            title: "General Inquiry",
-            description: "Member question about NCA activities",
-            time: "3 days ago",
-            unread: false,
-            link: "/admin/members",
-            icon: MessageSquare,
-            color: "text-purple-600"
-        }
-    ]);
+    const { notifications, markNotificationRead, markAllNotificationsRead } = useAdminData();
 
     const unreadNotifications = notifications.filter(n => n.unread);
     const readNotifications = notifications.filter(n => !n.unread);
 
-    const handleMarkAsRead = (id: number) => {
-        setNotifications(prev => 
-            prev.map(notif => 
-                notif.id === id ? { ...notif, unread: false } : notif
-            )
-        );
+    const handleMarkAsRead = (id: string) => {
+        markNotificationRead(id);
         toast({
             title: "Notification marked as read",
             description: "The notification has been marked as read.",
@@ -143,16 +36,14 @@ const Notifications = () => {
     };
 
     const handleMarkAllAsRead = () => {
-        setNotifications(prev => 
-            prev.map(notif => ({ ...notif, unread: false }))
-        );
+        markAllNotificationsRead();
         toast({
             title: "All notifications marked as read",
             description: "All notifications have been marked as read.",
         });
     };
 
-    const handleNotificationClick = (notification: Notification) => {
+    const handleNotificationClick = (notification: AdminNotification) => {
         // Mark as read when clicked
         if (notification.unread) {
             handleMarkAsRead(notification.id);
@@ -160,8 +51,11 @@ const Notifications = () => {
         navigate(notification.link);
     };
 
-    const NotificationItem = ({ notification }: { notification: Notification }) => {
-        const Icon = notification.icon;
+    const NotificationItem = ({ notification }: { notification: AdminNotification }) => {
+        const Icon = notification.type === "approval" ? CheckCircle : MessageSquare;
+        const iconColor = notification.type === "approval" 
+            ? "text-[hsl(var(--brand-primary-600))]" 
+            : "text-[hsl(var(--brand-secondary-600))]";
         return (
             <div
                 className={cn(
@@ -174,7 +68,7 @@ const Notifications = () => {
                     "flex h-10 w-10 items-center justify-center rounded-full bg-muted flex-shrink-0",
                     notification.unread && "bg-primary/10"
                 )}>
-                    <Icon className={cn("h-5 w-5", notification.color)} />
+                    <Icon className={cn("h-5 w-5", iconColor)} />
                 </div>
                 <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
@@ -263,7 +157,7 @@ const Notifications = () => {
                             <CardTitle className="text-sm font-medium">Unread</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold text-amber-600">{unreadNotifications.length}</div>
+                            <div className="text-2xl font-bold text-[hsl(var(--brand-secondary-600))]">{unreadNotifications.length}</div>
                         </CardContent>
                     </Card>
                     <Card>
@@ -281,7 +175,7 @@ const Notifications = () => {
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
-                                <Bell className="h-5 w-5 text-amber-600" />
+                                <Bell className="h-5 w-5 text-[hsl(var(--brand-secondary-600))]" />
                                 Unread Notifications
                                 <Badge variant="secondary" className="ml-2">
                                     {unreadNotifications.length}

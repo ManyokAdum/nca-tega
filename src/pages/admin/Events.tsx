@@ -31,42 +31,20 @@ const Events = () => {
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
     const { toast } = useToast();
 
-    // Mock events data
-    const events = [
-        {
-            id: 1,
-            title: "Monthly General Meeting",
-            description: "Regular monthly meeting to discuss community matters",
-            date: "2024-02-15",
-            time: "6:00 PM - 8:00 PM",
-            location: "NCA Hall, Juba",
-            type: "upcoming",
-            attendees: 45,
-            status: "active"
-        },
-        {
-            id: 2,
-            title: "Executive Committee Elections",
-            description: "Annual elections for Executive Committee positions",
-            date: "2024-03-20",
-            time: "9:00 AM - 5:00 PM",
-            location: "NCA Hall, Juba",
-            type: "upcoming",
-            attendees: 150,
-            status: "active"
-        },
-        {
-            id: 3,
-            title: "New Year Celebration",
-            description: "Community celebration for the new year",
-            date: "2024-01-01",
-            time: "4:00 PM - 9:00 PM",
-            location: "NCA Hall, Juba",
-            type: "past",
-            attendees: 180,
-            status: "completed"
-        },
-    ];
+    interface EventItem {
+        id: number;
+        title: string;
+        description: string;
+        date: string;
+        time: string;
+        location: string;
+        type: "upcoming" | "past";
+        attendees: number;
+        status: "active" | "completed";
+    }
+
+    // Events should come from persistent storage/API. Default to empty.
+    const events: EventItem[] = [];
 
     const filteredEvents = events.filter(event =>
         event.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -197,7 +175,7 @@ const Events = () => {
                                             <TableCell>{event.location}</TableCell>
                                             <TableCell>
                                                 {event.type === "upcoming" ? (
-                                                    <Badge className="bg-blue-100 text-blue-800">Upcoming</Badge>
+                                                    <Badge className="bg-[hsl(var(--brand-primary-100))] text-[hsl(var(--brand-primary-800))]">Upcoming</Badge>
                                                 ) : (
                                                     <Badge variant="outline">Past</Badge>
                                                 )}
@@ -205,7 +183,7 @@ const Events = () => {
                                             <TableCell>{event.attendees}</TableCell>
                                             <TableCell>
                                                 {event.status === "active" && (
-                                                    <Badge className="bg-green-100 text-green-800">Active</Badge>
+                                                    <Badge className="bg-[hsl(var(--brand-secondary-100))] text-[hsl(var(--brand-secondary-800))]">Active</Badge>
                                                 )}
                                                 {event.status === "completed" && (
                                                     <Badge variant="outline">Completed</Badge>
@@ -222,7 +200,7 @@ const Events = () => {
                                                     <Button
                                                         size="sm"
                                                         variant="ghost"
-                                                        className="h-8 w-8 p-0 text-red-600"
+                                                        className="h-8 w-8 p-0 text-[hsl(var(--brand-feminine-600))]"
                                                         onClick={() => handleDelete(event.id)}
                                                     >
                                                         <Trash2 className="h-4 w-4" />

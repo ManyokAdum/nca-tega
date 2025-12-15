@@ -64,6 +64,11 @@
     background-image: var(--gradient-secondary);
   }
 
+  /* Soft background gradient utility for content-friendly sections */
+  .bg-gradient-soft {
+    background-image: var(--gradient-secondary);
+  }
+
   .bg-gradient-feminine {
     background-image: var(--gradient-feminine);
   }

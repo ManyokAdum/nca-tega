@@ -12,8 +12,6 @@ export function HeroSection() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const backgroundImages = [ncaImage, ncagoodImage, nca2Image];
   const buttonContainerRef = useRef<HTMLDivElement>(null);
-  const heroSectionRef = useRef<HTMLElement>(null);
-  const statsGridRef = useRef<HTMLDivElement>(null);
 
   // Rotate images every 4 seconds
   useEffect(() => {
@@ -24,68 +22,8 @@ export function HeroSection() {
     return () => clearInterval(interval);
   }, []);
 
-  // #region agent log
-  useEffect(() => {
-    const logLayoutIssues = () => {
-      const viewportWidth = window.innerWidth;
-      const issues: string[] = [];
-      
-      // Check buttons
-      if (buttonContainerRef.current) {
-        const container = buttonContainerRef.current;
-        const buttons = container.querySelectorAll('a, button');
-        if (buttons.length >= 2) {
-          const btn1 = buttons[0] as HTMLElement;
-          const btn2 = buttons[1] as HTMLElement;
-          const containerStyle = window.getComputedStyle(container);
-          const gapValue = parseInt(containerStyle.gap) || 0;
-          const totalButtonsWidth = btn1.offsetWidth + btn2.offsetWidth + gapValue;
-          const canFit = totalButtonsWidth <= container.offsetWidth;
-          const isOverflowing = container.scrollWidth > container.offsetWidth;
-          
-          if (!canFit || isOverflowing) {
-            issues.push(`Buttons overflow: total=${totalButtonsWidth}px, container=${container.offsetWidth}px`);
-          }
-          
-          fetch('http://127.0.0.1:7242/ingest/f8629692-e1c6-43c6-b51b-0c7514937fad',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'HeroSection.tsx:useEffect',message:'Button layout check',data:{viewportWidth,containerWidth:container.offsetWidth,containerScrollWidth:container.scrollWidth,btn1Width:btn1.offsetWidth,btn2Width:btn2.offsetWidth,totalButtonsWidth,canFit,isOverflowing,hasOverflow:container.scrollWidth>container.offsetWidth},timestamp:Date.now(),sessionId:'debug-session',runId:'layout-fix',hypothesisId:'buttons'})}).catch(()=>{});
-        }
-      }
-      
-      // Check stats grid
-      if (statsGridRef.current) {
-        const grid = statsGridRef.current;
-        const gridStyle = window.getComputedStyle(grid);
-        const isOverflowing = grid.scrollWidth > grid.offsetWidth;
-        const stats = grid.querySelectorAll('div');
-        
-        fetch('http://127.0.0.1:7242/ingest/f8629692-e1c6-43c6-b51b-0c7514937fad',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'HeroSection.tsx:useEffect',message:'Stats grid layout check',data:{viewportWidth,gridWidth:grid.offsetWidth,gridScrollWidth:grid.scrollWidth,isOverflowing,statsCount:stats.length,gridColumns:gridStyle.gridTemplateColumns},timestamp:Date.now(),sessionId:'debug-session',runId:'layout-fix',hypothesisId:'stats'})}).catch(()=>{});
-      }
-      
-      // Check hero section container
-      if (heroSectionRef.current) {
-        const section = heroSectionRef.current;
-        const container = section.querySelector('.container');
-        if (container) {
-          const containerEl = container as HTMLElement;
-          const isOverflowing = containerEl.scrollWidth > containerEl.offsetWidth;
-          
-          fetch('http://127.0.0.1:7242/ingest/f8629692-e1c6-43c6-b51b-0c7514937fad',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'HeroSection.tsx:useEffect',message:'Hero container layout check',data:{viewportWidth,containerWidth:containerEl.offsetWidth,containerScrollWidth:containerEl.scrollWidth,isOverflowing},timestamp:Date.now(),sessionId:'debug-session',runId:'layout-fix',hypothesisId:'container'})}).catch(()=>{});
-        }
-      }
-    };
-    
-    const timeoutId = setTimeout(logLayoutIssues, 100);
-    window.addEventListener('resize', logLayoutIssues);
-    
-    return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('resize', logLayoutIssues);
-    };
-  }, []);
-  // #endregion
-
   return (
-    <section ref={heroSectionRef} className="relative overflow-hidden pt-12 pb-20 md:pt-16 md:pb-28 lg:pt-20 lg:pb-36">
+    <section className="relative overflow-hidden pt-12 pb-20 md:pt-16 md:pb-28 lg:pt-20 lg:pb-36">
       {/* Rotating Background Images */}
       <div className="absolute inset-0">
         {backgroundImages.map((image, index) => (
@@ -98,8 +36,13 @@ export function HeroSection() {
             }}
           />
         ))}
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/50" />
+        {/* Brand-colored overlay for harmony with color scheme */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(135deg, hsl(278 42% 34% / 0.5) 0%, hsl(276 46% 30% / 0.4) 100%)',
+          }}
+        />
       </div>
 
       <div className="container relative">
@@ -144,7 +87,7 @@ export function HeroSection() {
           </div>
 
           {/* Quick Stats */}
-          <div ref={statsGridRef} className="mt-12 grid grid-cols-3 gap-2 sm:gap-4 opacity-0 animate-fade-up stagger-4 md:mt-16 md:gap-8 px-2">
+          <div className="mt-12 grid grid-cols-3 gap-2 sm:gap-4 opacity-0 animate-fade-up stagger-4 md:mt-16 md:gap-8 px-2">
             <div className="rounded-xl bg-white/20 p-2 sm:p-4 backdrop-blur-sm md:p-6 border border-white/30 min-w-0">
               <Users className="mx-auto mb-1 sm:mb-2 h-5 w-5 sm:h-6 sm:w-6 text-white md:h-8 md:w-8" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))' }} />
               <p

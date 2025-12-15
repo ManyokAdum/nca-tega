@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Heart, DollarSign, CreditCard, Shield, CheckCircle, Gift } from "lucide-react";
@@ -22,12 +22,6 @@ const Donate = () => {
     const { toast } = useToast();
     const amountInputRef = useRef<HTMLInputElement>(null);
 
-    // #region agent log
-    useEffect(() => {
-        fetch('http://127.0.0.1:7242/ingest/f8629692-e1c6-43c6-b51b-0c7514937fad',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Donate.tsx:useEffect',message:'Donate form state change',data:{amount,currency,donorName:donorName.length>0,donorEmail:donorEmail.length>0,paymentMethod},timestamp:Date.now(),sessionId:'debug-session',runId:'donate-form-fix',hypothesisId:'form-state'})}).catch(()=>{});
-    }, [amount, currency, donorName, donorEmail, paymentMethod]);
-    // #endregion
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsProcessing(true);
@@ -44,10 +38,6 @@ const Donate = () => {
             setIsProcessing(false);
             return;
         }
-
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/f8629692-e1c6-43c6-b51b-0c7514937fad',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Donate.tsx:handleSubmit',message:'Donation form submitted',data:{amount:donationAmount,currency,numericAmount,donorName:donorName.length>0,donorEmail:donorEmail.length>0,paymentMethod},timestamp:Date.now(),sessionId:'debug-session',runId:'donate-form-fix',hypothesisId:'form-submit'})}).catch(()=>{});
-        // #endregion
 
         // TODO: Implement actual payment processing
         setTimeout(() => {

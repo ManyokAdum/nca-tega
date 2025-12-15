@@ -1,10 +1,23 @@
 import { useState } from "react";
 import { Vote, Plus, Edit, Trash2, Eye, Calendar, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useToast } from "@/hooks/use-toast";
+import { useAdminData } from "@/contexts/AdminDataContext";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 import {
     Table,
     TableBody,
@@ -16,60 +29,68 @@ import {
 
 const Elections = () => {
     const { toast } = useToast();
+    const { elections, nominations, addElection, approveNomination, rejectNomination } = useAdminData();
+    const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+    const [electionForm, setElectionForm] = useState({
+        title: "",
+        positions: "",
+        status: "Nomination Phase",
+        startDate: "",
+        endDate: "",
+        totalVoters: 0,
+    });
 
-    // Mock election data
-    const elections = [
-        {
-            id: 1,
-            title: "Executive Committee Elections 2026",
-            positions: ["Chairperson", "Deputy Chairperson", "Secretary General"],
+    const handleCreateElection = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!electionForm.title || !electionForm.startDate || !electionForm.endDate) {
+            toast({
+                title: "Validation Error",
+                description: "Please fill in all required fields.",
+                variant: "destructive",
+            });
+            return;
+        }
+
+        const positionsArray = electionForm.positions
+            .split(",")
+            .map(p => p.trim())
+            .filter(p => p.length > 0);
+
+        addElection({
+            title: electionForm.title,
+            positions: positionsArray.length > 0 ? positionsArray : ["All Executive Positions"],
+            status: electionForm.status,
+            startDate: electionForm.startDate,
+            endDate: electionForm.endDate,
+            totalVoters: electionForm.totalVoters,
+        });
+
+        toast({
+            title: "Election Created",
+            description: "The election has been successfully created.",
+        });
+
+        setElectionForm({
+            title: "",
+            positions: "",
             status: "Nomination Phase",
-            startDate: "2026-01-20",
-            endDate: "2026-01-25",
-            totalVoters: 2500,
-            nominationsReceived: 15,
-            votesCast: 0
-        },
-        {
-            id: 2,
-            title: "Executive Committee Elections 2025",
-            positions: ["All Executive Positions"],
-            status: "Completed",
-            startDate: "2025-01-15",
-            endDate: "2025-01-20",
-            totalVoters: 2300,
-            nominationsReceived: 20,
-            votesCast: 2116
-        },
-    ];
+            startDate: "",
+            endDate: "",
+            totalVoters: 0,
+        });
+        setIsCreateDialogOpen(false);
+    };
 
-    const nominations = [
-        {
-            id: 1,
-            candidateName: "Ahou Abit Arok",
-            position: "Chairperson",
-            electionId: 1,
-            status: "pending",
-            submittedDate: "2024-01-18"
-        },
-        {
-            id: 2,
-            candidateName: "Yar Kuir Mabior",
-            position: "Deputy Chairperson",
-            electionId: 1,
-            status: "approved",
-            submittedDate: "2024-01-17"
-        },
-    ];
-
-    const handleApproveNomination = (id: number) => {
+    const handleApproveNomination = (id: string) => {
+        approveNomination(id);
         toast({
             title: "Nomination Approved",
             description: "The nomination has been approved.",
         });
     };
 
-    const handleRejectNomination = (id: number) => {
+    const handleRejectNomination = (id: string) => {
+        rejectNomination(id);
         toast({
             title: "Nomination Rejected",
             description: "The nomination has been rejected.",
@@ -85,10 +106,90 @@ const Elections = () => {
                         <h1 className="text-3xl font-bold">Election Management</h1>
                         <p className="text-muted-foreground">Manage elections and nominations</p>
                     </div>
-                    <Button>
-                        <Plus className="mr-2 h-4 w-4" />
-                        Create Election
-                    </Button>
+                    <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+                        <DialogTrigger asChild>
+                            <Button>
+                                <Plus className="mr-2 h-4 w-4" />
+                                Create Election
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl">
+                            <DialogHeader>
+                                <DialogTitle>Create New Election</DialogTitle>
+                                <DialogDescription>Fill in the details to create a new election</DialogDescription>
+                            </DialogHeader>
+                            <form onSubmit={handleCreateElection}>
+                                <div className="grid gap-4 py-4">
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="title">Election Title *</Label>
+                                        <Input
+                                            id="title"
+                                            placeholder="e.g., Executive Committee Elections 2026"
+                                            value={electionForm.title}
+                                            onChange={(e) => setElectionForm({ ...electionForm, title: e.target.value })}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="positions">Open Positions (comma-separated) *</Label>
+                                        <Input
+                                            id="positions"
+                                            placeholder="e.g., Chairperson, Deputy Chairperson, Secretary General"
+                                            value={electionForm.positions}
+                                            onChange={(e) => setElectionForm({ ...electionForm, positions: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="startDate">Start Date *</Label>
+                                            <Input
+                                                id="startDate"
+                                                type="date"
+                                                value={electionForm.startDate}
+                                                onChange={(e) => setElectionForm({ ...electionForm, startDate: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="endDate">End Date *</Label>
+                                            <Input
+                                                id="endDate"
+                                                type="date"
+                                                value={electionForm.endDate}
+                                                onChange={(e) => setElectionForm({ ...electionForm, endDate: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="status">Status</Label>
+                                        <Input
+                                            id="status"
+                                            placeholder="e.g., Nomination Phase"
+                                            value={electionForm.status}
+                                            onChange={(e) => setElectionForm({ ...electionForm, status: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="totalVoters">Total Voters</Label>
+                                        <Input
+                                            id="totalVoters"
+                                            type="number"
+                                            min="0"
+                                            value={electionForm.totalVoters}
+                                            onChange={(e) => setElectionForm({ ...electionForm, totalVoters: parseInt(e.target.value) || 0 })}
+                                        />
+                                    </div>
+                                </div>
+                                <DialogFooter>
+                                    <Button type="button" variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
+                                        Cancel
+                                    </Button>
+                                    <Button type="submit">Create Election</Button>
+                                </DialogFooter>
+                            </form>
+                        </DialogContent>
+                    </Dialog>
                 </div>
 
                 {/* Elections List */}
@@ -107,8 +208,8 @@ const Elections = () => {
                                                 <h3 className="text-xl font-bold">{election.title}</h3>
                                                 <Badge className={
                                                     election.status === "Completed" 
-                                                        ? "bg-green-100 text-green-800"
-                                                        : "bg-blue-100 text-blue-800"
+                                                        ? "bg-[hsl(var(--brand-primary-100))] text-[hsl(var(--brand-primary-800))]"
+                                                        : "bg-[hsl(var(--brand-secondary-100))] text-[hsl(var(--brand-secondary-800))]"
                                                 }>
                                                     {election.status}
                                                 </Badge>
@@ -179,14 +280,16 @@ const Elections = () => {
                                         <TableRow key={nomination.id}>
                                             <TableCell className="font-medium">{nomination.candidateName}</TableCell>
                                             <TableCell>{nomination.position}</TableCell>
-                                            <TableCell>Executive Committee Elections 2026</TableCell>
-                                            <TableCell>{nomination.submittedDate}</TableCell>
+                                            <TableCell>
+                                                {elections.find(e => e.id === nomination.electionId)?.title || "Unknown Election"}
+                                            </TableCell>
+                                            <TableCell>{new Date(nomination.submittedDate).toLocaleDateString()}</TableCell>
                                             <TableCell>
                                                 {nomination.status === "approved" && (
-                                                    <Badge className="bg-green-100 text-green-800">Approved</Badge>
+                                                    <Badge className="bg-[hsl(var(--brand-primary-100))] text-[hsl(var(--brand-primary-800))]">Approved</Badge>
                                                 )}
                                                 {nomination.status === "pending" && (
-                                                    <Badge className="bg-amber-100 text-amber-800">Pending</Badge>
+                                                    <Badge className="bg-[hsl(var(--brand-secondary-100))] text-[hsl(var(--brand-secondary-800))]">Pending</Badge>
                                                 )}
                                             </TableCell>
                                             <TableCell>

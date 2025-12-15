@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, ChevronDown, Globe, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -24,61 +24,10 @@ export function Header() {
   const mobileNavRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLElement>(null);
 
-  // #region agent log
   // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    if (isOpen) {
-      const originalStyle = window.getComputedStyle(document.body).overflow;
-      document.body.style.overflow = 'hidden';
-      
-      fetch('http://127.0.0.1:7242/ingest/f8629692-e1c6-43c6-b51b-0c7514937fad',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Header.tsx:useEffect',message:'Mobile menu opened - body scroll prevented',data:{isOpen,viewportWidth:window.innerWidth},timestamp:Date.now(),sessionId:'debug-session',runId:'mobile-nav-fix',hypothesisId:'scroll-prevention'})}).catch(()=>{});
-      
-      return () => {
-        document.body.style.overflow = originalStyle;
-      };
-    } else {
-      fetch('http://127.0.0.1:7242/ingest/f8629692-e1c6-43c6-b51b-0c7514937fad',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Header.tsx:useEffect',message:'Mobile menu closed - body scroll restored',data:{isOpen,viewportWidth:window.innerWidth},timestamp:Date.now(),sessionId:'debug-session',runId:'mobile-nav-fix',hypothesisId:'scroll-prevention'})}).catch(()=>{});
-    }
-  }, [isOpen]);
-
-  // Log logo text visibility
-  useEffect(() => {
-    const logLogoText = () => {
-      if (headerRef.current) {
-        const compactText = headerRef.current.querySelector('[class*="block sm:hidden"]');
-        const fullText = headerRef.current.querySelector('[class*="hidden sm:block"]');
-        const viewportWidth = window.innerWidth;
-        const isSmallScreen = viewportWidth < 640; // sm breakpoint
-        
-        fetch('http://127.0.0.1:7242/ingest/f8629692-e1c6-43c6-b51b-0c7514937fad',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Header.tsx:useEffect',message:'Logo text visibility check',data:{viewportWidth,isSmallScreen,compactTextExists:!!compactText,fullTextExists:!!fullText,compactTextVisible:compactText?window.getComputedStyle(compactText as HTMLElement).display!=='none':false,fullTextVisible:fullText?window.getComputedStyle(fullText as HTMLElement).display!=='none':false},timestamp:Date.now(),sessionId:'debug-session',runId:'logo-text-fix',hypothesisId:'logo-display'})}).catch(()=>{});
-      }
-    };
-    
-    const timeoutId = setTimeout(logLogoText, 100);
-    window.addEventListener('resize', logLogoText);
-    
-    return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('resize', logLogoText);
-    };
-  }, []);
-  // #endregion
-
-  // Log scroll behavior
-  useEffect(() => {
-    const handleScroll = () => {
-      if (isOpen && headerRef.current && mobileNavRef.current) {
-        const headerRect = headerRef.current.getBoundingClientRect();
-        const scrollY = window.scrollY;
-        
-        fetch('http://127.0.0.1:7242/ingest/f8629692-e1c6-43c6-b51b-0c7514937fad',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Header.tsx:useEffect',message:'Scroll event during mobile menu open',data:{isOpen,scrollY,headerTop:headerRect.top,viewportWidth:window.innerWidth},timestamp:Date.now(),sessionId:'debug-session',runId:'mobile-nav-fix',hypothesisId:'scroll-tracking'})}).catch(()=>{});
-      }
-    };
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isOpen]);
-  // #endregion
+  if (typeof document !== "undefined") {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+  }
 
   const navigation = [
     { name: t("nav.home"), href: "/", key: "home" },

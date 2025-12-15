@@ -14,60 +14,73 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useNavigate } from "react-router-dom";
+import { useAdminData } from "@/contexts/AdminDataContext";
 
 const Dashboard = () => {
     const navigate = useNavigate();
+    const { members, payments, notifications } = useAdminData();
 
-    // Mock statistics - would come from API
+    const totalMembers = members.length;
+    const pendingMembers = members.filter(m => m.status === "pending").length;
+    const approvedMembers = members.filter(m => m.status === "approved").length;
+    const totalRevenue = payments
+        .filter(p => p.status === "paid")
+        .reduce((sum, p) => {
+            const numeric = parseFloat(p.amount.replace(/[^\d.]/g, ""));
+            return sum + (isNaN(numeric) ? 0 : numeric);
+        }, 0);
+
     const stats = [
         {
             title: "Total Members",
-            value: "2,547",
-            change: "+12%",
-            trend: "up",
+            value: totalMembers.toString(),
+            change: "",
+            trend: "neutral",
             icon: Users,
-            color: "text-blue-600"
+            color: "text-[hsl(var(--brand-primary-600))]"
         },
         {
             title: "Pending Applications",
-            value: "23",
-            change: "+5",
-            trend: "up",
+            value: pendingMembers.toString(),
+            change: "",
+            trend: "neutral",
             icon: UserCheck,
-            color: "text-amber-600"
+            color: "text-[hsl(var(--brand-secondary-600))]"
         },
         {
             title: "Upcoming Events",
-            value: "8",
-            change: "2 this week",
+            value: "0",
+            change: "No data yet",
             trend: "neutral",
             icon: Calendar,
-            color: "text-green-600"
+            color: "text-[hsl(var(--brand-primary-500))]"
         },
         {
             title: "Total Revenue",
-            value: "125,000 SSP",
-            change: "+8%",
-            trend: "up",
+            value: `${totalRevenue.toLocaleString()} SSP`,
+            change: "",
+            trend: "neutral",
             icon: DollarSign,
-            color: "text-emerald-600"
+            color: "text-[hsl(var(--brand-secondary-700))]"
         }
     ];
 
-    const recentActivities = [
-        { id: 1, type: "member", action: "New member application", name: "Nyakong Deng", time: "2 hours ago", status: "pending" },
-        { id: 2, type: "payment", action: "Payment received", name: "Achol Garang", amount: "100 SSP", time: "4 hours ago", status: "completed" },
-        { id: 3, type: "event", action: "Event created", name: "Monthly General Meeting", time: "1 day ago", status: "active" },
-        { id: 4, type: "election", action: "Election nomination", name: "Executive Committee 2026", time: "2 days ago", status: "pending" },
-    ];
+    const recentActivities = notifications.slice(0, 4).map((n, index) => ({
+        id: n.id,
+        type: n.type === "approval" ? "member" : "message",
+        action: n.title,
+        name: n.description,
+        time: new Date(n.time).toLocaleString(),
+        status: n.unread ? "pending" : "completed",
+    }));
 
     const quickActions = [
-        { title: "Manage Members", icon: Users, path: "/admin/members", color: "bg-blue-500" },
-        { title: "Create Event", icon: Calendar, path: "/admin/events", color: "bg-green-500" },
-        { title: "View Payments", icon: DollarSign, path: "/admin/payments", color: "bg-emerald-500" },
-        { title: "Manage Elections", icon: Vote, path: "/admin/elections", color: "bg-purple-500" },
-        { title: "Upload Document", icon: FileText, path: "/admin/documents", color: "bg-orange-500" },
-        { title: "Update Leadership", icon: Crown, path: "/admin/leadership", color: "bg-pink-500" },
+        { title: "Manage Members", icon: Users, path: "/admin/members", color: "bg-[hsl(var(--brand-primary-500))]" },
+        { title: "Create Event", icon: Calendar, path: "/admin/events", color: "bg-[hsl(var(--brand-secondary-500))]" },
+        { title: "View Payments", icon: DollarSign, path: "/admin/payments", color: "bg-[hsl(var(--brand-primary-600))]" },
+        { title: "Manage Elections", icon: Vote, path: "/admin/elections", color: "bg-[hsl(var(--brand-secondary-600))]" },
+        { title: "Upload Document", icon: FileText, path: "/admin/documents", color: "bg-[hsl(var(--brand-primary-700))]" },
+        { title: "Update Leadership", icon: Crown, path: "/admin/leadership", color: "bg-[hsl(var(--brand-feminine-500))]" },
     ];
 
     return (
@@ -91,13 +104,14 @@ const Dashboard = () => {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-2xl font-bold">{stat.value}</div>
-                                    <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-                                        {stat.trend === "up" && <TrendingUp className="h-3 w-3 text-green-500" />}
-                                        <span className={stat.trend === "up" ? "text-green-500" : ""}>
-                                            {stat.change}
-                                        </span>
-                                        {" "}from last month
-                                    </p>
+                                    {stat.change && (
+                                        <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
+                                            {stat.trend === "up" && <TrendingUp className="h-3 w-3 text-[hsl(var(--brand-primary-600))]" />}
+                                            <span className={stat.trend === "up" ? "text-[hsl(var(--brand-primary-600))]" : ""}>
+                                                {stat.change}
+                                            </span>
+                                        </p>
+                                    )}
                                 </CardContent>
                             </Card>
                         );
@@ -159,17 +173,17 @@ const Dashboard = () => {
                                         </div>
                                         <div className="flex items-center gap-2">
                                             {activity.status === "pending" && (
-                                                <span className="rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-800">
+                                                <span className="rounded-full bg-[hsl(var(--brand-secondary-100))] px-2 py-1 text-xs font-medium text-[hsl(var(--brand-secondary-800))]">
                                                     Pending
                                                 </span>
                                             )}
                                             {activity.status === "completed" && (
-                                                <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
+                                                <span className="rounded-full bg-[hsl(var(--brand-primary-100))] px-2 py-1 text-xs font-medium text-[hsl(var(--brand-primary-800))]">
                                                     Completed
                                                 </span>
                                             )}
                                             {activity.status === "active" && (
-                                                <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
+                                                <span className="rounded-full bg-[hsl(var(--brand-feminine-100))] px-2 py-1 text-xs font-medium text-[hsl(var(--brand-feminine-700))]">
                                                     Active
                                                 </span>
                                             )}
@@ -188,31 +202,31 @@ const Dashboard = () => {
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-4">
-                                <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4">
-                                    <AlertCircle className="h-5 w-5 text-amber-600 mt-0.5" />
+                                <div className="flex items-start gap-3 rounded-lg border border-[hsl(var(--brand-secondary-200))] bg-[hsl(var(--brand-secondary-50))] p-4">
+                                    <AlertCircle className="h-5 w-5 text-[hsl(var(--brand-secondary-600))] mt-0.5" />
                                     <div className="flex-1">
-                                        <p className="text-sm font-medium">23 Membership Applications</p>
-                                        <p className="text-xs text-muted-foreground">Require review and approval</p>
+                                        <p className="text-sm font-medium">Membership Applications</p>
+                                        <p className="text-xs text-muted-foreground">Review and approve membership applications</p>
                                         <Button size="sm" variant="outline" className="mt-2" onClick={() => navigate("/admin/members")}>
                                             Review Now
                                         </Button>
                                     </div>
                                 </div>
-                                <div className="flex items-start gap-3 rounded-lg border border-blue-200 bg-blue-50 p-4">
-                                    <Clock className="h-5 w-5 text-blue-600 mt-0.5" />
+                                <div className="flex items-start gap-3 rounded-lg border border-[hsl(var(--brand-primary-200))] bg-[hsl(var(--brand-primary-50))] p-4">
+                                    <Clock className="h-5 w-5 text-[hsl(var(--brand-primary-600))] mt-0.5" />
                                     <div className="flex-1">
-                                        <p className="text-sm font-medium">5 Election Nominations</p>
-                                        <p className="text-xs text-muted-foreground">Awaiting verification</p>
+                                        <p className="text-sm font-medium">Election Nominations</p>
+                                        <p className="text-xs text-muted-foreground">Verify election nominations</p>
                                         <Button size="sm" variant="outline" className="mt-2" onClick={() => navigate("/admin/elections")}>
                                             Verify Now
                                         </Button>
                                     </div>
                                 </div>
-                                <div className="flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 p-4">
-                                    <DollarSign className="h-5 w-5 text-green-600 mt-0.5" />
+                                <div className="flex items-start gap-3 rounded-lg border border-[hsl(var(--brand-feminine-200))] bg-[hsl(var(--brand-feminine-100))] p-4">
+                                    <DollarSign className="h-5 w-5 text-[hsl(var(--brand-feminine-600))] mt-0.5" />
                                     <div className="flex-1">
-                                        <p className="text-sm font-medium">15 Pending Payments</p>
-                                        <p className="text-xs text-muted-foreground">Need confirmation</p>
+                                        <p className="text-sm font-medium">Pending Payments</p>
+                                        <p className="text-xs text-muted-foreground">Confirm and manage payments</p>
                                         <Button size="sm" variant="outline" className="mt-2" onClick={() => navigate("/admin/payments")}>
                                             View Payments
                                         </Button>

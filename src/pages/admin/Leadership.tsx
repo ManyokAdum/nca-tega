@@ -1,26 +1,239 @@
-import { useState } from "react";
-import { Crown, Plus, Edit, Trash2, MapPin } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Crown, Plus, Edit, Trash2, MapPin, UserCircle, FileText, DollarSign, Users, Megaphone, Scale, GraduationCap, Heart, Trophy, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useToast } from "@/hooks/use-toast";
-import { executiveCommittee, payamRepresentatives } from "@/data/leadership";
+import { useAdminData } from "@/contexts/AdminDataContext";
+import { executiveCommittee as staticExecutive, payamRepresentatives as staticPayam } from "@/data/leadership";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+
+const iconMap: Record<string, React.ElementType> = {
+    Crown,
+    UserCircle,
+    FileText,
+    DollarSign,
+    Users,
+    Megaphone,
+    Scale,
+    GraduationCap,
+    Heart,
+    Trophy,
+    Lightbulb,
+};
 
 const Leadership = () => {
     const { toast } = useToast();
+    const {
+        executiveCommittee,
+        payamRepresentatives,
+        addExecutiveMember,
+        updateExecutiveMember,
+        deleteExecutiveMember,
+        addPayamRepresentative,
+        updatePayamRepresentative,
+        deletePayamRepresentative,
+    } = useAdminData();
 
-    const handleEdit = (id: string) => {
-        toast({
-            title: "Edit Leadership",
-            description: "Opening edit dialog...",
-        });
+    // Initialize with static data if empty
+    useEffect(() => {
+        if (executiveCommittee.length === 0) {
+            staticExecutive.forEach((m) => {
+                let iconName = "UserCircle";
+                try {
+                    if (typeof m.icon === 'function') {
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        const iconFunc = m.icon as { name?: string } & ((props: any) => JSX.Element);
+                        iconName = iconFunc.name || "UserCircle";
+                    }
+                } catch {
+                    iconName = "UserCircle";
+                }
+                addExecutiveMember({
+                    name: m.name,
+                    position: m.position,
+                    description: m.description,
+                    color: m.color,
+                    icon: iconName,
+                });
+            });
+        }
+        if (payamRepresentatives.length === 0) {
+            staticPayam.forEach((p) => {
+                addPayamRepresentative({
+                    name: p.name,
+                    payam: p.payam,
+                });
+            });
+        }
+    }, [executiveCommittee.length, payamRepresentatives.length, addExecutiveMember, addPayamRepresentative]);
+
+    const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [editingMember, setEditingMember] = useState<{ id: string; type: "executive" | "payam" } | null>(null);
+    const [addForm, setAddForm] = useState({
+        name: "",
+        position: "",
+        description: "",
+        type: "executive" as "executive" | "payam",
+        payam: "",
+        color: "from-[hsl(var(--brand-primary-500))] to-[hsl(var(--brand-secondary-500))]",
+    });
+    const [editForm, setEditForm] = useState({
+        name: "",
+        position: "",
+        description: "",
+        payam: "",
+        color: "from-[hsl(var(--brand-primary-500))] to-[hsl(var(--brand-secondary-500))]",
+    });
+
+    const handleEdit = (id: string, type: "executive" | "payam") => {
+        setEditingMember({ id, type });
+        if (type === "executive") {
+            const member = executiveCommittee.find(m => m.id === id);
+            if (member) {
+                setEditForm({
+                    name: member.name,
+                    position: member.position,
+                    description: member.description,
+                    payam: "",
+                    color: member.color,
+                });
+            }
+        } else {
+            const rep = payamRepresentatives.find(r => r.id === id);
+            if (rep) {
+                setEditForm({
+                    name: rep.name,
+                    position: "",
+                    description: "",
+                    payam: rep.payam,
+                    color: "",
+                });
+            }
+        }
+        setIsEditDialogOpen(true);
     };
 
-    const handleDelete = (id: string) => {
-        toast({
-            title: "Delete Leadership",
-            description: "Leadership member removed.",
+    const handleSaveEdit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!editingMember) return;
+
+        if (editingMember.type === "executive") {
+            if (!editForm.name || !editForm.position) {
+                toast({
+                    title: "Validation Error",
+                    description: "Please fill in all required fields.",
+                    variant: "destructive",
+                });
+                return;
+            }
+            updateExecutiveMember(editingMember.id, {
+                name: editForm.name,
+                position: editForm.position,
+                description: editForm.description,
+                color: editForm.color,
+            });
+            toast({
+                title: "Member Updated",
+                description: "Executive committee member has been updated.",
+            });
+        } else {
+            if (!editForm.name || !editForm.payam) {
+                toast({
+                    title: "Validation Error",
+                    description: "Please fill in all required fields.",
+                    variant: "destructive",
+                });
+                return;
+            }
+            updatePayamRepresentative(editingMember.id, {
+                name: editForm.name,
+                payam: editForm.payam,
+            });
+            toast({
+                title: "Representative Updated",
+                description: "Payam representative has been updated.",
+            });
+        }
+        setIsEditDialogOpen(false);
+        setEditingMember(null);
+    };
+
+    const handleDelete = (id: string, type: "executive" | "payam", name: string) => {
+        if (confirm(`Are you sure you want to remove ${name}?`)) {
+            if (type === "executive") {
+                deleteExecutiveMember(id);
+            } else {
+                deletePayamRepresentative(id);
+            }
+            toast({
+                title: "Leadership Member Removed",
+                description: `${name} has been removed from ${type === "executive" ? "executive committee" : "payam representatives"}.`,
+            });
+        }
+    };
+
+    const handleAdd = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (addForm.type === "executive") {
+            if (!addForm.name || !addForm.position) {
+                toast({
+                    title: "Validation Error",
+                    description: "Please fill in all required fields.",
+                    variant: "destructive",
+                });
+                return;
+            }
+            addExecutiveMember({
+                name: addForm.name,
+                position: addForm.position,
+                description: addForm.description,
+                color: addForm.color,
+            });
+            toast({
+                title: "Member Added",
+                description: `${addForm.name} has been added to executive committee.`,
+            });
+        } else {
+            if (!addForm.name || !addForm.payam) {
+                toast({
+                    title: "Validation Error",
+                    description: "Please fill in all required fields.",
+                    variant: "destructive",
+                });
+                return;
+            }
+            addPayamRepresentative({
+                name: addForm.name,
+                payam: addForm.payam,
+            });
+            toast({
+                title: "Representative Added",
+                description: `${addForm.name} has been added to payam representatives.`,
+            });
+        }
+
+        setAddForm({
+            name: "",
+            position: "",
+            description: "",
+            type: "executive",
+            payam: "",
+            color: "from-[hsl(var(--brand-primary-500))] to-[hsl(var(--brand-secondary-500))]",
         });
+        setIsAddDialogOpen(false);
     };
 
     return (
@@ -32,10 +245,87 @@ const Leadership = () => {
                         <h1 className="text-3xl font-bold">Leadership Management</h1>
                         <p className="text-muted-foreground">Manage executive committee and payam representatives</p>
                     </div>
-                    <Button>
-                        <Plus className="mr-2 h-4 w-4" />
-                        Add Member
-                    </Button>
+                    <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+                        <DialogTrigger asChild>
+                            <Button>
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Member
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Add Leadership Member</DialogTitle>
+                                <DialogDescription>Add a new member to the leadership team</DialogDescription>
+                            </DialogHeader>
+                            <form onSubmit={handleAdd}>
+                                <div className="grid gap-4 py-4">
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="memberType">Member Type *</Label>
+                                        <select
+                                            id="memberType"
+                                            title="Member Type"
+                                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                            value={addForm.type}
+                                            onChange={(e) => setAddForm({ ...addForm, type: e.target.value as "executive" | "payam" })}
+                                        >
+                                            <option value="executive">Executive Committee</option>
+                                            <option value="payam">Payam Representative</option>
+                                        </select>
+                                    </div>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="name">Name *</Label>
+                                        <Input
+                                            id="name"
+                                            placeholder="Full name"
+                                            value={addForm.name}
+                                            onChange={(e) => setAddForm({ ...addForm, name: e.target.value })}
+                                            required
+                                        />
+                                    </div>
+                                    {addForm.type === "executive" ? (
+                                        <>
+                                            <div className="grid gap-2">
+                                                <Label htmlFor="position">Position *</Label>
+                                                <Input
+                                                    id="position"
+                                                    placeholder="e.g., Secretary General"
+                                                    value={addForm.position}
+                                                    onChange={(e) => setAddForm({ ...addForm, position: e.target.value })}
+                                                    required
+                                                />
+                                            </div>
+                                            <div className="grid gap-2">
+                                                <Label htmlFor="description">Description</Label>
+                                                <Textarea
+                                                    id="description"
+                                                    placeholder="Role description"
+                                                    value={addForm.description}
+                                                    onChange={(e) => setAddForm({ ...addForm, description: e.target.value })}
+                                                />
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="payam">Payam *</Label>
+                                            <Input
+                                                id="payam"
+                                                placeholder="e.g., Ajuong, Kongor, Lith"
+                                                value={addForm.payam}
+                                                onChange={(e) => setAddForm({ ...addForm, payam: e.target.value, position: `${e.target.value} Payam Representative` })}
+                                                required
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                                <DialogFooter>
+                                    <Button type="button" variant="outline" onClick={() => setIsAddDialogOpen(false)}>
+                                        Cancel
+                                    </Button>
+                                    <Button type="submit">Add Member</Button>
+                                </DialogFooter>
+                            </form>
+                        </DialogContent>
+                    </Dialog>
                 </div>
 
                 {/* Executive Committee */}
@@ -46,15 +336,15 @@ const Leadership = () => {
                     </CardHeader>
                     <CardContent>
                         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                            {executiveCommittee.map((member, index) => {
-                                const Icon = member.icon;
+                            {executiveCommittee.map((member) => {
+                                const Icon = member.icon && iconMap[member.icon] ? iconMap[member.icon] : UserCircle;
                                 return (
                                     <div
-                                        key={index}
+                                        key={member.id}
                                         className="group relative overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md"
                                     >
                                         <div className="mb-4 flex items-center justify-between">
-                                            <div className={`flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br ${member.color}`}>
+                                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[hsl(var(--brand-primary-500))] to-[hsl(var(--brand-secondary-500))]">
                                                 <Icon className="h-6 w-6 text-white" />
                                             </div>
                                             <div className="flex gap-2">
@@ -62,15 +352,15 @@ const Leadership = () => {
                                                     size="sm"
                                                     variant="ghost"
                                                     className="h-8 w-8 p-0"
-                                                    onClick={() => handleEdit(`exec-${index}`)}
+                                                    onClick={() => handleEdit(member.id, "executive")}
                                                 >
-                                                    <Edit className="h-4 w-4" />
+                                                    <Edit className="h-4 w-4 text-[hsl(var(--brand-primary-600))]" />
                                                 </Button>
                                                 <Button
                                                     size="sm"
                                                     variant="ghost"
-                                                    className="h-8 w-8 p-0 text-red-600"
-                                                    onClick={() => handleDelete(`exec-${index}`)}
+                                                    className="h-8 w-8 p-0 text-[hsl(var(--brand-feminine-600))]"
+                                                    onClick={() => handleDelete(member.id, "executive", member.name)}
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </Button>
@@ -94,15 +384,15 @@ const Leadership = () => {
                     </CardHeader>
                     <CardContent>
                         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            {payamRepresentatives.map((rep, index) => (
+                            {payamRepresentatives.map((rep) => (
                                 <div
-                                    key={index}
+                                    key={rep.id}
                                     className="group rounded-lg border border-border bg-card p-5 shadow-sm transition-all hover:shadow-md"
                                 >
                                     <div className="flex items-start justify-between">
                                         <div className="flex items-start gap-3 flex-1">
-                                            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary/10">
-                                                <MapPin className="h-5 w-5 text-primary" />
+                                            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[hsl(var(--brand-primary-100))]">
+                                                <MapPin className="h-5 w-5 text-[hsl(var(--brand-primary-600))]" />
                                             </div>
                                             <div className="flex-1">
                                                 <h3 className="mb-1 font-semibold">{rep.name}</h3>
@@ -114,15 +404,15 @@ const Leadership = () => {
                                                 size="sm"
                                                 variant="ghost"
                                                 className="h-8 w-8 p-0"
-                                                onClick={() => handleEdit(`payam-${index}`)}
+                                                onClick={() => handleEdit(rep.id, "payam")}
                                             >
-                                                <Edit className="h-4 w-4" />
+                                                <Edit className="h-4 w-4 text-[hsl(var(--brand-primary-600))]" />
                                             </Button>
                                             <Button
                                                 size="sm"
                                                 variant="ghost"
-                                                className="h-8 w-8 p-0 text-red-600"
-                                                onClick={() => handleDelete(`payam-${index}`)}
+                                                className="h-8 w-8 p-0 text-[hsl(var(--brand-feminine-600))]"
+                                                onClick={() => handleDelete(rep.id, "payam", rep.name)}
                                             >
                                                 <Trash2 className="h-4 w-4" />
                                             </Button>
@@ -133,6 +423,95 @@ const Leadership = () => {
                         </div>
                     </CardContent>
                 </Card>
+
+                {/* Edit Dialog */}
+                <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>
+                                Edit {editingMember?.type === "executive" ? "Executive Member" : "Payam Representative"}
+                            </DialogTitle>
+                            <DialogDescription>
+                                Update the details for this leadership member
+                            </DialogDescription>
+                        </DialogHeader>
+                        <form onSubmit={handleSaveEdit}>
+                            <div className="grid gap-4 py-4">
+                                {editingMember?.type === "executive" ? (
+                                    <>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="editName">Name *</Label>
+                                            <Input
+                                                id="editName"
+                                                placeholder="Full name"
+                                                value={editForm.name}
+                                                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="editPosition">Position *</Label>
+                                            <Input
+                                                id="editPosition"
+                                                placeholder="e.g., Secretary General"
+                                                value={editForm.position}
+                                                onChange={(e) => setEditForm({ ...editForm, position: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="editDescription">Description</Label>
+                                            <Textarea
+                                                id="editDescription"
+                                                placeholder="Role description"
+                                                value={editForm.description}
+                                                onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="editColor">Color Gradient</Label>
+                                            <Input
+                                                id="editColor"
+                                                placeholder="e.g., from-purple-500 to-pink-500"
+                                                value={editForm.color}
+                                                onChange={(e) => setEditForm({ ...editForm, color: e.target.value })}
+                                            />
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="editRepName">Name *</Label>
+                                            <Input
+                                                id="editRepName"
+                                                placeholder="Full name"
+                                                value={editForm.name}
+                                                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="editPayam">Payam *</Label>
+                                            <Input
+                                                id="editPayam"
+                                                placeholder="e.g., Ajuong, Kongor, Lith"
+                                                value={editForm.payam}
+                                                onChange={(e) => setEditForm({ ...editForm, payam: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                            <DialogFooter>
+                                <Button type="button" variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+                                    Cancel
+                                </Button>
+                                <Button type="submit">Save Changes</Button>
+                            </DialogFooter>
+                        </form>
+                    </DialogContent>
+                </Dialog>
             </div>
         </AdminLayout>
     );

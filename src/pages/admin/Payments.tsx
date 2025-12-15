@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useToast } from "@/hooks/use-toast";
+import { useAdminData } from "@/contexts/AdminDataContext";
 import {
     Table,
     TableBody,
@@ -18,52 +19,9 @@ import {
 
 const Payments = () => {
     const [searchQuery, setSearchQuery] = useState("");
-    const [statusFilter, setStatusFilter] = useState("all");
+    const [statusFilter, setStatusFilter] = useState<"all" | "paid" | "pending" | "failed">("all");
     const { toast } = useToast();
-
-    // Mock payment data
-    const payments = [
-        {
-            id: 1,
-            memberName: "Achol Garang",
-            memberEmail: "achol.garang@example.com",
-            amount: "100 SSP",
-            type: "Regular Membership",
-            date: "2024-01-15",
-            status: "paid",
-            method: "Mobile Money"
-        },
-        {
-            id: 2,
-            memberName: "Nyandeng Majok",
-            memberEmail: "nyandeng.majok@example.com",
-            amount: "5,000 SSP",
-            type: "Life Membership",
-            date: "2024-01-10",
-            status: "paid",
-            method: "Bank Transfer"
-        },
-        {
-            id: 3,
-            memberName: "Alek Chol",
-            memberEmail: "alek.chol@example.com",
-            amount: "100 SSP",
-            type: "Regular Membership",
-            date: "2024-01-20",
-            status: "pending",
-            method: "Mobile Money"
-        },
-        {
-            id: 4,
-            memberName: "Nyakong Deng",
-            memberEmail: "nyakong.deng@example.com",
-            amount: "100 SSP",
-            type: "Regular Membership",
-            date: "2024-01-18",
-            status: "failed",
-            method: "Bank Transfer"
-        },
-    ];
+    const { payments } = useAdminData();
 
     const filteredPayments = payments.filter(payment => {
         const matchesSearch = payment.memberName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -72,21 +30,79 @@ const Payments = () => {
         return matchesSearch && matchesStatus;
     });
 
+    const totalRevenue = payments
+        .filter(p => p.status === "paid")
+        .reduce((sum, p) => {
+            const numeric = parseFloat(p.amount.replace(/[^\d.]/g, ""));
+            return sum + (isNaN(numeric) ? 0 : numeric);
+        }, 0);
+
+    const paidRevenue = payments
+        .filter(p => p.status === "paid")
+        .reduce((sum, p) => {
+            const numeric = parseFloat(p.amount.replace(/[^\d.]/g, ""));
+            return sum + (isNaN(numeric) ? 0 : numeric);
+        }, 0);
+
+    const pendingRevenue = payments
+        .filter(p => p.status === "pending")
+        .reduce((sum, p) => {
+            const numeric = parseFloat(p.amount.replace(/[^\d.]/g, ""));
+            return sum + (isNaN(numeric) ? 0 : numeric);
+        }, 0);
+
+    const failedRevenue = payments
+        .filter(p => p.status === "failed")
+        .reduce((sum, p) => {
+            const numeric = parseFloat(p.amount.replace(/[^\d.]/g, ""));
+            return sum + (isNaN(numeric) ? 0 : numeric);
+        }, 0);
+
     const stats = {
-        total: "125,000 SSP",
-        paid: "120,000 SSP",
-        pending: "3,000 SSP",
-        failed: "2,000 SSP",
+        total: `${totalRevenue.toLocaleString()} SSP`,
+        paid: `${paidRevenue.toLocaleString()} SSP`,
+        pending: `${pendingRevenue.toLocaleString()} SSP`,
+        failed: `${failedRevenue.toLocaleString()} SSP`,
     };
 
-    const handleApprove = (id: number) => {
+    const handleExport = () => {
+        const csvContent = [
+            ["Member Name", "Email", "Amount", "Type", "Method", "Date", "Status"],
+            ...filteredPayments.map(p => [
+                p.memberName,
+                p.memberEmail,
+                p.amount,
+                p.type,
+                p.method,
+                new Date(p.date).toLocaleDateString(),
+                p.status
+            ])
+        ].map(row => row.join(",")).join("\n");
+
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", `payments-export-${new Date().toISOString().split("T")[0]}.csv`);
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        toast({
+            title: "Export Successful",
+            description: "Payments data has been exported to CSV.",
+        });
+    };
+
+    const handleApprove = (id: string) => {
         toast({
             title: "Payment Approved",
             description: "The payment has been confirmed.",
         });
     };
 
-    const handleReject = (id: number) => {
+    const handleReject = (id: string) => {
         toast({
             title: "Payment Rejected",
             description: "The payment has been rejected.",
@@ -117,7 +133,7 @@ const Payments = () => {
                             <CardTitle className="text-sm font-medium">Paid</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold text-green-600">{stats.paid}</div>
+                            <div className="text-2xl font-bold text-[hsl(var(--brand-primary-600))]">{stats.paid}</div>
                         </CardContent>
                     </Card>
                     <Card>
@@ -125,7 +141,7 @@ const Payments = () => {
                             <CardTitle className="text-sm font-medium">Pending</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold text-amber-600">{stats.pending}</div>
+                            <div className="text-2xl font-bold text-[hsl(var(--brand-secondary-600))]">{stats.pending}</div>
                         </CardContent>
                     </Card>
                     <Card>
@@ -133,7 +149,7 @@ const Payments = () => {
                             <CardTitle className="text-sm font-medium">Failed</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold text-red-600">{stats.failed}</div>
+                            <div className="text-2xl font-bold text-[hsl(var(--brand-feminine-600))]">{stats.failed}</div>
                         </CardContent>
                     </Card>
                 </div>
@@ -156,7 +172,7 @@ const Payments = () => {
                                     />
                                 </div>
                             </div>
-                            <Select value={statusFilter} onValueChange={setStatusFilter}>
+                            <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as typeof statusFilter)}>
                                 <SelectTrigger className="w-full md:w-48">
                                     <Filter className="mr-2 h-4 w-4" />
                                     <SelectValue placeholder="Filter by status" />
@@ -168,7 +184,7 @@ const Payments = () => {
                                     <SelectItem value="failed">Failed</SelectItem>
                                 </SelectContent>
                             </Select>
-                            <Button variant="outline">
+                            <Button variant="outline" onClick={handleExport}>
                                 <Download className="mr-2 h-4 w-4" />
                                 Export
                             </Button>
@@ -208,16 +224,16 @@ const Payments = () => {
                                             <TableCell className="font-semibold">{payment.amount}</TableCell>
                                             <TableCell>{payment.type}</TableCell>
                                             <TableCell>{payment.method}</TableCell>
-                                            <TableCell>{payment.date}</TableCell>
+                                            <TableCell>{new Date(payment.date).toLocaleDateString()}</TableCell>
                                             <TableCell>
                                                 {payment.status === "paid" && (
-                                                    <Badge className="bg-green-100 text-green-800">Paid</Badge>
+                                                    <Badge className="bg-[hsl(var(--brand-primary-100))] text-[hsl(var(--brand-primary-800))]">Paid</Badge>
                                                 )}
                                                 {payment.status === "pending" && (
-                                                    <Badge className="bg-amber-100 text-amber-800">Pending</Badge>
+                                                    <Badge className="bg-[hsl(var(--brand-secondary-100))] text-[hsl(var(--brand-secondary-800))]">Pending</Badge>
                                                 )}
                                                 {payment.status === "failed" && (
-                                                    <Badge className="bg-red-100 text-red-800">Failed</Badge>
+                                                    <Badge className="bg-[hsl(var(--brand-feminine-100))] text-[hsl(var(--brand-feminine-700))]">Failed</Badge>
                                                 )}
                                             </TableCell>
                                             <TableCell>
@@ -229,7 +245,7 @@ const Payments = () => {
                                                             className="h-8 w-8 p-0"
                                                             onClick={() => handleApprove(payment.id)}
                                                         >
-                                                            <CheckCircle className="h-4 w-4 text-green-600" />
+                                                            <CheckCircle className="h-4 w-4 text-[hsl(var(--brand-primary-600))]" />
                                                         </Button>
                                                         <Button
                                                             size="sm"
@@ -237,7 +253,7 @@ const Payments = () => {
                                                             className="h-8 w-8 p-0"
                                                             onClick={() => handleReject(payment.id)}
                                                         >
-                                                            <XCircle className="h-4 w-4 text-red-600" />
+                                                            <XCircle className="h-4 w-4 text-[hsl(var(--brand-feminine-600))]" />
                                                         </Button>
                                                     </div>
                                                 )}

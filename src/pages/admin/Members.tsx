@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useToast } from "@/hooks/use-toast";
+import { useAdminData } from "@/contexts/AdminDataContext";
 import {
     Table,
     TableBody,
@@ -18,72 +19,28 @@ import {
 
 const Members = () => {
     const [searchQuery, setSearchQuery] = useState("");
-    const [statusFilter, setStatusFilter] = useState("all");
+    const [statusFilter, setStatusFilter] = useState<"all" | "approved" | "pending" | "rejected">("all");
     const { toast } = useToast();
-
-    // Mock member data
-    const members = [
-        {
-            id: 1,
-            name: "Nyakong Deng",
-            email: "nyakong.deng@example.com",
-            phone: "+211 912 345 001",
-            payam: "Ajuong",
-            status: "pending",
-            membershipType: "Regular",
-            appliedDate: "2024-01-15",
-            paymentStatus: "pending"
-        },
-        {
-            id: 2,
-            name: "Achol Garang",
-            email: "achol.garang@example.com",
-            phone: "+211 912 345 002",
-            payam: "Kongor",
-            status: "approved",
-            membershipType: "Life",
-            appliedDate: "2024-01-10",
-            paymentStatus: "paid"
-        },
-        {
-            id: 3,
-            name: "Nyandeng Majok",
-            email: "nyandeng.majok@example.com",
-            phone: "+211 912 345 003",
-            payam: "Lith",
-            status: "pending",
-            membershipType: "Regular",
-            appliedDate: "2024-01-20",
-            paymentStatus: "pending"
-        },
-        {
-            id: 4,
-            name: "Alek Chol",
-            email: "alek.chol@example.com",
-            phone: "+211 912 345 004",
-            payam: "Nyuak",
-            status: "approved",
-            membershipType: "Regular",
-            appliedDate: "2023-12-05",
-            paymentStatus: "paid"
-        },
-    ];
+    const { members, approveMember, rejectMember } = useAdminData();
 
     const filteredMembers = members.filter(member => {
-        const matchesSearch = member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        const fullName = `${member.firstName} ${member.lastName}`.toLowerCase();
+        const matchesSearch = fullName.includes(searchQuery.toLowerCase()) ||
                             member.email.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesStatus = statusFilter === "all" || member.status === statusFilter;
         return matchesSearch && matchesStatus;
     });
 
-    const handleApprove = (id: number) => {
+    const handleApprove = (id: string) => {
+        approveMember(id);
         toast({
             title: "Member Approved",
             description: "The member application has been approved.",
         });
     };
 
-    const handleReject = (id: number) => {
+    const handleReject = (id: string) => {
+        rejectMember(id);
         toast({
             title: "Member Rejected",
             description: "The member application has been rejected.",
@@ -101,9 +58,20 @@ const Members = () => {
         <AdminLayout>
             <div className="space-y-6">
                 {/* Header */}
-                <div>
-                    <h1 className="text-3xl font-bold">Member Management</h1>
-                    <p className="text-muted-foreground">Manage member applications and memberships</p>
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold">Member Management</h1>
+                        <p className="text-muted-foreground">Manage member applications and memberships</p>
+                    </div>
+                    <Button onClick={() => {
+                        toast({
+                            title: "Add Member",
+                            description: "Opening add member dialog...",
+                        });
+                    }}>
+                        <Users className="mr-2 h-4 w-4" />
+                        Add Member
+                    </Button>
                 </div>
 
                 {/* Statistics */}
@@ -121,7 +89,7 @@ const Members = () => {
                             <CardTitle className="text-sm font-medium">Approved</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold text-green-600">{stats.approved}</div>
+                            <div className="text-2xl font-bold text-[hsl(var(--brand-primary-600))]">{stats.approved}</div>
                         </CardContent>
                     </Card>
                     <Card>
@@ -129,7 +97,7 @@ const Members = () => {
                             <CardTitle className="text-sm font-medium">Pending</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold text-amber-600">{stats.pending}</div>
+                            <div className="text-2xl font-bold text-[hsl(var(--brand-secondary-600))]">{stats.pending}</div>
                         </CardContent>
                     </Card>
                     <Card>
@@ -137,7 +105,7 @@ const Members = () => {
                             <CardTitle className="text-sm font-medium">Rejected</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold text-red-600">{stats.rejected}</div>
+                            <div className="text-2xl font-bold text-[hsl(var(--brand-feminine-600))]">{stats.rejected}</div>
                         </CardContent>
                     </Card>
                 </div>
@@ -200,7 +168,9 @@ const Members = () => {
                                 <TableBody>
                                     {filteredMembers.map((member) => (
                                         <TableRow key={member.id}>
-                                            <TableCell className="font-medium">{member.name}</TableCell>
+                                            <TableCell className="font-medium">
+                                                {member.firstName} {member.lastName}
+                                            </TableCell>
                                             <TableCell>
                                                 <div className="space-y-1 text-sm">
                                                     <div className="flex items-center gap-1">
@@ -214,24 +184,24 @@ const Members = () => {
                                                 </div>
                                             </TableCell>
                                             <TableCell>{member.payam}</TableCell>
-                                            <TableCell>{member.membershipType}</TableCell>
+                                            <TableCell>{member.membershipType ?? "-"}</TableCell>
                                             <TableCell>
                                                 {member.status === "approved" && (
-                                                    <Badge className="bg-green-100 text-green-800">Approved</Badge>
+                                                    <Badge className="bg-[hsl(var(--brand-primary-100))] text-[hsl(var(--brand-primary-800))]">Approved</Badge>
                                                 )}
                                                 {member.status === "pending" && (
-                                                    <Badge className="bg-amber-100 text-amber-800">Pending</Badge>
+                                                    <Badge className="bg-[hsl(var(--brand-secondary-100))] text-[hsl(var(--brand-secondary-800))]">Pending</Badge>
                                                 )}
                                                 {member.status === "rejected" && (
-                                                    <Badge className="bg-red-100 text-red-800">Rejected</Badge>
+                                                    <Badge className="bg-[hsl(var(--brand-feminine-100))] text-[hsl(var(--brand-feminine-700))]">Rejected</Badge>
                                                 )}
                                             </TableCell>
                                             <TableCell>
                                                 {member.paymentStatus === "paid" && (
-                                                    <Badge variant="outline" className="border-green-500 text-green-700">Paid</Badge>
+                                                    <Badge variant="outline" className="border-[hsl(var(--brand-primary-500))] text-[hsl(var(--brand-primary-700))]">Paid</Badge>
                                                 )}
                                                 {member.paymentStatus === "pending" && (
-                                                    <Badge variant="outline" className="border-amber-500 text-amber-700">Pending</Badge>
+                                                    <Badge variant="outline" className="border-[hsl(var(--brand-secondary-500))] text-[hsl(var(--brand-secondary-700))]">Pending</Badge>
                                                 )}
                                             </TableCell>
                                             <TableCell className="text-sm text-muted-foreground">{member.appliedDate}</TableCell>
@@ -245,7 +215,7 @@ const Members = () => {
                                                                 className="h-8 w-8 p-0"
                                                                 onClick={() => handleApprove(member.id)}
                                                             >
-                                                                <CheckCircle className="h-4 w-4 text-green-600" />
+                                                                <CheckCircle className="h-4 w-4 text-[hsl(var(--brand-primary-600))]" />
                                                             </Button>
                                                             <Button
                                                                 size="sm"
@@ -253,7 +223,7 @@ const Members = () => {
                                                                 className="h-8 w-8 p-0"
                                                                 onClick={() => handleReject(member.id)}
                                                             >
-                                                                <XCircle className="h-4 w-4 text-red-600" />
+                                                                <XCircle className="h-4 w-4 text-[hsl(var(--brand-feminine-600))]" />
                                                             </Button>
                                                         </>
                                                     )}

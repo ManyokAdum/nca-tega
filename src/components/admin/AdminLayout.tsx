@@ -33,9 +33,15 @@ import { cn } from "@/lib/utils";
 import ncaLogo from "@/images/final-logo.png";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { useAdminData } from "@/contexts/AdminDataContext";
 
 interface AdminLayoutProps {
     children: React.ReactNode;
+}
+
+interface Notification {
+    type: "approval" | "message";
+    unread: boolean;
 }
 
 const navigation = [
@@ -55,77 +61,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
     const navigate = useNavigate();
     const { toast } = useToast();
     const { logout, user } = useAuth();
-
-    // Mock notifications data - in production, this would come from an API
-    // This should fetch pending approvals and new messages
-    const notifications = [
-        {
-            id: 1,
-            type: "approval",
-            title: "23 Membership Applications",
-            description: "New membership applications pending approval",
-            time: "2 hours ago",
-            unread: true,
-            link: "/admin/members",
-            icon: Users,
-            color: "text-amber-600"
-        },
-        {
-            id: 2,
-            type: "approval",
-            title: "5 Election Nominations",
-            description: "Election nominations awaiting verification",
-            time: "4 hours ago",
-            unread: true,
-            link: "/admin/elections",
-            icon: Vote,
-            color: "text-blue-600"
-        },
-        {
-            id: 3,
-            type: "approval",
-            title: "15 Pending Payments",
-            description: "Payment confirmations needed",
-            time: "1 day ago",
-            unread: true,
-            link: "/admin/payments",
-            icon: DollarSign,
-            color: "text-green-600"
-        },
-        {
-            id: 4,
-            type: "message",
-            title: "New Message from Member",
-            description: "Nyakong Deng sent a message regarding membership",
-            time: "3 hours ago",
-            unread: true,
-            link: "/admin/members",
-            icon: MessageSquare,
-            color: "text-purple-600"
-        },
-        {
-            id: 5,
-            type: "message",
-            title: "Event Registration Question",
-            description: "Member inquiry about upcoming event registration",
-            time: "5 hours ago",
-            unread: true,
-            link: "/admin/events",
-            icon: Calendar,
-            color: "text-indigo-600"
-        },
-        {
-            id: 6,
-            type: "message",
-            title: "Payment Inquiry",
-            description: "Member has a question about payment status",
-            time: "6 hours ago",
-            unread: false,
-            link: "/admin/payments",
-            icon: DollarSign,
-            color: "text-emerald-600"
-        }
-    ];
+    const { notifications } = useAdminData();
 
     // Calculate counts for pending approvals and new messages
     const pendingApprovals = notifications.filter(n => n.type === "approval" && n.unread).length;
@@ -204,7 +140,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
                                                     <span className="text-sm font-medium">Notifications</span>
                                                     {unreadCount > 0 && (
                                                         <Badge 
-                                                            className="h-5 w-5 flex items-center justify-center p-0 text-xs bg-red-500 hover:bg-red-600 ml-auto"
+                                                            className="h-5 w-5 flex items-center justify-center p-0 text-xs bg-red-500 hover:bg-red-600 ml-auto text-white"
                                                         >
                                                             {unreadCount > 9 ? "9+" : unreadCount}
                                                         </Badge>
@@ -272,7 +208,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
                                 <Bell className="h-5 w-5" />
                                 {unreadCount > 0 && (
                                     <Badge 
-                                        className="absolute -right-1 -top-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-red-500 hover:bg-red-600"
+                                        className="absolute -right-1 -top-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-red-500 hover:bg-red-600 text-white"
                                     >
                                         {unreadCount > 9 ? "9+" : unreadCount}
                                     </Badge>

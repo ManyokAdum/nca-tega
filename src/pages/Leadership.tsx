@@ -3,6 +3,9 @@ import { Footer } from "@/components/layout/Footer";
 import { MapPin } from "lucide-react";
 import { executiveCommittee, payamRepresentatives } from "@/data/leadership";
 
+// Single shared gradient for all leadership accents
+const leadershipGradient = "from-[hsl(278_42%_34%)] to-[hsl(276_46%_30%)]";
+
 const Leadership = () => {
 
     return (
@@ -50,7 +53,7 @@ const Leadership = () => {
                                     <div className="mb-12 flex justify-center">
                                         <div className="group relative w-full max-w-md overflow-hidden rounded-2xl bg-gradient-to-br from-background to-muted/30 p-8 shadow-xl transition-all duration-300 hover:shadow-2xl">
                                             {/* Gradient overlay */}
-                                            <div className={`absolute inset-0 bg-gradient-to-br ${chairperson.color} opacity-5 transition-opacity duration-300 group-hover:opacity-10`} />
+                                            <div className={`absolute inset-0 bg-gradient-to-br ${leadershipGradient} opacity-5 transition-opacity duration-300 group-hover:opacity-10`} />
                                             
                                             <div className="relative flex flex-col items-center text-center">
                                                 {/* Image or Icon */}
@@ -64,7 +67,7 @@ const Leadership = () => {
                                                             />
                                                         </div>
                                                     ) : (
-                                                        <div className={`flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br ${chairperson.color} shadow-xl`}>
+                                                        <div className={`flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br ${leadershipGradient} shadow-xl`}>
                                                             <ChairpersonIcon className="h-16 w-16 text-white" />
                                                         </div>
                                                     )}
@@ -76,7 +79,7 @@ const Leadership = () => {
                                                 </h3>
 
                                                 {/* Position */}
-                                                <p className={`mb-4 text-lg font-semibold bg-gradient-to-r ${chairperson.color} bg-clip-text text-transparent`}>
+                                                <p className={`mb-4 text-lg font-semibold bg-gradient-to-r ${leadershipGradient} bg-clip-text text-transparent`}>
                                                     {chairperson.position}
                                                 </p>
 
@@ -98,7 +101,7 @@ const Leadership = () => {
                                                     className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-background to-muted/30 p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                                                 >
                                                     {/* Gradient overlay */}
-                                                    <div className={`absolute inset-0 bg-gradient-to-br ${member.color} opacity-0 transition-opacity duration-300 group-hover:opacity-10`} />
+                                                    <div className={`absolute inset-0 bg-gradient-to-br ${leadershipGradient} opacity-0 transition-opacity duration-300 group-hover:opacity-10`} />
 
                                                     <div className="relative">
                                                         {/* Image or Icon */}
@@ -112,7 +115,7 @@ const Leadership = () => {
                                                                     />
                                                                 </div>
                                                             ) : (
-                                                                <div className={`flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br ${member.color} shadow-lg`}>
+                                                                <div className={`flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br ${leadershipGradient} shadow-lg`}>
                                                                     <Icon className="h-10 w-10 text-white" />
                                                                 </div>
                                                             )}
@@ -124,7 +127,7 @@ const Leadership = () => {
                                                         </h3>
 
                                                         {/* Position */}
-                                                        <p className={`mb-3 text-center font-semibold bg-gradient-to-r ${member.color} bg-clip-text text-transparent`}>
+                                                        <p className={`mb-3 text-center font-semibold bg-gradient-to-r ${leadershipGradient} bg-clip-text text-transparent`}>
                                                             {member.position}
                                                         </p>
 

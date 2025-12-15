@@ -9,12 +9,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { UserPlus, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAdminData } from "@/contexts/AdminDataContext";
 
 const Register = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [payam, setPayam] = useState("");
     const navigate = useNavigate();
     const { toast } = useToast();
+    const { addMember } = useAdminData();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -49,9 +51,15 @@ const Register = () => {
             communications: formData.get("communications") === "on",
         };
 
-        // TODO: Implement actual registration with backend API
-        // This should create a pending member application
-        // The application will appear in the admin dashboard for approval
+        // Instead of a real backend, store the application in local admin data
+        addMember({
+            firstName: formValues.firstName,
+            lastName: formValues.lastName,
+            email: formValues.email,
+            phone: formValues.phone,
+            payam: formValues.payam,
+            currentLocation: formValues.currentLocation,
+        });
         try {
             // Simulating API call - in production, this would POST to your backend
             // await fetch('/api/members/applications', {
