@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         // For now, using demo credentials
         const validCredentials = {
             email: "admin@ncatwiceast.org",
-            password: "admin123"
+            password: "@Nyancitarialbeek143#"
         };
 
         if (email === validCredentials.email && password === validCredentials.password) {
