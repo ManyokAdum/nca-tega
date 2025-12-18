@@ -86,11 +86,11 @@ const Settings = () => {
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <div className="space-y-2">
                                         <Label htmlFor="regularFee">Regular Membership Fee (SSP)</Label>
-                                        <Input id="regularFee" type="number" defaultValue={0} />
+                                        <Input id="regularFee" type="number" defaultValue={15000} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="lifeFee">Life Membership Fee (SSP)</Label>
-                                        <Input id="lifeFee" type="number" defaultValue={0} />
+                                        <Label htmlFor="executiveFee">Executive Membership Fee (SSP)</Label>
+                                        <Input id="executiveFee" type="number" defaultValue={50000} />
                                     </div>
                                 </div>
                                 <div className="flex items-center justify-between">

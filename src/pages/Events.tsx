@@ -75,20 +75,40 @@ const Events = () => {
 
               <TabsContent value="past" className="space-y-6">
                 {pastEvents.map((event) => (
-                  <div key={event.id} className="rounded-xl border border-border bg-card p-6 shadow-sm">
-                    <h3 className="mb-3 font-heading text-xl font-bold">{event.title}</h3>
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Calendar className="h-4 w-4" />
-                        <span>{event.date}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <MapPin className="h-4 w-4" />
-                        <span>{event.location}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Users className="h-4 w-4" />
-                        <span>{event.attendees} attended</span>
+                  <div key={event.id} className="rounded-xl border border-border bg-card overflow-hidden shadow-sm">
+                    <div className="flex flex-col md:flex-row">
+                      {event.image && (
+                        <div className="md:w-1/3">
+                          <img 
+                            src={event.image} 
+                            alt={event.title}
+                            className="w-full h-64 md:h-full object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      )}
+                      <div className={`p-6 ${event.image ? 'md:w-2/3' : 'w-full'}`}>
+                        <h3 className="mb-3 font-heading text-xl font-bold">{event.title}</h3>
+                        {event.description && (
+                          <p className="mb-4 text-muted-foreground">{event.description}</p>
+                        )}
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <Calendar className="h-4 w-4" />
+                            <span>{event.date}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <MapPin className="h-4 w-4" />
+                            <span>{event.location}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <Users className="h-4 w-4" />
+                            <span>{event.attendees} attended</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

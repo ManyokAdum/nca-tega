@@ -7,7 +7,7 @@ export interface MembershipTier {
 export const membershipTiers: MembershipTier[] = [
     {
         name: "Regular Member",
-        price: "100 SSP/year",
+        price: "15,000 SSP/year",
         features: [
             "Voting rights in elections",
             "Access to community events",
@@ -17,15 +17,15 @@ export const membershipTiers: MembershipTier[] = [
         ],
     },
     {
-        name: "Life Member",
-        price: "5,000 SSP (one-time)",
+        name: "Executive Member",
+        price: "50,000 SSP/year",
         features: [
             "All Regular Member benefits",
             "Priority event registration",
             "Lifetime voting rights",
             "Recognition in annual report",
             "Special member badge",
-            "No annual renewal required",
+            "Executive committee eligibility",
         ],
     },
 ];

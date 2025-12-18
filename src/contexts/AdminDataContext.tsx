@@ -89,6 +89,19 @@ export interface AdminPayamRepresentative {
   payam: string;
 }
 
+export interface AdminEvent {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  type: "upcoming" | "past";
+  attendees: number;
+  status: "active" | "completed";
+  image?: string;
+}
+
 interface AdminDataContextType {
   members: Member[];
   payments: Payment[];
@@ -98,6 +111,7 @@ interface AdminDataContextType {
   documents: DocumentItem[];
   executiveCommittee: AdminExecutiveMember[];
   payamRepresentatives: AdminPayamRepresentative[];
+  events: AdminEvent[];
   addMember: (member: Omit<Member, "id" | "status" | "appliedDate" | "paymentStatus">) => void;
   approveMember: (id: string) => void;
   rejectMember: (id: string) => void;
@@ -119,6 +133,9 @@ interface AdminDataContextType {
   addPayamRepresentative: (rep: Omit<AdminPayamRepresentative, "id">) => void;
   updatePayamRepresentative: (id: string, updates: Partial<AdminPayamRepresentative>) => void;
   deletePayamRepresentative: (id: string) => void;
+  addEvent: (event: Omit<AdminEvent, "id">) => void;
+  updateEvent: (id: string, updates: Partial<AdminEvent>) => void;
+  deleteEvent: (id: string) => void;
 }
 
 const AdminDataContext = createContext<AdminDataContextType | undefined>(undefined);
@@ -132,6 +149,7 @@ const STORAGE_KEYS = {
   documents: "nca_admin_documents",
   executiveCommittee: "nca_admin_executive_committee",
   payamRepresentatives: "nca_admin_payam_representatives",
+  events: "nca_admin_events",
 };
 
 export const AdminDataProvider = ({ children }: { children: ReactNode }) => {
@@ -143,6 +161,7 @@ export const AdminDataProvider = ({ children }: { children: ReactNode }) => {
   const [documents, setDocuments] = useState<DocumentItem[]>([]);
   const [executiveCommittee, setExecutiveCommittee] = useState<AdminExecutiveMember[]>([]);
   const [payamRepresentatives, setPayamRepresentatives] = useState<AdminPayamRepresentative[]>([]);
+  const [events, setEvents] = useState<AdminEvent[]>([]);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -155,6 +174,7 @@ export const AdminDataProvider = ({ children }: { children: ReactNode }) => {
       const storedDocuments = localStorage.getItem(STORAGE_KEYS.documents);
       const storedExecutive = localStorage.getItem(STORAGE_KEYS.executiveCommittee);
       const storedPayam = localStorage.getItem(STORAGE_KEYS.payamRepresentatives);
+      const storedEvents = localStorage.getItem(STORAGE_KEYS.events);
 
       if (storedMembers) setMembers(JSON.parse(storedMembers));
       if (storedPayments) setPayments(JSON.parse(storedPayments));
@@ -164,6 +184,7 @@ export const AdminDataProvider = ({ children }: { children: ReactNode }) => {
       if (storedDocuments) setDocuments(JSON.parse(storedDocuments));
       if (storedExecutive) setExecutiveCommittee(JSON.parse(storedExecutive));
       if (storedPayam) setPayamRepresentatives(JSON.parse(storedPayam));
+      if (storedEvents) setEvents(JSON.parse(storedEvents));
     } catch {
       // Ignore parse errors and start with empty data
     }
@@ -201,6 +222,10 @@ export const AdminDataProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.payamRepresentatives, JSON.stringify(payamRepresentatives));
   }, [payamRepresentatives]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.events, JSON.stringify(events));
+  }, [events]);
 
   const addMember: AdminDataContextType["addMember"] = (input) => {
     const now = new Date();
@@ -402,6 +427,32 @@ export const AdminDataProvider = ({ children }: { children: ReactNode }) => {
     setPayamRepresentatives((prev) => prev.filter((r) => r.id !== id));
   };
 
+  const addEvent: AdminDataContextType["addEvent"] = (input) => {
+    const event: AdminEvent = {
+      id: crypto.randomUUID(),
+      title: input.title,
+      description: input.description,
+      date: input.date,
+      time: input.time,
+      location: input.location,
+      type: input.type,
+      attendees: input.attendees || 0,
+      status: input.status,
+      image: input.image,
+    };
+    setEvents((prev) => [event, ...prev]);
+  };
+
+  const updateEvent = (id: string, updates: Partial<AdminEvent>) => {
+    setEvents((prev) =>
+      prev.map((e) => (e.id === id ? { ...e, ...updates } : e))
+    );
+  };
+
+  const deleteEvent = (id: string) => {
+    setEvents((prev) => prev.filter((e) => e.id !== id));
+  };
+
   return (
     <AdminDataContext.Provider
       value={{
@@ -413,6 +464,7 @@ export const AdminDataProvider = ({ children }: { children: ReactNode }) => {
         documents,
         executiveCommittee,
         payamRepresentatives,
+        events,
         addMember,
         approveMember,
         rejectMember,
@@ -434,6 +486,9 @@ export const AdminDataProvider = ({ children }: { children: ReactNode }) => {
         addPayamRepresentative,
         updatePayamRepresentative,
         deletePayamRepresentative,
+        addEvent,
+        updateEvent,
+        deleteEvent,
       }}
     >
       {children}
@@ -448,5 +503,7 @@ export const useAdminData = () => {
   }
   return ctx;
 };
+
+
 
 

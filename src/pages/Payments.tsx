@@ -16,8 +16,8 @@ const Payments = () => {
     };
 
     const membershipFees = [
-        { type: "Regular Membership", amount: "100 SSP", period: "Annual", description: "Full voting rights and benefits" },
-        { type: "Life Membership", amount: "5,000 SSP", period: "One-time", description: "Lifetime membership with all benefits" },
+        { type: "Regular Membership", amount: "15,000 SSP", period: "Annual", description: "Full voting rights and benefits" },
+        { type: "Executive Membership", amount: "50,000 SSP", period: "Annual", description: "All Regular Member benefits plus executive committee eligibility" },
     ];
 
     return (
@@ -143,8 +143,8 @@ const Payments = () => {
                                                             <SelectValue placeholder="Select membership type" />
                                                         </SelectTrigger>
                                                         <SelectContent>
-                                                            <SelectItem value="regular">Regular Membership (100 SSP/year)</SelectItem>
-                                                            <SelectItem value="life">Life Membership (5,000 SSP one-time)</SelectItem>
+                                                            <SelectItem value="regular">Regular Membership (15,000 SSP/year)</SelectItem>
+                                                            <SelectItem value="executive">Executive Membership (50,000 SSP/year)</SelectItem>
                                                         </SelectContent>
                                                     </Select>
                                                 </div>
@@ -204,8 +204,8 @@ const Payments = () => {
                                         finance team at:
                                     </p>
                                     <div className="space-y-1 text-sm">
-                                        <p><strong>Email:</strong> finance@ncatwiceast.org</p>
-                                        <p><strong>Phone:</strong> +211 912 345 678</p>
+                                        <p><strong>Email:</strong> nyancitarialbeek.juba@gmail.com</p>
+                                        <p><strong>Phone:</strong> +211 910 900 467</p>
                                     </div>
                                 </div>
                             </div>

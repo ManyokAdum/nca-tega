@@ -14,6 +14,7 @@ import Contact from "./pages/Contact";
 import Events from "./pages/Events";
 import Documents from "./pages/Documents";
 import Membership from "./pages/Membership";
+import MembershipPayment from "./pages/MembershipPayment";
 import Elections from "./pages/Elections";
 import UpcomingEvents from "./pages/UpcomingEvents";
 import PastEvents from "./pages/PastEvents";
@@ -25,6 +26,7 @@ import Directory from "./pages/Directory";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import Donate from "./pages/Donate";
+import DonationPayment from "./pages/DonationPayment";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import AdminDashboard from "./pages/admin/Dashboard";
@@ -58,6 +60,7 @@ const App = () => (
           <Route path="/leadership" element={<Leadership />} />
           <Route path="/governance" element={<Governance />} />
           <Route path="/membership" element={<Membership />} />
+          <Route path="/membership/payment" element={<MembershipPayment />} />
           <Route path="/elections" element={<Elections />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/upcoming" element={<UpcomingEvents />} />
@@ -72,6 +75,7 @@ const App = () => (
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/donate" element={<Donate />} />
+          <Route path="/donate/payment" element={<DonationPayment />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           {/* Admin Routes - Only accessible through /admin */}

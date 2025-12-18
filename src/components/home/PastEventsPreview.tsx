@@ -1,11 +1,30 @@
+import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, MapPin, Users } from "lucide-react";
+import { Calendar, MapPin } from "lucide-react";
 import { pastEvents } from "@/data/events";
 
 export const PastEventsPreview = () => {
-    // Show only the first 2 past events
-    const previewEvents = pastEvents.slice(0, 2);
+    // Show only the first 3 past events
+    const previewEvents = pastEvents.slice(0, 3);
+    const [needsReadMore, setNeedsReadMore] = useState<Set<number>>(new Set());
+    const descriptionRefs = useRef<{ [key: number]: HTMLParagraphElement | null }>({});
+
+    useEffect(() => {
+        // Check if descriptions need "Read More" button
+        previewEvents.forEach((event) => {
+            const element = descriptionRefs.current[event.id];
+            if (element) {
+                // Check if the element's scrollHeight is greater than its clientHeight
+                // This means the text is truncated by line-clamp-3
+                if (element.scrollHeight > element.clientHeight) {
+                    setNeedsReadMore((prev) => new Set(prev).add(event.id));
+                }
+            }
+        });
+    }, [previewEvents]);
+
+    const shouldShowReadMore = (eventId: number) => needsReadMore.has(eventId);
 
     return (
         <section className="py-16 md:py-24 bg-muted/30">
@@ -21,25 +40,59 @@ export const PastEventsPreview = () => {
                 </div>
 
                 {/* Events List */}
-                <div className="grid gap-6 sm:grid-cols-2 max-w-4xl mx-auto mb-12">
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto mb-12">
                     {previewEvents.map((event) => (
                         <div
                             key={event.id}
-                            className="rounded-xl border border-border bg-background p-6 shadow-sm transition-all hover:shadow-md"
+                            className="rounded-xl border border-border bg-background overflow-hidden shadow-sm transition-all hover:shadow-md"
                         >
-                            <h3 className="mb-3 font-heading text-lg font-bold">{event.title}</h3>
-                            <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                    <Calendar className="h-4 w-4" />
-                                    <span>{event.date}</span>
+                            {event.image && (
+                                <div className="w-full h-64">
+                                    <img 
+                                        src={event.image} 
+                                        alt={event.title}
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                            const target = e.target as HTMLImageElement;
+                                            target.style.display = 'none';
+                                        }}
+                                    />
                                 </div>
-                                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                    <MapPin className="h-4 w-4" />
-                                    <span>{event.location}</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                    <Users className="h-4 w-4" />
-                                    <span>{event.attendees} attended</span>
+                            )}
+                            <div className="p-6">
+                                <h3 className="mb-3 font-heading text-lg font-bold">{event.title}</h3>
+                                {event.description && (
+                                    <div className="mb-4">
+                                        <p 
+                                            ref={(el) => {
+                                                descriptionRefs.current[event.id] = el;
+                                            }}
+                                            className="text-sm text-muted-foreground line-clamp-3"
+                                        >
+                                            {event.description}
+                                        </p>
+                                        {shouldShowReadMore(event.id) && (
+                                            <Button
+                                                asChild
+                                                variant="link"
+                                                className="h-auto p-0 mt-2 text-xs text-primary hover:text-primary/80"
+                                            >
+                                                <Link to="/events/past">
+                                                    Read More
+                                                </Link>
+                                            </Button>
+                                        )}
+                                    </div>
+                                )}
+                                <div className="space-y-2">
+                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                        <Calendar className="h-4 w-4" />
+                                        <span>{event.date}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                        <MapPin className="h-4 w-4" />
+                                        <span>{event.location}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

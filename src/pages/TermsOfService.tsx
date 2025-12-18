@@ -209,8 +209,8 @@ const TermsOfService = () => {
                                     If you have any questions about these Terms of Service, please contact us:
                                 </p>
                                 <div className="space-y-2 text-sm">
-                                    <p><strong>Email:</strong> legal@ncatwiceast.org</p>
-                                    <p><strong>Phone:</strong> +211 912 345 678</p>
+                                    <p><strong>Email:</strong> nyancitarialbeek.juba@gmail.com</p>
+                                    <p><strong>Phone:</strong> +211 910 900 467</p>
                                     <p><strong>Address:</strong> NCA Hall, Juba, South Sudan</p>
                                 </div>
                             </div>

@@ -33,7 +33,7 @@ export const ContactPreview = () => {
                                     {contact.link ? (
                                         <a
                                             href={contact.link}
-                                            className="text-sm text-muted-foreground hover:text-primary"
+                                            className="text-sm text-foreground hover:text-primary transition-colors underline-offset-4 hover:underline break-all"
                                         >
                                             {contact.value}
                                         </a>

@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useToast } from "@/hooks/use-toast";
+import { useAdminData } from "@/contexts/AdminDataContext";
 import {
     Table,
     TableBody,
@@ -30,35 +31,64 @@ const Events = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
     const { toast } = useToast();
-
-    interface EventItem {
-        id: number;
-        title: string;
-        description: string;
-        date: string;
-        time: string;
-        location: string;
-        type: "upcoming" | "past";
-        attendees: number;
-        status: "active" | "completed";
-    }
-
-    // Events should come from persistent storage/API. Default to empty.
-    const events: EventItem[] = [];
+    const { events, addEvent, deleteEvent } = useAdminData();
+    const [eventForm, setEventForm] = useState({
+        title: "",
+        description: "",
+        date: "",
+        time: "",
+        location: "",
+        type: "upcoming" as "upcoming" | "past",
+        attendees: 0,
+        status: "active" as "active" | "completed",
+        image: "",
+    });
 
     const filteredEvents = events.filter(event =>
         event.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const handleCreateEvent = () => {
+    const handleCreateEvent = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!eventForm.title || !eventForm.date || !eventForm.location) {
+            toast({
+                title: "Validation Error",
+                description: "Please fill in all required fields.",
+                variant: "destructive",
+            });
+            return;
+        }
+        addEvent({
+            title: eventForm.title,
+            description: eventForm.description,
+            date: eventForm.date,
+            time: eventForm.time,
+            location: eventForm.location,
+            type: eventForm.type,
+            attendees: eventForm.attendees,
+            status: eventForm.status,
+            image: eventForm.image || undefined,
+        });
         toast({
             title: "Event Created",
             description: "The event has been successfully created.",
         });
+        setEventForm({
+            title: "",
+            description: "",
+            date: "",
+            time: "",
+            location: "",
+            type: "upcoming",
+            attendees: 0,
+            status: "active",
+            image: "",
+        });
         setIsCreateDialogOpen(false);
     };
 
-    const handleDelete = (id: number) => {
+    const handleDelete = (id: string) => {
+        deleteEvent(id);
         toast({
             title: "Event Deleted",
             description: "The event has been deleted.",
@@ -86,36 +116,105 @@ const Events = () => {
                                 <DialogTitle>Create New Event</DialogTitle>
                                 <DialogDescription>Fill in the details to create a new event</DialogDescription>
                             </DialogHeader>
-                            <div className="grid gap-4 py-4">
-                                <div className="grid gap-2">
-                                    <Label htmlFor="title">Event Title *</Label>
-                                    <Input id="title" placeholder="Enter event title" />
-                                </div>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="description">Description *</Label>
-                                    <Textarea id="description" placeholder="Enter event description" rows={4} />
-                                </div>
-                                <div className="grid grid-cols-2 gap-4">
+                            <form onSubmit={handleCreateEvent}>
+                                <div className="grid gap-4 py-4">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="date">Date *</Label>
-                                        <Input id="date" type="date" />
+                                        <Label htmlFor="title">Event Title *</Label>
+                                        <Input 
+                                            id="title" 
+                                            placeholder="Enter event title"
+                                            value={eventForm.title}
+                                            onChange={(e) => setEventForm({ ...eventForm, title: e.target.value })}
+                                            required
+                                        />
                                     </div>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="time">Time *</Label>
-                                        <Input id="time" placeholder="e.g., 6:00 PM - 8:00 PM" />
+                                        <Label htmlFor="description">Description</Label>
+                                        <Textarea 
+                                            id="description" 
+                                            placeholder="Enter event description" 
+                                            rows={4}
+                                            value={eventForm.description}
+                                            onChange={(e) => setEventForm({ ...eventForm, description: e.target.value })}
+                                        />
                                     </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="date">Date *</Label>
+                                            <Input 
+                                                id="date" 
+                                                type="date"
+                                                value={eventForm.date}
+                                                onChange={(e) => setEventForm({ ...eventForm, date: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="time">Time</Label>
+                                            <Input 
+                                                id="time" 
+                                                placeholder="e.g., 6:00 PM - 8:00 PM"
+                                                value={eventForm.time}
+                                                onChange={(e) => setEventForm({ ...eventForm, time: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="location">Location *</Label>
+                                        <Input 
+                                            id="location" 
+                                            placeholder="Enter event location"
+                                            value={eventForm.location}
+                                            onChange={(e) => setEventForm({ ...eventForm, location: e.target.value })}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="type">Event Type</Label>
+                                            <select
+                                                id="type"
+                                                title="Event Type"
+                                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                                value={eventForm.type}
+                                                onChange={(e) => setEventForm({ ...eventForm, type: e.target.value as "upcoming" | "past" })}
+                                            >
+                                                <option value="upcoming">Upcoming</option>
+                                                <option value="past">Past</option>
+                                            </select>
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="attendees">Attendees</Label>
+                                            <Input 
+                                                id="attendees" 
+                                                type="number"
+                                                min="0"
+                                                value={eventForm.attendees}
+                                                onChange={(e) => setEventForm({ ...eventForm, attendees: parseInt(e.target.value) || 0 })}
+                                            />
+                                        </div>
+                                    </div>
+                                    {eventForm.type === "past" && (
+                                        <>
+                                            <div className="grid gap-2">
+                                                <Label htmlFor="image">Image URL (for past events)</Label>
+                                                <Input 
+                                                    id="image" 
+                                                    placeholder="Enter image URL"
+                                                    value={eventForm.image}
+                                                    onChange={(e) => setEventForm({ ...eventForm, image: e.target.value })}
+                                                />
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="location">Location *</Label>
-                                    <Input id="location" placeholder="Enter event location" />
-                                </div>
-                            </div>
-                            <DialogFooter>
-                                <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-                                    Cancel
-                                </Button>
-                                <Button onClick={handleCreateEvent}>Create Event</Button>
-                            </DialogFooter>
+                                <DialogFooter>
+                                    <Button type="button" variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
+                                        Cancel
+                                    </Button>
+                                    <Button type="submit">Create Event</Button>
+                                </DialogFooter>
+                            </form>
                         </DialogContent>
                     </Dialog>
                 </div>

@@ -51,7 +51,9 @@ export function Footer() {
             </p>
             <div className="mt-6 flex gap-4">
               <a
-                href="#"
+                href="https://web.facebook.com/profile.php?id=61581974382480"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
                 aria-label="Facebook"
               >
@@ -115,20 +117,20 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:info@ncatwiceast.org"
+                  href="mailto:nyancitarialbeek.juba@gmail.com"
                   className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   <Mail className="h-4 w-4" />
-                  <span>info@ncatwiceast.org</span>
+                  <span>nyancitarialbeek.juba@gmail.com</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:+211912345678"
+                  href="tel:+211910900467"
                   className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   <Phone className="h-4 w-4" />
-                  <span>+211 912 345 678</span>
+                  <span>+211 910 900 467</span>
                 </a>
               </li>
             </ul>

@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Heart, DollarSign, CreditCard, Shield, CheckCircle, Gift } from "lucide-react";
@@ -12,19 +13,20 @@ import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 
 const Donate = () => {
+    const navigate = useNavigate();
     const [amount, setAmount] = useState("");
     const [currency, setCurrency] = useState<"USD" | "SSP">("USD");
     const [donorName, setDonorName] = useState("");
     const [donorEmail, setDonorEmail] = useState("");
     const [donorPhone, setDonorPhone] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("mobile");
+    const [mobileOperator, setMobileOperator] = useState("");
     const [isProcessing, setIsProcessing] = useState(false);
     const { toast } = useToast();
     const amountInputRef = useRef<HTMLInputElement>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsProcessing(true);
 
         const donationAmount = amount.replace(/,/g, "");
         const numericAmount = parseFloat(donationAmount);
@@ -35,15 +37,39 @@ const Donate = () => {
                 description: "Please enter a valid donation amount.",
                 variant: "destructive",
             });
-            setIsProcessing(false);
             return;
         }
 
-        // TODO: Implement actual payment processing
+        // Validate mobile operator selection if mobile money is chosen
+        if (paymentMethod === "mobile" && !mobileOperator) {
+            toast({
+                title: "Network Operator Required",
+                description: "Please select your mobile money network operator.",
+                variant: "destructive",
+            });
+            return;
+        }
+
+        // If bank transfer, redirect to payment page
+        if (paymentMethod === "bank") {
+            navigate("/donate/payment", {
+                state: {
+                    amount: donationAmount,
+                    currency: currency,
+                    donorName: donorName,
+                    donorEmail: donorEmail,
+                    donorPhone: donorPhone,
+                },
+            });
+            return;
+        }
+
+        // Process mobile money donation
+        setIsProcessing(true);
         setTimeout(() => {
             toast({
                 title: "Thank You for Your Donation!",
-                description: `Your donation of ${donationAmount} ${currency} has been received. We appreciate your support!`,
+                description: `Your donation of ${donationAmount} ${currency} via ${mobileOperator} has been received. We appreciate your support!`,
             });
             setIsProcessing(false);
             
@@ -53,6 +79,7 @@ const Donate = () => {
             setDonorName("");
             setDonorEmail("");
             setDonorPhone("");
+            setMobileOperator("");
         }, 2000);
     };
 
@@ -176,7 +203,10 @@ const Donate = () => {
                                             {/* Payment Method */}
                                             <div className="space-y-4">
                                                 <h3 className="font-semibold">Payment Method *</h3>
-                                                <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
+                                                <RadioGroup value={paymentMethod} onValueChange={(value) => {
+                                                    setPaymentMethod(value);
+                                                    setMobileOperator(""); // Reset operator when changing payment method
+                                                }}>
                                                     <div className="space-y-3">
                                                         <div className="flex items-center space-x-2 rounded-lg border border-border bg-card p-4">
                                                             <RadioGroupItem value="mobile" id="mobile" />
@@ -192,24 +222,35 @@ const Donate = () => {
                                                             <Label htmlFor="bank" className="flex-1 cursor-pointer">
                                                                 <div className="flex items-center gap-2">
                                                                     <DollarSign className="h-5 w-5" />
-                                                                    <span className="font-medium">Bank Transfer</span>
+                                                                    <span className="font-medium">Bank Transfer (Card Payment)</span>
                                                                 </div>
                                                             </Label>
                                                         </div>
                                                     </div>
                                                 </RadioGroup>
 
+                                                {/* Mobile Operator Selection */}
+                                                {paymentMethod === "mobile" && (
+                                                    <div className="space-y-2">
+                                                        <Label htmlFor="mobileOperator">Network Operator *</Label>
+                                                        <Select value={mobileOperator} onValueChange={setMobileOperator}>
+                                                            <SelectTrigger id="mobileOperator">
+                                                                <SelectValue placeholder="Select your network operator" />
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectItem value="zain">Zain SS</SelectItem>
+                                                                <SelectItem value="mtn">MTN SS</SelectItem>
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
+                                                )}
+
+                                                {/* Bank Transfer Info */}
                                                 {paymentMethod === "bank" && (
-                                                    <div className="rounded-lg border border-border bg-muted/50 p-4">
-                                                        <h4 className="mb-2 font-semibold text-sm">Bank Transfer Details</h4>
-                                                        <div className="space-y-1 text-sm text-muted-foreground">
-                                                            <p><strong>Bank:</strong> Commercial Bank of South Sudan</p>
-                                                            <p><strong>Account Name:</strong> Nyan Cit Arialbeek</p>
-                                                            <p><strong>Account Number:</strong> 1234567890</p>
-                                                            <p className="mt-2 text-xs">
-                                                                Please use your name as the payment reference
-                                                            </p>
-                                                        </div>
+                                                    <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
+                                                        <p className="text-sm text-muted-foreground">
+                                                            You will be directed to a secure payment page to enter your card details and complete the transaction.
+                                                        </p>
                                                     </div>
                                                 )}
                                             </div>
@@ -221,7 +262,7 @@ const Donate = () => {
                                                 ) : (
                                                     <>
                                                         <Heart className="mr-2 h-5 w-5" />
-                                                        Donate Now
+                                                        {paymentMethod === "bank" ? "Proceed to Payment" : "Donate Now"}
                                                     </>
                                                 )}
                                             </Button>
@@ -306,8 +347,8 @@ const Donate = () => {
                                             Have questions about donating? Contact us:
                                         </p>
                                         <div className="space-y-2 text-sm">
-                                            <p><strong>Email:</strong> donations@ncatwiceast.org</p>
-                                            <p><strong>Phone:</strong> +211 912 345 678</p>
+                                            <p><strong>Email:</strong> nyancitarialbeek.juba@gmail.com</p>
+                                            <p><strong>Phone:</strong> +211 910 900 467</p>
                                         </div>
                                     </CardContent>
                                 </Card>

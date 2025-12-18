@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Check, CreditCard, Users, Award } from "lucide-react";
@@ -9,10 +11,38 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { membershipTiers } from "@/data/membership";
 
 const Membership = () => {
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        payam: "",
+        membershipType: "",
+        termsAccepted: false,
+    });
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: Implement membership registration
-        console.log("Membership form submitted");
+        
+        // Validate form data
+        if (!formData.firstName || !formData.lastName || !formData.email || 
+            !formData.phone || !formData.payam || !formData.membershipType || 
+            !formData.termsAccepted) {
+            return;
+        }
+
+        // Navigate to payment page with form data
+        navigate("/membership/payment", {
+            state: {
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                phone: formData.phone,
+                payam: formData.payam,
+                membershipType: formData.membershipType,
+            },
+        });
     };
 
     return (
@@ -78,24 +108,49 @@ const Membership = () => {
                                         <div className="grid gap-4 md:grid-cols-2">
                                             <div className="space-y-2">
                                                 <Label htmlFor="firstName">First Name *</Label>
-                                                <Input id="firstName" required />
+                                                <Input 
+                                                    id="firstName" 
+                                                    required 
+                                                    value={formData.firstName}
+                                                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                                                />
                                             </div>
                                             <div className="space-y-2">
                                                 <Label htmlFor="lastName">Last Name *</Label>
-                                                <Input id="lastName" required />
+                                                <Input 
+                                                    id="lastName" 
+                                                    required 
+                                                    value={formData.lastName}
+                                                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                                                />
                                             </div>
                                         </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="email">Email *</Label>
-                                            <Input id="email" type="email" required />
+                                            <Input 
+                                                id="email" 
+                                                type="email" 
+                                                required 
+                                                value={formData.email}
+                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                            />
                                         </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="phone">Phone Number *</Label>
-                                            <Input id="phone" type="tel" required />
+                                            <Input 
+                                                id="phone" 
+                                                type="tel" 
+                                                required 
+                                                value={formData.phone}
+                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                            />
                                         </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="payam">Payam of Origin *</Label>
-                                            <Select>
+                                            <Select 
+                                                value={formData.payam}
+                                                onValueChange={(value) => setFormData({ ...formData, payam: value })}
+                                            >
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Select your Payam" />
                                                 </SelectTrigger>
@@ -116,13 +171,16 @@ const Membership = () => {
                                         <h3 className="font-heading text-xl font-semibold">Membership Type</h3>
                                         <div className="space-y-2">
                                             <Label htmlFor="membershipType">Select Membership *</Label>
-                                            <Select>
+                                            <Select 
+                                                value={formData.membershipType}
+                                                onValueChange={(value) => setFormData({ ...formData, membershipType: value })}
+                                            >
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Choose membership tier" />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="regular">Regular Member (100 SSP/year)</SelectItem>
-                                                    <SelectItem value="life">Life Member (5,000 SSP one-time)</SelectItem>
+                                                    <SelectItem value="regular">Regular Member (15,000 SSP/year)</SelectItem>
+                                                    <SelectItem value="executive">Executive Member (50,000 SSP/year)</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
@@ -130,7 +188,14 @@ const Membership = () => {
 
                                     {/* Terms & Conditions */}
                                     <div className="flex items-start gap-2">
-                                        <Checkbox id="terms" required />
+                                        <Checkbox 
+                                            id="terms" 
+                                            required 
+                                            checked={formData.termsAccepted}
+                                            onCheckedChange={(checked) => 
+                                                setFormData({ ...formData, termsAccepted: checked as boolean })
+                                            }
+                                        />
                                         <label
                                             htmlFor="terms"
                                             className="text-sm leading-relaxed text-muted-foreground"
