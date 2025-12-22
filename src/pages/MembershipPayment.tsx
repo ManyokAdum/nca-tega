@@ -344,4 +344,3 @@ const MembershipPayment = () => {
 };
 
 export default MembershipPayment;
-
