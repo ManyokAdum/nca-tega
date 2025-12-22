@@ -1,0 +1,27 @@
+mutation CreateUser($firstName: String!, $lastName: String!, $email: String!, $username: String!, $passwordHash: String!, $createdAt: Timestamp!) @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  user_insert(data: {firstName: $firstName, lastName: $lastName, email: $email, username: $username, passwordHash: $passwordHash, createdAt: $createdAt})
+}
+
+query GetUserById($id: UUID!) @auth(level: USER) {
+  user(id: $id) {
+    id
+    firstName
+    lastName
+    email
+    username
+  }
+}
+
+mutation UpdateUserProfile($id: UUID!, $firstName: String, $lastName: String, $address: String, $phoneNumber: String, $profilePictureUrl: String) @auth(level: USER) {
+  user_update(id: $id, data: {firstName: $firstName, lastName: $lastName, address: $address, phoneNumber: $phoneNumber, profilePictureUrl: $profilePictureUrl})
+}
+
+query ListAllUsers @auth(level: USER) {
+  users {
+    id
+    firstName
+    lastName
+    email
+    username
+  }
+}

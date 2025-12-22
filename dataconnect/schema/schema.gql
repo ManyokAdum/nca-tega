@@ -1,0 +1,22 @@
+type User @table {
+  firstName: String!
+  lastName: String!
+  email: String!
+  username: String!
+  passwordHash: String!
+  createdAt: Timestamp!
+  phoneNumber: String
+  address: String
+  profilePictureUrl: String
+  lastLoginAt: Timestamp
+}
+
+type Role @table {
+  name: String!
+  description: String
+}
+
+type UserRole @table(key: ["user", "role"]) {
+  user: User!
+  role: Role!
+}

@@ -23,6 +23,14 @@ export interface ExecutiveCommitteeMember {
 }
 
 import mukaImage from "@/images/muka.jpeg";
+import yarKuirImage from "@/images/Yar_K.JPG";
+import ayakMajokImage from "@/images/Ayak_M.jpg";
+import yarGarangImage from "@/images/Yar_G.JPG";
+import dingAkoiImage from "@/images/Ding_A.jpg";
+import alekMajokImage from "@/images/Alek_M.jpeg";
+import acholGarangImage from "@/images/Achol_G.jpg";
+import amerThonImage from "@/images/Amer_T.jpg";
+import yomNhianyImage from "@/images/Yom_N.jpg";
 
 export const executiveCommittee: ExecutiveCommitteeMember[] = [
     {
@@ -38,21 +46,24 @@ export const executiveCommittee: ExecutiveCommitteeMember[] = [
         position: "Deputy Chairperson",
         icon: UserCircle,
         description: "Supports chairperson and acts in their absence",
-        color: "from-blue-500 to-cyan-500"
+        color: "from-blue-500 to-cyan-500",
+        image: yarKuirImage
     },
     {
         name: "Ayak Majok Abit",
         position: "Secretary General",
         icon: FileText,
         description: "Handles administrative duties and records",
-        color: "from-green-500 to-emerald-500"
+        color: "from-green-500 to-emerald-500",
+        image: ayakMajokImage
     },
     {
         name: "Yar Garang Akak",
         position: "Deputy Secretary General",
         icon: FileText,
         description: "Assists the secretary general",
-        color: "from-teal-500 to-green-500"
+        color: "from-teal-500 to-green-500",
+        image: yarGarangImage
     },
     {
         name: "Nyandeng Deng Khot",
@@ -66,14 +77,16 @@ export const executiveCommittee: ExecutiveCommitteeMember[] = [
         position: "Deputy Finance Secretary",
         icon: DollarSign,
         description: "Assists the finance secretary",
-        color: "from-yellow-500 to-amber-500"
+        color: "from-yellow-500 to-amber-500",
+        image: dingAkoiImage
     },
     {
         name: "Alek Majok",
         position: "Information Secretary",
         icon: Megaphone,
         description: "Manages communications and public relations",
-        color: "from-rose-500 to-pink-500"
+        color: "from-rose-500 to-pink-500",
+        image: alekMajokImage
     },
     {
         name: "Athiei Lem",
@@ -94,14 +107,16 @@ export const executiveCommittee: ExecutiveCommitteeMember[] = [
         position: "Secretary for Education",
         icon: GraduationCap,
         description: "Oversees educational programs and initiatives",
-        color: "from-blue-500 to-indigo-500"
+        color: "from-blue-500 to-indigo-500",
+        image: amerThonImage
     },
     {
         name: "Yom Nhiany Biar",
         position: "Secretary for Health",
         icon: Heart,
         description: "Manages health programs and wellness initiatives",
-        color: "from-red-500 to-pink-500"
+        color: "from-red-500 to-pink-500",
+        image: yomNhianyImage
     },
     {
         name: "Abuk Mabior",
@@ -115,7 +130,8 @@ export const executiveCommittee: ExecutiveCommitteeMember[] = [
         position: "Advisor",
         icon: Lightbulb,
         description: "Provides strategic guidance and counsel",
-        color: "from-cyan-500 to-blue-500"
+        color: "from-cyan-500 to-blue-500",
+        image: acholGarangImage
     }
 ];
 
