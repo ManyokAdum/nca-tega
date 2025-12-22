@@ -15,17 +15,20 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
-  filter: drop-shadow(0 0 2em hsl(var(--brand-secondary-400) / 0.6));
+  filter: drop-shadow(0 0 2em hsl(var(--brand-secondary-400) / 60%));
 }
+
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em hsl(var(--brand-secondary-300) / 0.6));
+  filter: drop-shadow(0 0 2em hsl(var(--brand-secondary-300) / 60%));
 }
 
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

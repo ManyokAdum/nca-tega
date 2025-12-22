@@ -1,6 +1,7 @@
 @layer base {
   :root {
     /* Primary brand: Soft Lavender #CDB4DB */
+
     /* Approximate HSL scale centered on #CDB4DB for tonal harmony */
     --brand-primary-50: 278 40% 96%;
     --brand-primary-100: 278 38% 92%;
@@ -75,11 +76,12 @@
 
     /* Motion & shape */
     --radius: 0.75rem;
-    --shadow-soft: 0 16px 40px -20px hsl(var(--brand-primary-900) / 0.25);
-    --shadow-card: 0 18px 40px -18px hsl(var(--brand-primary-900) / 0.18);
-    --shadow-elevated: 0 28px 70px -28px hsl(var(--brand-primary-900) / 0.3);
+    --shadow-soft: 0 16px 40px -20px hsl(var(--brand-primary-900) / 25%);
+    --shadow-card: 0 18px 40px -18px hsl(var(--brand-primary-900) / 18%);
+    --shadow-elevated: 0 28px 70px -28px hsl(var(--brand-primary-900) / 30%);
 
     /* Gradients */
+
     /* Primary Gradient: linear-gradient(135deg, #CDB4DB 0%, #E6D8F0 100%) */
     --gradient-primary: linear-gradient(135deg, #CDB4DB 0%, #E6D8F0 100%);
 
@@ -107,7 +109,6 @@
     --border: 248 22% 26%;
     --input: 248 22% 26%;
     --ring: var(--brand-secondary-400);
-
     --primary: var(--brand-primary-500);
     --primary-foreground: 246 60% 6%;
     --secondary: var(--brand-secondary-400);
@@ -116,7 +117,6 @@
     --accent-foreground: 247 28% 12%;
     --destructive: 2 75% 58%;
     --destructive-foreground: 0 0% 98%;
-
     --sidebar-background: 248 32% 12%;
     --sidebar-foreground: var(--foreground);
     --sidebar-primary: var(--brand-primary-400);
@@ -125,11 +125,9 @@
     --sidebar-accent-foreground: var(--foreground);
     --sidebar-border: 248 22% 26%;
     --sidebar-ring: var(--ring);
-
-    --shadow-soft: 0 12px 40px -16px hsl(var(--brand-primary-900) / 0.5);
-    --shadow-card: 0 18px 40px -18px hsl(var(--brand-primary-900) / 0.45);
-    --shadow-elevated: 0 28px 70px -28px hsl(var(--brand-primary-900) / 0.6);
-
+    --shadow-soft: 0 12px 40px -16px hsl(var(--brand-primary-900) / 50%);
+    --shadow-card: 0 18px 40px -18px hsl(var(--brand-primary-900) / 45%);
+    --shadow-elevated: 0 28px 70px -28px hsl(var(--brand-primary-900) / 60%);
     --gradient-primary: linear-gradient(
       135deg,
       hsl(var(--brand-primary-900)) 0%,

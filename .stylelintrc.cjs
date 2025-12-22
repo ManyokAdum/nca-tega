@@ -6,6 +6,12 @@ module.exports = {
     "color-no-hex": null,
     "alpha-value-notation": "percentage",
     "selector-class-pattern": null,
+    "at-rule-no-unknown": [
+      true,
+      {
+        ignoreAtRules: ["tailwind", "apply", "variants", "responsive", "screen", "layer"],
+      },
+    ],
   },
   ignoreFiles: ["**/node_modules/**", "**/dist/**", "**/storybook-static/**"],
 };
