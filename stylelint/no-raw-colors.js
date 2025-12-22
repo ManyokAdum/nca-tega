@@ -1,12 +1,12 @@
-const path = require("node:path");
-const stylelint = require("stylelint");
+import path from "node:path";
+import stylelint from "stylelint";
 
 const ruleName = "nyan/no-raw-colors";
 const messages = stylelint.utils.ruleMessages(ruleName, {
   rejected: (value) => `Unexpected raw hex color "${value}". Use design tokens instead.`,
 });
 
-module.exports = stylelint.createPlugin(ruleName, (enabled = true) => {
+const plugin = stylelint.createPlugin(ruleName, (enabled = true) => {
   return (root, result) => {
     if (!enabled) return;
 
@@ -32,8 +32,7 @@ module.exports = stylelint.createPlugin(ruleName, (enabled = true) => {
   };
 });
 
-module.exports.ruleName = ruleName;
-module.exports.messages = messages;
+plugin.ruleName = ruleName;
+plugin.messages = messages;
 
-
-
+export default plugin;
