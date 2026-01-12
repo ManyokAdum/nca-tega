@@ -18,7 +18,7 @@ const Events = () => {
                 Events
               </h1>
               <p className="text-lg text-primary-foreground/90 md:text-xl">
-                Stay connected with NCA meetings, celebrations, and community gatherings
+                Stay connected with NCAA meetings, celebrations, and community gatherings
               </p>
             </div>
           </div>

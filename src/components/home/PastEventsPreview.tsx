@@ -12,17 +12,23 @@ export const PastEventsPreview = () => {
 
     useEffect(() => {
         // Check if descriptions need "Read More" button
+        const newNeedsReadMore = new Set<number>();
         previewEvents.forEach((event) => {
             const element = descriptionRefs.current[event.id];
             if (element) {
                 // Check if the element's scrollHeight is greater than its clientHeight
                 // This means the text is truncated by line-clamp-3
                 if (element.scrollHeight > element.clientHeight) {
-                    setNeedsReadMore((prev) => new Set(prev).add(event.id));
+                    newNeedsReadMore.add(event.id);
                 }
             }
         });
-    }, [previewEvents]);
+        // Only update state if the set has changed
+        if (newNeedsReadMore.size > 0 && needsReadMore.size === 0) {
+            setNeedsReadMore(newNeedsReadMore);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const shouldShowReadMore = (eventId: number) => needsReadMore.has(eventId);
 

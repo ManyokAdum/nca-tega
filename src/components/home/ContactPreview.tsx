@@ -12,7 +12,7 @@ export const ContactPreview = () => {
                         Contact Us
                     </h2>
                     <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-                        Get in touch with the NCA leadership team
+                        Get in touch with the NCAA leadership team
                     </p>
                 </div>
 

@@ -32,7 +32,7 @@ export const OurMissionPreview = () => {
                                 asChild
                                 size="lg"
                                 className="group"
-                                aria-label="Learn more about NCA's mission"
+                                aria-label="Learn more about NCAA's mission"
                             >
                                 <Link to="/about" className="flex items-center gap-2">
                                     See More

@@ -27,7 +27,7 @@ export const LeadershipPreview = () => {
                         Executive Leadership
                     </h2>
                     <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-                        Meet the top leaders guiding NCA towards excellence and empowerment
+                        Meet the top leaders guiding NCAA towards excellence and empowerment
                     </p>
                 </div>
 

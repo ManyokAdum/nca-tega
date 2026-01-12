@@ -16,7 +16,7 @@ export const UpcomingEventsPreview = () => {
                         Upcoming Events
                     </h2>
                     <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-                        Stay connected with NCA meetings, celebrations, and community gatherings
+                        Stay connected with NCAA meetings, celebrations, and community gatherings
                     </p>
                 </div>
 

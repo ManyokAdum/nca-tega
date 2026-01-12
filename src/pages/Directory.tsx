@@ -98,7 +98,7 @@ const Directory = () => {
                                 Member Directory
                             </h1>
                             <p className="text-lg text-primary-foreground/90 md:text-xl">
-                                Connect with NCA members across all 6 Payams
+                                Connect with NCAA members across all 6 Payams
                             </p>
                         </div>
                     </div>
@@ -249,7 +249,7 @@ const Directory = () => {
                             </h3>
                             <p className="mb-6 text-sm text-muted-foreground">
                                 The complete member directory with contact details is available to registered 
-                                NCA members. Sign in to your member portal to access the full directory.
+                                NCAA members. Sign in to your member portal to access the full directory.
                             </p>
                             <div className="flex flex-wrap justify-center gap-3">
                                 <Button asChild>

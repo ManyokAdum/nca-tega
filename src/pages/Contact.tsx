@@ -26,7 +26,7 @@ const Contact = () => {
                                 Contact Us
                             </h1>
                             <p className="text-lg text-primary-foreground/90 md:text-xl">
-                                Get in touch with the NCA leadership team
+                                Get in touch with the NCAA leadership team
                             </p>
                         </div>
                     </div>

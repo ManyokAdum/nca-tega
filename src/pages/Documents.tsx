@@ -9,7 +9,7 @@ const documents = {
     constitution: [
         {
             id: 1,
-            title: "NCA Constitution",
+            title: "NCAA Constitution",
             version: "v2.1",
             date: "January 2024",
             size: "2.5 MB",
@@ -139,7 +139,7 @@ const Documents = () => {
                                 Document Center
                             </h1>
                             <p className="text-lg text-primary-foreground/90 md:text-xl">
-                                Access official NCA documents, regulations, and reports
+                                Access official NCAA documents, regulations, and reports
                             </p>
                         </div>
                     </div>

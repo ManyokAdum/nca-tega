@@ -4,13 +4,13 @@ import ncaLogo from "@/images/final-logo.png";
 
 const footerLinks = {
   organization: [
-    { name: "About NCA", href: "/about" },
+    { name: "About NCAA", href: "/about" },
     { name: "Leadership", href: "/leadership" },
     { name: "Constitution", href: "/documents/constitution" },
     { name: "Regulations", href: "/documents/regulations" },
   ],
   members: [
-    { name: "Join NCA", href: "/membership" },
+    { name: "Join NCAA", href: "/membership" },
     { name: "Member Portal", href: "/portal" },
     { name: "Pay Dues", href: "/payments" },
     { name: "Directory", href: "/directory" },
@@ -33,12 +33,12 @@ export function Footer() {
             <Link to="/" className="flex items-center gap-3">
               <img
                 src={ncaLogo}
-                alt="NCA Logo"
+                alt="NCAA Logo"
                 className="h-14 w-auto object-contain"
               />
               <div>
                 <p className="font-heading text-xl font-bold text-foreground">
-                  Twic East Girls Association
+                  Twic East Girls' Association
                 </p>
                 <p className="text-sm text-muted-foreground">
                   Nyan Cit Arialbeek
@@ -140,7 +140,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
           <p className="text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Twic East Girls Association. All rights
+            © {new Date().getFullYear()} Twic East Girls' Association. All rights
             reserved.
           </p>
           <div className="flex gap-6 text-sm">

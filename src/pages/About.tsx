@@ -13,10 +13,10 @@ const About = () => {
                     <div className="container">
                         <div className="mx-auto max-w-3xl text-center">
                             <h1 className="mb-6 font-heading text-4xl font-bold text-primary-foreground md:text-5xl">
-                                About NCA
+                                About NCAA
                             </h1>
                             <p className="text-lg text-primary-foreground/90 md:text-xl">
-                                Nyan Cit Arialbeek - Twic East Girls Association
+                                Nyan Cit Arialbeek - Twic East Girls' Association
                             </p>
                         </div>
                     </div>
@@ -107,7 +107,7 @@ const About = () => {
                                 <div className="rounded-lg border border-border bg-card p-6">
                                     <h3 className="mb-2 font-heading text-xl font-semibold">2015 - Foundation</h3>
                                     <p className="text-muted-foreground">
-                                        NCA was established to unite and empower women from Twic East,
+                                        NCAA was established to unite and empower women from Twic East,
                                         creating a strong support network across South Sudan and the diaspora.
                                     </p>
                                 </div>
@@ -122,7 +122,7 @@ const About = () => {
                                 <div className="rounded-lg border border-border bg-card p-6">
                                     <h3 className="mb-2 font-heading text-xl font-semibold">Today</h3>
                                     <p className="text-muted-foreground">
-                                        NCA continues to strengthen our community through transparent
+                                        NCAA continues to strengthen our community through transparent
                                         elections, educational programs, welfare support, and active
                                         engagement in the lives of our members.
                                     </p>

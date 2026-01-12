@@ -54,25 +54,25 @@ const Governance = () => {
                 "Must be a woman from Twic East County",
                 "Age 18 years and above",
                 "Payment of annual membership dues",
-                "Commitment to NCA values and objectives"
+                "Commitment to NCAA values and objectives"
             ],
             benefits: [
                 "Voting rights in elections and general meetings",
                 "Eligibility to hold office",
                 "Access to welfare support",
                 "Educational scholarship opportunities",
-                "Participation in all NCA events and programs"
+                "Participation in all NCAA events and programs"
             ]
         },
         {
             category: "Associate Membership",
             requirements: [
-                "Supporters and friends of NCA",
+                "Supporters and friends of NCAA",
                 "Payment of associate membership fee",
                 "Endorsement by two full members"
             ],
             benefits: [
-                "Attendance at NCA events",
+                "Attendance at NCAA events",
                 "Limited participation in programs",
                 "No voting rights",
                 "No eligibility to hold office"
@@ -302,7 +302,7 @@ const Governance = () => {
                             <div className="flex flex-wrap justify-center gap-4">
                                 <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground shadow-lg transition-all hover:bg-primary/90 hover:shadow-xl">
                                     <Download className="h-5 w-5" />
-                                    NCA Constitution
+                                    NCAA Constitution
                                 </button>
                                 <button className="inline-flex items-center gap-2 rounded-lg border-2 border-primary bg-background px-6 py-3 font-semibold text-primary shadow-sm transition-all hover:bg-primary/5 hover:shadow-md">
                                     <Download className="h-5 w-5" />

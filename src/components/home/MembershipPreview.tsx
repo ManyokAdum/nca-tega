@@ -10,7 +10,7 @@ export const MembershipPreview = () => {
                 {/* Section Header */}
                 <div className="mb-12 text-center">
                     <h2 className="mb-4 font-heading text-3xl font-bold md:text-4xl">
-                        Join NCA
+                        Join NCAA
                     </h2>
                     <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
                         Become part of our community and help empower women from Twic East

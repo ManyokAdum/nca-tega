@@ -37,7 +37,7 @@ const Payments = () => {
                                 Pay Membership Dues
                             </h1>
                             <p className="text-lg text-primary-foreground/90 md:text-xl">
-                                Support NCA's mission through secure online payments
+                                Support NCAA's mission through secure online payments
                             </p>
                         </div>
                     </div>

@@ -65,13 +65,13 @@ export function Header() {
         <Link to="/" className="flex items-center gap-2 sm:gap-3">
           <img
             src={ncaLogo}
-            alt="NCA Logo"
+            alt="NCAA Logo"
             className="h-10 sm:h-12 w-auto object-contain"
           />
           {/* Compact text for small screens */}
           <div className="block sm:hidden">
             <p className="font-heading text-sm font-bold leading-tight text-foreground whitespace-nowrap">
-              TEGA-NCA
+              TEGA-NCAA
             </p>
           </div>
           {/* Full text for larger screens */}

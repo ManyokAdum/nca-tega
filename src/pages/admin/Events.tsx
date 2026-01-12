@@ -102,7 +102,7 @@ const Events = () => {
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-3xl font-bold">Event Management</h1>
-                        <p className="text-muted-foreground">Create and manage NCA events</p>
+                        <p className="text-muted-foreground">Create and manage NCAA events</p>
                     </div>
                     <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
                         <DialogTrigger asChild>

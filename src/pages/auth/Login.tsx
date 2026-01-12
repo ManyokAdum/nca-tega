@@ -34,7 +34,7 @@ const Login = () => {
             if (success) {
                 toast({
                     title: "Login Successful",
-                    description: "Welcome back to NCA!",
+                    description: "Welcome back to NCAA!",
                 });
                 // Navigate to the page user was trying to access, or admin dashboard
                 navigate(from, { replace: true });
@@ -65,7 +65,7 @@ const Login = () => {
                 <div className="w-full max-w-md">
                     <div className="mb-8 text-center">
                         <h1 className="mb-2 font-heading text-3xl font-bold">Welcome Back</h1>
-                        <p className="text-muted-foreground">Sign in to your NCA account</p>
+                        <p className="text-muted-foreground">Sign in to your NCAA account</p>
                     </div>
 
                     <div className="rounded-xl border border-border bg-card p-8 shadow-sm">
@@ -133,7 +133,7 @@ const Login = () => {
                             <p className="text-sm text-muted-foreground">
                                 Don't have an account?{" "}
                                 <Link to="/register" className="font-medium text-primary hover:underline">
-                                    Join NCA
+                                    Join NCAA
                                 </Link>
                             </p>
                         </div>

@@ -10,7 +10,7 @@ export interface Document {
 export const featuredDocuments: Document[] = [
     {
         id: 1,
-        title: "NCA Constitution",
+        title: "NCAA Constitution",
         version: "v2.1",
         date: "January 2024",
         size: "2.5 MB",

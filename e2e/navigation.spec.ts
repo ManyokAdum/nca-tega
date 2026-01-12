@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('NCA Navigation and CTA Buttons', () => {
+test.describe('NCAA Navigation and CTA Buttons', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('http://localhost:8080');
     });
@@ -19,13 +19,13 @@ test.describe('NCA Navigation and CTA Buttons', () => {
         test('About link navigates to about page', async ({ page }) => {
             await page.getByRole('link', { name: 'About' }).first().click();
             await expect(page).toHaveURL('http://localhost:8080/about');
-            await expect(page.getByRole('heading', { name: 'About NCA' })).toBeVisible();
+            await expect(page.getByRole('heading', { name: 'About NCAA' })).toBeVisible();
         });
 
         test('Membership link navigates to membership page', async ({ page }) => {
             await page.getByRole('link', { name: 'Membership' }).first().click();
             await expect(page).toHaveURL('http://localhost:8080/membership');
-            await expect(page.getByRole('heading', { name: 'Join NCA' })).toBeVisible();
+            await expect(page.getByRole('heading', { name: 'Join NCAA' })).toBeVisible();
         });
 
         test('Elections link navigates to elections page', async ({ page }) => {
@@ -60,10 +60,10 @@ test.describe('NCA Navigation and CTA Buttons', () => {
             await expect(page.getByRole('heading', { name: 'Welcome Back' })).toBeVisible();
         });
 
-        test('Join NCA button navigates to register page', async ({ page }) => {
-            await page.getByRole('link', { name: 'Join NCA' }).first().click();
+        test('Join NCAA button navigates to register page', async ({ page }) => {
+            await page.getByRole('link', { name: 'Join NCAA' }).first().click();
             await expect(page).toHaveURL('http://localhost:8080/register');
-            await expect(page.getByRole('heading', { name: 'Join NCA' })).toBeVisible();
+            await expect(page.getByRole('heading', { name: 'Join NCAA' })).toBeVisible();
         });
 
         test('Hero "Become a Member" button navigates to register page', async ({ page }) => {
@@ -71,8 +71,8 @@ test.describe('NCA Navigation and CTA Buttons', () => {
             await expect(page).toHaveURL('http://localhost:8080/register');
         });
 
-        test('Hero "Learn About NCA" button navigates to about page', async ({ page }) => {
-            await page.getByRole('link', { name: 'Learn About NCA' }).click();
+        test('Hero "Learn About NCAA" button navigates to about page', async ({ page }) => {
+            await page.getByRole('link', { name: 'Learn About NCAA' }).click();
             await expect(page).toHaveURL('http://localhost:8080/about');
         });
     });
@@ -180,7 +180,7 @@ test.describe('NCA Navigation and CTA Buttons', () => {
             const signInButton = page.getByRole('link', { name: 'Sign In' }).first();
             await expect(signInButton).toBeVisible();
 
-            const joinButton = page.getByRole('link', { name: 'Join NCA' }).first();
+            const joinButton = page.getByRole('link', { name: 'Join NCAA' }).first();
             await expect(joinButton).toBeVisible();
         });
     });

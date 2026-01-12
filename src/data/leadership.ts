@@ -31,6 +31,7 @@ import alekMajokImage from "@/images/Alek_M.jpeg";
 import acholGarangImage from "@/images/Achol_G.jpg";
 import amerThonImage from "@/images/Amer_T.jpg";
 import yomNhianyImage from "@/images/Yom_N.jpg";
+import abuolImage from "@/images/Abuol.jpeg";
 
 export const executiveCommittee: ExecutiveCommitteeMember[] = [
     {
@@ -100,7 +101,8 @@ export const executiveCommittee: ExecutiveCommitteeMember[] = [
         position: "Secretary for Legal Affairs",
         icon: Scale,
         description: "Handles legal matters and compliance",
-        color: "from-indigo-500 to-purple-500"
+        color: "from-indigo-500 to-purple-500",
+        image: abuolImage
     },
     {
         name: "Amer Thon Malual",

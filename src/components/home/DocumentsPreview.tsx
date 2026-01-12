@@ -13,7 +13,7 @@ export const DocumentsPreview = () => {
                         Document Center
                     </h2>
                     <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-                        Access official NCA documents, regulations, and reports
+                        Access official NCAA documents, regulations, and reports
                     </p>
                 </div>
 

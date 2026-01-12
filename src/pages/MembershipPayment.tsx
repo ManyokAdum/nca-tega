@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { CreditCard, Shield, CheckCircle, ArrowLeft, Lock } from "lucide-react";
+import { CreditCard, Shield, CheckCircle, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,68 +10,25 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 
-interface MembershipData {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    payam: string;
-    membershipType: string;
-}
-
 const MembershipPayment = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { toast } = useToast();
-    const membershipData = location.state as MembershipData;
-
-    const [cardNumber, setCardNumber] = useState("");
-    const [cardName, setCardName] = useState("");
-    const [expiryDate, setExpiryDate] = useState("");
-    const [cvv, setCvv] = useState("");
     const [isProcessing, setIsProcessing] = useState(false);
 
-    // Redirect back if no membership data
-    if (!membershipData) {
-        navigate("/membership");
-        return null;
-    }
+    const membershipData = location.state || {};
+    const { membershipType, amount, currency, memberName, memberEmail, memberPhone } = membershipData;
 
-    const membershipFees = {
-        regular: { amount: "15,000 SSP", description: "Regular Membership - Annual" },
-        executive: { amount: "50,000 SSP", description: "Executive Membership - Annual" },
-    };
-
-    const currentMembership = membershipFees[membershipData.membershipType as keyof typeof membershipFees];
-
-    const formatCardNumber = (value: string) => {
-        const numbers = value.replace(/\s/g, '');
-        const formatted = numbers.match(/.{1,4}/g)?.join(' ') || numbers;
-        return formatted.substring(0, 19); // Max 16 digits + 3 spaces
-    };
-
-    const formatExpiryDate = (value: string) => {
-        const numbers = value.replace(/\D/g, '');
-        if (numbers.length >= 2) {
-            return numbers.substring(0, 2) + '/' + numbers.substring(2, 4);
+    useEffect(() => {
+        if (!amount) {
+            toast({
+                title: "No Membership Information",
+                description: "Please start from the membership page.",
+                variant: "destructive",
+            });
+            navigate("/membership");
         }
-        return numbers;
-    };
-
-    const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const formatted = formatCardNumber(e.target.value);
-        setCardNumber(formatted);
-    };
-
-    const handleExpiryDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const formatted = formatExpiryDate(e.target.value);
-        setExpiryDate(formatted);
-    };
-
-    const handleCvvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const numbers = e.target.value.replace(/\D/g, '');
-        setCvv(numbers.substring(0, 4)); // Max 4 digits
-    };
+    }, [amount, navigate, toast]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -79,86 +36,188 @@ const MembershipPayment = () => {
 
         // Simulate payment processing
         setTimeout(() => {
-            setIsProcessing(false);
             toast({
                 title: "Payment Successful!",
-                description: "Your membership application has been submitted. You will receive a confirmation email shortly.",
-                duration: 5000,
+                description: `Your ${membershipType} payment of ${amount} ${currency} has been processed. Welcome to NCAA!`,
             });
-            
-            // Redirect to success page or home
-            setTimeout(() => {
-                navigate("/", { replace: true });
-            }, 2000);
+            setIsProcessing(false);
+            navigate("/");
         }, 2000);
     };
+
+    if (!amount) {
+        return null;
+    }
 
     return (
         <div className="flex min-h-screen flex-col">
             <Header />
             <main className="flex-1">
                 {/* Hero Section */}
-                <section className="bg-gradient-hero py-12 md:py-16">
+                <section className="bg-gradient-hero py-16 md:py-24">
                     <div className="container">
                         <div className="mx-auto max-w-3xl text-center">
-                            <div className="mb-4 flex justify-center">
-                                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-foreground/10">
-                                    <CreditCard className="h-8 w-8 text-primary-foreground" />
+                            <div className="mb-6 flex justify-center">
+                                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary-foreground/10">
+                                    <CreditCard className="h-10 w-10 text-primary-foreground" />
                                 </div>
                             </div>
-                            <h1 className="mb-4 font-heading text-3xl font-bold text-primary-foreground md:text-4xl">
-                                Complete Your Payment
+                            <h1 className="mb-6 font-heading text-4xl font-bold text-primary-foreground md:text-5xl">
+                                Complete Your Membership
                             </h1>
-                            <p className="text-base text-primary-foreground/90 md:text-lg">
-                                Secure payment processing for your NCA membership
+                            <p className="text-lg text-primary-foreground/90 md:text-xl">
+                                Secure payment processing for your membership registration
                             </p>
                         </div>
                     </div>
                 </section>
 
-                {/* Payment Section */}
-                <section className="py-12 md:py-16">
+                {/* Payment Form Section */}
+                <section className="py-16 md:py-24">
                     <div className="container">
-                        <div className="mx-auto max-w-5xl">
+                        <div className="mx-auto max-w-4xl">
                             <Button
                                 variant="ghost"
-                                className="mb-6"
                                 onClick={() => navigate("/membership")}
+                                className="mb-6"
                             >
                                 <ArrowLeft className="mr-2 h-4 w-4" />
-                                Back to Application
+                                Back to Membership Form
                             </Button>
 
                             <div className="grid gap-8 lg:grid-cols-3">
-                                {/* Order Summary */}
-                                <div className="space-y-6 lg:col-span-1">
+                                {/* Payment Form */}
+                                <div className="lg:col-span-2">
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>Order Summary</CardTitle>
+                                            <CardTitle>Payment Details</CardTitle>
+                                            <CardDescription>
+                                                Enter your card information to complete the membership payment
+                                            </CardDescription>
                                         </CardHeader>
-                                        <CardContent className="space-y-4">
-                                            <div>
-                                                <p className="text-sm text-muted-foreground mb-1">Applicant</p>
-                                                <p className="font-semibold">
-                                                    {membershipData.firstName} {membershipData.lastName}
-                                                </p>
-                                            </div>
-                                            <Separator />
-                                            <div>
-                                                <p className="text-sm text-muted-foreground mb-1">Membership Type</p>
-                                                <p className="font-semibold">{currentMembership.description}</p>
-                                            </div>
-                                            <Separator />
-                                            <div>
-                                                <div className="flex justify-between items-center mb-2">
-                                                    <span className="text-sm">Membership Fee</span>
-                                                    <span className="font-semibold">{currentMembership.amount}</span>
+                                        <CardContent>
+                                            <form onSubmit={handleSubmit} className="space-y-6">
+                                                {/* Card Information */}
+                                                <div className="space-y-4">
+                                                    <h3 className="font-semibold">Card Information</h3>
+                                                    <div className="space-y-2">
+                                                        <Label htmlFor="cardNumber">Card Number *</Label>
+                                                        <Input
+                                                            id="cardNumber"
+                                                            placeholder="1234 5678 9012 3456"
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <Label htmlFor="cardName">Cardholder Name *</Label>
+                                                        <Input
+                                                            id="cardName"
+                                                            placeholder="Name on card"
+                                                            defaultValue={memberName}
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div className="grid gap-4 md:grid-cols-2">
+                                                        <div className="space-y-2">
+                                                            <Label htmlFor="expiry">Expiry Date *</Label>
+                                                            <Input
+                                                                id="expiry"
+                                                                placeholder="MM/YY"
+                                                                required
+                                                            />
+                                                        </div>
+                                                        <div className="space-y-2">
+                                                            <Label htmlFor="cvv">CVV *</Label>
+                                                            <Input
+                                                                id="cvv"
+                                                                placeholder="123"
+                                                                maxLength={4}
+                                                                required
+                                                            />
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="flex justify-between items-center pt-2 border-t">
-                                                    <span className="font-semibold">Total</span>
-                                                    <span className="font-bold text-xl text-primary">
-                                                        {currentMembership.amount}
-                                                    </span>
+
+                                                <Separator />
+
+                                                {/* Billing Address */}
+                                                <div className="space-y-4">
+                                                    <h3 className="font-semibold">Billing Address</h3>
+                                                    <div className="space-y-2">
+                                                        <Label htmlFor="address">Street Address *</Label>
+                                                        <Input
+                                                            id="address"
+                                                            placeholder="123 Main Street"
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div className="grid gap-4 md:grid-cols-2">
+                                                        <div className="space-y-2">
+                                                            <Label htmlFor="city">City *</Label>
+                                                            <Input id="city" required />
+                                                        </div>
+                                                        <div className="space-y-2">
+                                                            <Label htmlFor="country">Country *</Label>
+                                                            <Input id="country" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Submit Button */}
+                                                <Button type="submit" size="lg" className="w-full" disabled={isProcessing}>
+                                                    {isProcessing ? (
+                                                        "Processing Payment..."
+                                                    ) : (
+                                                        <>
+                                                            <CreditCard className="mr-2 h-5 w-5" />
+                                                            Complete Payment of {amount} {currency}
+                                                        </>
+                                                    )}
+                                                </Button>
+
+                                                <p className="text-center text-xs text-muted-foreground">
+                                                    Your payment information is secure and encrypted
+                                                </p>
+                                            </form>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+
+                                {/* Order Summary & Security */}
+                                <div className="space-y-6">
+                                    {/* Order Summary */}
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle className="text-lg">Payment Summary</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="space-y-3 text-sm">
+                                                {membershipType && (
+                                                    <div className="flex justify-between">
+                                                        <span className="text-muted-foreground">Membership:</span>
+                                                        <span className="font-semibold">{membershipType}</span>
+                                                    </div>
+                                                )}
+                                                <div className="flex justify-between">
+                                                    <span className="text-muted-foreground">Amount:</span>
+                                                    <span className="font-semibold">{amount} {currency}</span>
+                                                </div>
+                                                {memberName && (
+                                                    <div className="flex justify-between">
+                                                        <span className="text-muted-foreground">Member:</span>
+                                                        <span className="font-medium">{memberName}</span>
+                                                    </div>
+                                                )}
+                                                {memberEmail && (
+                                                    <div className="flex justify-between">
+                                                        <span className="text-muted-foreground">Email:</span>
+                                                        <span className="font-medium text-xs">{memberEmail}</span>
+                                                    </div>
+                                                )}
+                                                <Separator />
+                                                <div className="flex justify-between text-base">
+                                                    <span className="font-semibold">Total:</span>
+                                                    <span className="font-bold text-primary">{amount} {currency}</span>
                                                 </div>
                                             </div>
                                         </CardContent>
@@ -175,163 +234,47 @@ const MembershipPayment = () => {
                                         <CardContent>
                                             <ul className="space-y-2 text-sm text-muted-foreground">
                                                 <li className="flex items-center gap-2">
-                                                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                                                    <CheckCircle className="h-4 w-4 text-primary" />
                                                     256-bit SSL encryption
                                                 </li>
                                                 <li className="flex items-center gap-2">
-                                                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
-                                                    PCI-DSS Level 1 compliant
+                                                    <CheckCircle className="h-4 w-4 text-primary" />
+                                                    PCI-DSS compliant
                                                 </li>
                                                 <li className="flex items-center gap-2">
-                                                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
-                                                    Your card data is protected
+                                                    <CheckCircle className="h-4 w-4 text-primary" />
+                                                    Your data is protected
                                                 </li>
                                             </ul>
                                         </CardContent>
                                     </Card>
-                                </div>
 
-                                {/* Payment Form */}
-                                <div className="lg:col-span-2">
+                                    {/* Membership Benefits */}
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>Payment Details</CardTitle>
-                                            <CardDescription>
-                                                Enter your card information to complete the payment
-                                            </CardDescription>
+                                            <CardTitle className="text-base">Your Benefits</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <form onSubmit={handleSubmit} className="space-y-6">
-                                                {/* Card Number */}
-                                                <div className="space-y-2">
-                                                    <Label htmlFor="cardNumber">Card Number *</Label>
-                                                    <div className="relative">
-                                                        <Input
-                                                            id="cardNumber"
-                                                            placeholder="1234 5678 9012 3456"
-                                                            value={cardNumber}
-                                                            onChange={handleCardNumberChange}
-                                                            required
-                                                            maxLength={19}
-                                                        />
-                                                        <CreditCard className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                                                    </div>
-                                                </div>
-
-                                                {/* Card Name */}
-                                                <div className="space-y-2">
-                                                    <Label htmlFor="cardName">Cardholder Name *</Label>
-                                                    <Input
-                                                        id="cardName"
-                                                        placeholder="Name on card"
-                                                        value={cardName}
-                                                        onChange={(e) => setCardName(e.target.value)}
-                                                        required
-                                                    />
-                                                </div>
-
-                                                {/* Expiry and CVV */}
-                                                <div className="grid gap-4 md:grid-cols-2">
-                                                    <div className="space-y-2">
-                                                        <Label htmlFor="expiryDate">Expiry Date *</Label>
-                                                        <Input
-                                                            id="expiryDate"
-                                                            placeholder="MM/YY"
-                                                            value={expiryDate}
-                                                            onChange={handleExpiryDateChange}
-                                                            required
-                                                            maxLength={5}
-                                                        />
-                                                    </div>
-                                                    <div className="space-y-2">
-                                                        <Label htmlFor="cvv">CVV *</Label>
-                                                        <div className="relative">
-                                                            <Input
-                                                                id="cvv"
-                                                                placeholder="123"
-                                                                value={cvv}
-                                                                onChange={handleCvvChange}
-                                                                required
-                                                                maxLength={4}
-                                                                type="password"
-                                                            />
-                                                            <Lock className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <Separator />
-
-                                                {/* Billing Information */}
-                                                <div className="space-y-4">
-                                                    <h3 className="font-semibold">Billing Information</h3>
-                                                    <div className="space-y-2">
-                                                        <Label htmlFor="billingEmail">Email *</Label>
-                                                        <Input
-                                                            id="billingEmail"
-                                                            type="email"
-                                                            value={membershipData.email}
-                                                            disabled
-                                                        />
-                                                    </div>
-                                                    <div className="space-y-2">
-                                                        <Label htmlFor="billingPhone">Phone *</Label>
-                                                        <Input
-                                                            id="billingPhone"
-                                                            type="tel"
-                                                            value={membershipData.phone}
-                                                            disabled
-                                                        />
-                                                    </div>
-                                                </div>
-
-                                                {/* Submit Button */}
-                                                <div className="space-y-4">
-                                                    <Button
-                                                        type="submit"
-                                                        size="lg"
-                                                        className="w-full"
-                                                        disabled={isProcessing}
-                                                    >
-                                                        {isProcessing ? (
-                                                            <>Processing Payment...</>
-                                                        ) : (
-                                                            <>
-                                                                <Lock className="mr-2 h-5 w-5" />
-                                                                Complete Payment
-                                                            </>
-                                                        )}
-                                                    </Button>
-                                                    <p className="text-center text-xs text-muted-foreground">
-                                                        By completing this payment, you agree to our{" "}
-                                                        <a href="/terms" className="text-primary hover:underline">
-                                                            Terms of Service
-                                                        </a>{" "}
-                                                        and{" "}
-                                                        <a href="/privacy" className="text-primary hover:underline">
-                                                            Privacy Policy
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </form>
+                                            <ul className="space-y-2 text-sm text-muted-foreground">
+                                                <li className="flex items-center gap-2">
+                                                    <CheckCircle className="h-4 w-4 text-primary" />
+                                                    Full voting rights
+                                                </li>
+                                                <li className="flex items-center gap-2">
+                                                    <CheckCircle className="h-4 w-4 text-primary" />
+                                                    Access to member portal
+                                                </li>
+                                                <li className="flex items-center gap-2">
+                                                    <CheckCircle className="h-4 w-4 text-primary" />
+                                                    Event participation
+                                                </li>
+                                                <li className="flex items-center gap-2">
+                                                    <CheckCircle className="h-4 w-4 text-primary" />
+                                                    Community support
+                                                </li>
+                                            </ul>
                                         </CardContent>
                                     </Card>
-
-                                    {/* Help Text */}
-                                    <div className="mt-6 rounded-lg border border-border bg-card p-6">
-                                        <h3 className="mb-3 font-semibold">Need Help?</h3>
-                                        <p className="mb-3 text-sm text-muted-foreground">
-                                            If you encounter any issues with payment processing, please contact us:
-                                        </p>
-                                        <div className="space-y-1 text-sm">
-                                            <p>
-                                                <strong>Email:</strong> nyancitarialbeek.juba@gmail.com
-                                            </p>
-                                            <p>
-                                                <strong>Phone:</strong> +211 910 900 467
-                                            </p>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

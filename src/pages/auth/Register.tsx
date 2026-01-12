@@ -102,7 +102,7 @@ const Register = () => {
                             <ArrowLeft className="mr-2 h-4 w-4" />
                             Back to Home
                         </Link>
-                        <h1 className="mt-4 mb-2 font-heading text-3xl font-bold">Join NCA</h1>
+                        <h1 className="mt-4 mb-2 font-heading text-3xl font-bold">Join NCAA</h1>
                         <p className="text-muted-foreground">
                             Create your account and become part of our community
                         </p>
@@ -191,7 +191,7 @@ const Register = () => {
                                     <label htmlFor="terms" className="text-sm leading-relaxed">
                                         I agree to the{" "}
                                         <Link to="/documents" className="text-primary hover:underline">
-                                            NCA Constitution
+                                            NCAA Constitution
                                         </Link>{" "}
                                         and regulations, and I understand that my application will be reviewed by
                                         the Executive Committee. *
@@ -200,7 +200,7 @@ const Register = () => {
                                 <div className="flex items-start gap-2">
                                     <Checkbox id="communications" name="communications" />
                                     <label htmlFor="communications" className="text-sm leading-relaxed">
-                                        I want to receive emails about NCA events, meetings, and announcements
+                                        I want to receive emails about NCAA events, meetings, and announcements
                                     </label>
                                 </div>
                             </div>
@@ -219,7 +219,7 @@ const Register = () => {
 
                             <p className="text-center text-sm text-muted-foreground">
                                 Your application will be reviewed by the admin team. You'll receive an
-                                email notification once your application has been reviewed. Approved members will appear in the NCA member directory.
+                                email notification once your application has been reviewed. Approved members will appear in the NCAA member directory.
                             </p>
                         </form>
                     </div>

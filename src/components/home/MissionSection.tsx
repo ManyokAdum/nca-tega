@@ -75,7 +75,7 @@ export function MissionSection() {
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-elevated">
               <img
                 src={nca1Image}
-                alt="NCA Event - Empowering Women, Building Community"
+                alt="NCAA Event - Empowering Women, Building Community"
                 className="h-full w-full object-cover"
               />
               {/* Dark overlay for better text readability if needed */}

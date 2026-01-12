@@ -28,7 +28,7 @@ const translations: Record<Language, Record<string, string>> = {
         "nav.contact": "Contact",
         "nav.donate": "Donate",
         // Logo
-        "logo.title": "Twic East Girls Association",
+        "logo.title": "Twic East Girls' Association",
         "logo.subtitle": "Nyan Cit Arialbeek",
     },
     din: {
@@ -47,7 +47,7 @@ const translations: Record<Language, Record<string, string>> = {
         "nav.contact": "Kuɛɛl",
         "nav.donate": "Kuɛɛl",
         // Logo
-        "logo.title": "Twic East Girls Association",
+        "logo.title": "Twic East Girls' Association",
         "logo.subtitle": "Nyan Cit Arialbeek",
     },
     ar: {

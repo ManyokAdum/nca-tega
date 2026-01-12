@@ -23,7 +23,7 @@ const PrivacyPolicy = () => {
             content: [
                 "Process membership applications and maintain member records",
                 "Facilitate payment processing for dues and contributions",
-                "Send important communications about NCA activities and events",
+                "Send important communications about NCAA activities and events",
                 "Improve our services and website functionality",
                 "Comply with legal obligations and protect our rights"
             ]
@@ -57,7 +57,7 @@ const PrivacyPolicy = () => {
                 "We do not sell, trade, or rent your personal information to third parties",
                 "Information may be shared with service providers who assist our operations",
                 "We may disclose information when required by law or to protect our rights",
-                "Member directories may be shared within the NCA community (with consent)",
+                "Member directories may be shared within the NCAA community (with consent)",
                 "Aggregate, anonymized data may be used for statistical purposes"
             ]
         },
@@ -104,7 +104,7 @@ const PrivacyPolicy = () => {
                             {/* Introduction */}
                             <div className="mb-12 rounded-xl border border-border bg-muted/50 p-8">
                                 <p className="mb-4 text-muted-foreground leading-relaxed">
-                                    Nyan Cit Arialbeek (NCA) is committed to protecting your privacy and ensuring 
+                                    Nyan Cit Arialbeek (NCAA) is committed to protecting your privacy and ensuring 
                                     the security of your personal information. This Privacy Policy explains how we 
                                     collect, use, disclose, and safeguard your information when you visit our website, 
                                     use our services, or interact with us as a member or supporter.
@@ -202,7 +202,7 @@ const PrivacyPolicy = () => {
                                 <div className="space-y-2 text-sm">
                                     <p><strong>Email:</strong> nyancitarialbeek.juba@gmail.com</p>
                                     <p><strong>Phone:</strong> +211 910 900 467</p>
-                                    <p><strong>Address:</strong> NCA Hall, Juba, South Sudan</p>
+                                    <p><strong>Address:</strong> NCAA Hall, Juba, South Sudan</p>
                                 </div>
                             </div>
                         </div>

@@ -27,7 +27,7 @@ const Leadership = () => {
                                 Our Leadership
                             </h1>
                             <p className="text-lg text-primary-foreground/90 md:text-xl">
-                                Meet the dedicated leaders guiding NCA towards excellence and empowerment
+                                Meet the dedicated leaders guiding NCAA towards excellence and empowerment
                             </p>
                         </div>
                     </div>
@@ -42,7 +42,7 @@ const Leadership = () => {
                             </h2>
                             <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">
                                 Our executive committee comprises dedicated leaders committed to serving
-                                the NCA community with transparency and excellence
+                                the NCAA community with transparency and excellence
                             </p>
                         </div>
 
@@ -263,7 +263,7 @@ const Leadership = () => {
                                     <p className="text-sm text-muted-foreground md:text-base">
                                         All executive committee members serve a term of <strong>three (3) years</strong> and
                                         are eligible for re-election. Elections are conducted through transparent and
-                                        democratic processes as outlined in the NCA Constitution.
+                                        democratic processes as outlined in the NCAA Constitution.
                                     </p>
                                 </div>
 

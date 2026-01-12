@@ -45,15 +45,15 @@ const Regulations = () => {
             sections: [
                 {
                     title: "Membership Categories",
-                    content: "Full membership for women from Twic East County aged 18 and above. Associate membership for supporters and friends of NCA with endorsement by two full members."
+                    content: "Full membership for women from Twic East County aged 18 and above. Associate membership for supporters and friends of NCAA with endorsement by two full members."
                 },
                 {
                     title: "Rights and Privileges",
-                    content: "Members have voting rights, eligibility to hold office, access to welfare support, educational scholarship opportunities, and participation in all NCA events and programs."
+                    content: "Members have voting rights, eligibility to hold office, access to welfare support, educational scholarship opportunities, and participation in all NCAA events and programs."
                 },
                 {
                     title: "Obligations",
-                    content: "Members must pay annual dues, attend meetings, uphold NCA values, and actively participate in community development activities."
+                    content: "Members must pay annual dues, attend meetings, uphold NCAA values, and actively participate in community development activities."
                 }
             ]
         },
@@ -70,7 +70,7 @@ const Regulations = () => {
                 },
                 {
                     title: "Council",
-                    content: "The third organ of NCA with functions defined in the regulations, providing advisory and oversight roles."
+                    content: "The third organ of NCAA with functions defined in the regulations, providing advisory and oversight roles."
                 }
             ]
         },
@@ -141,7 +141,7 @@ const Regulations = () => {
                                 </div>
                             </div>
                             <h1 className="mb-6 font-heading text-4xl font-bold text-primary-foreground md:text-5xl">
-                                NCA Regulations 2024
+                                NCAA Regulations 2024
                             </h1>
                             <p className="text-lg text-primary-foreground/90 md:text-xl">
                                 Official regulations governing the operations of Nyan Cit Arialbeek

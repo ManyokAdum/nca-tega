@@ -70,7 +70,7 @@ export function FeaturesSection() {
             Platform Features
           </span>
           <h2 className="mb-4 font-heading text-3xl font-bold text-foreground md:text-4xl">
-            Everything NCA Needs to Thrive
+            Everything NCAA Needs to Thrive
           </h2>
           <p className="text-lg text-muted-foreground">
             A comprehensive platform designed for efficient governance,

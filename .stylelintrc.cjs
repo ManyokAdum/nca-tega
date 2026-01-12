@@ -1,6 +1,6 @@
 module.exports = {
   extends: ["stylelint-config-standard"],
-  plugins: ["./stylelint/no-raw-colors.js"],
+  plugins: ["./stylelint/no-raw-colors.cjs"],
   rules: {
     "nyan/no-raw-colors": true,
     "color-no-hex": null,
@@ -9,7 +9,7 @@ module.exports = {
     "at-rule-no-unknown": [
       true,
       {
-        ignoreAtRules: ["tailwind", "apply", "variants", "responsive", "screen", "layer"],
+        ignoreAtRules: ["tailwind", "apply", "layer", "screen"],
       },
     ],
   },

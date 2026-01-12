@@ -61,7 +61,7 @@ const MemberPortal = () => {
                                     Member Portal
                                 </h1>
                                 <p className="text-lg text-primary-foreground/90 md:text-xl">
-                                    Access your NCA member account and manage your membership
+                                    Access your NCAA member account and manage your membership
                                 </p>
                             </div>
                         </div>
@@ -93,7 +93,7 @@ const MemberPortal = () => {
                                         <div className="text-center text-sm text-muted-foreground">
                                             Not a member yet?{" "}
                                             <Link to="/membership" className="text-primary hover:underline">
-                                                Join NCA
+                                                Join NCAA
                                             </Link>
                                         </div>
                                     </CardContent>

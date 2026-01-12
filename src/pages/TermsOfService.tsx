@@ -9,12 +9,12 @@ const TermsOfService = () => {
         {
             icon: Users,
             title: "Acceptance of Terms",
-            content: "By accessing and using the Nyan Cit Arialbeek (NCA) website and services, you accept and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services. These terms apply to all visitors, members, and others who access or use our services."
+            content: "By accessing and using the Nyan Cit Arialbeek (NCAA) website and services, you accept and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services. These terms apply to all visitors, members, and others who access or use our services."
         },
         {
             icon: CheckCircle,
             title: "Membership Terms",
-            content: "Membership in NCA is subject to approval by the Executive Committee. Members must be women from Twic East County aged 18 and above, pay annual membership dues, and commit to NCA values and objectives as outlined in our Constitution and Regulations. Members are expected to participate in good faith and contribute positively to the community."
+            content: "Membership in NCAA is subject to approval by the Executive Committee. Members must be women from Twic East County aged 18 and above, pay annual membership dues, and commit to NCAA values and objectives as outlined in our Constitution and Regulations. Members are expected to participate in good faith and contribute positively to the community."
         },
         {
             icon: FileText,
@@ -24,7 +24,7 @@ const TermsOfService = () => {
         {
             icon: Scale,
             title: "Intellectual Property",
-            content: "All content on the NCA website, including text, graphics, logos, images, and software, is the property of NCA or its content suppliers and is protected by international copyright laws. You may not reproduce, distribute, modify, or create derivative works without our express written permission."
+            content: "All content on the NCAA website, including text, graphics, logos, images, and software, is the property of NCAA or its content suppliers and is protected by international copyright laws. You may not reproduce, distribute, modify, or create derivative works without our express written permission."
         },
         {
             icon: AlertTriangle,
@@ -34,7 +34,7 @@ const TermsOfService = () => {
         {
             icon: XCircle,
             title: "Limitation of Liability",
-            content: "NCA and its officers, directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use our services. This includes, but is not limited to, damages for loss of profits, data, or other intangibles."
+            content: "NCAA and its officers, directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use our services. This includes, but is not limited to, damages for loss of profits, data, or other intangibles."
         }
     ];
 
@@ -62,7 +62,7 @@ const TermsOfService = () => {
             points: [
                 "Event registration is subject to availability and may require payment",
                 "Attendees must comply with event rules and code of conduct",
-                "NCA reserves the right to refuse entry or remove attendees for misconduct",
+                "NCAA reserves the right to refuse entry or remove attendees for misconduct",
                 "Photos and videos may be taken at events for promotional purposes"
             ]
         },
@@ -94,7 +94,7 @@ const TermsOfService = () => {
                                 Terms of Service
                             </h1>
                             <p className="text-lg text-primary-foreground/90 md:text-xl">
-                                Guidelines and conditions for using NCA services
+                                Guidelines and conditions for using NCAA services
                             </p>
                         </div>
                     </div>
@@ -107,7 +107,7 @@ const TermsOfService = () => {
                             {/* Introduction */}
                             <div className="mb-12 rounded-xl border border-border bg-muted/50 p-8">
                                 <p className="mb-4 text-muted-foreground leading-relaxed">
-                                    Welcome to Nyan Cit Arialbeek (NCA). These Terms of Service ("Terms") govern 
+                                    Welcome to Nyan Cit Arialbeek (NCAA). These Terms of Service ("Terms") govern 
                                     your access to and use of our website, services, and programs. Please read these 
                                     Terms carefully before using our services.
                                 </p>
@@ -174,7 +174,7 @@ const TermsOfService = () => {
                                     Any disputes arising from these Terms or your use of our services shall be 
                                     resolved through good faith negotiation. If a resolution cannot be reached, 
                                     disputes shall be handled in accordance with the dispute resolution procedures 
-                                    outlined in the NCA Constitution and Regulations. The laws of South Sudan shall 
+                                    outlined in the NCAA Constitution and Regulations. The laws of South Sudan shall 
                                     govern these Terms.
                                 </p>
                             </div>
@@ -194,7 +194,7 @@ const TermsOfService = () => {
                                 <h3 className="mb-3 font-heading text-lg font-bold">Entire Agreement</h3>
                                 <p className="text-sm text-muted-foreground leading-relaxed">
                                     These Terms, together with our Privacy Policy and any other legal notices 
-                                    published by NCA, constitute the entire agreement between you and NCA concerning 
+                                    published by NCAA, constitute the entire agreement between you and NCAA concerning 
                                     your use of our services. No waiver of any term shall be deemed a further or 
                                     continuing waiver of such term or any other term.
                                 </p>
@@ -211,7 +211,7 @@ const TermsOfService = () => {
                                 <div className="space-y-2 text-sm">
                                     <p><strong>Email:</strong> nyancitarialbeek.juba@gmail.com</p>
                                     <p><strong>Phone:</strong> +211 910 900 467</p>
-                                    <p><strong>Address:</strong> NCA Hall, Juba, South Sudan</p>
+                                    <p><strong>Address:</strong> NCAA Hall, Juba, South Sudan</p>
                                 </div>
                             </div>
                         </div>

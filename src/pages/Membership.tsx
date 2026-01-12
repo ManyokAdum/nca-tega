@@ -54,7 +54,7 @@ const Membership = () => {
                     <div className="container">
                         <div className="mx-auto max-w-3xl text-center">
                             <h1 className="mb-6 font-heading text-4xl font-bold text-primary-foreground md:text-5xl">
-                                Join NCA
+                                Join NCAA
                             </h1>
                             <p className="text-lg text-primary-foreground/90 md:text-xl">
                                 Become part of our community and help empower women from Twic East
@@ -200,7 +200,7 @@ const Membership = () => {
                                             htmlFor="terms"
                                             className="text-sm leading-relaxed text-muted-foreground"
                                         >
-                                            I agree to the NCA Constitution and regulations, and I understand
+                                            I agree to the NCAA Constitution and regulations, and I understand
                                             that my application will be reviewed by the Executive Committee. *
                                         </label>
                                     </div>
@@ -224,7 +224,7 @@ const Membership = () => {
                 <section className="py-16 md:py-24">
                     <div className="container">
                         <h2 className="mb-12 text-center font-heading text-3xl font-bold md:text-4xl">
-                            Why Join NCA?
+                            Why Join NCAA?
                         </h2>
                         <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">
                             <div className="text-center">

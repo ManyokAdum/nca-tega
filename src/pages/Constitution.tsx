@@ -19,7 +19,7 @@ const Constitution = () => {
         },
         {
             title: "Name and Legal Status",
-            content: "The organization shall be known as Nyan Cit Arialbeek (NCA), a non-political, non-profit making body dedicated to educating and supporting women from Twic East County."
+            content: "The organization shall be known as Nyan Cit Arialbeek (NCAA), a non-political, non-profit making body dedicated to educating and supporting women from Twic East County."
         },
         {
             title: "Registered Office",
@@ -41,10 +41,10 @@ const Constitution = () => {
                                 </div>
                             </div>
                             <h1 className="mb-6 font-heading text-4xl font-bold text-primary-foreground md:text-5xl">
-                                NCA Constitution
+                                NCAA Constitution
                             </h1>
                             <p className="text-lg text-primary-foreground/90 md:text-xl">
-                                The foundational document governing Twic East Girls Association
+                                The foundational document governing Twic East Girls' Association
                             </p>
                         </div>
                     </div>

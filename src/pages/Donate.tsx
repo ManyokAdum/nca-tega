@@ -97,7 +97,7 @@ const Donate = () => {
                                 </div>
                             </div>
                             <h1 className="mb-6 font-heading text-4xl font-bold text-primary-foreground md:text-5xl">
-                                Support NCA
+                                Support NCAA
                             </h1>
                             <p className="text-lg text-primary-foreground/90 md:text-xl">
                                 Your donation helps empower women from Twic East through education, welfare, and community development

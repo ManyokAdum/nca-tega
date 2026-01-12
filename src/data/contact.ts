@@ -23,7 +23,7 @@ export const contactInformation: ContactInfo[] = [
     {
         icon: MapPin,
         title: "Headquarters",
-        value: "NCA Hall, Juba, South Sudan"
+        value: "NCAA Hall, Juba, South Sudan"
     }
 ];
 

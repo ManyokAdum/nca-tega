@@ -91,11 +91,11 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
                     <div className="flex h-16 items-center gap-3 border-b border-border px-6">
                         <img
                             src={ncaLogo}
-                            alt="NCA Logo"
+                            alt="NCAA Logo"
                             className="h-10 w-auto object-contain"
                         />
                         <div>
-                            <p className="font-heading text-sm font-bold">NCA Admin</p>
+                            <p className="font-heading text-sm font-bold">NCAA Admin</p>
                             <p className="text-xs text-muted-foreground">Control Panel</p>
                         </div>
                     </div>

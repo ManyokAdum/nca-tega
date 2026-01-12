@@ -7,7 +7,7 @@ const upcomingEvents = [
     title: "General Assembly Meeting",
     date: "January 15, 2024",
     time: "10:00 AM",
-    location: "NCA Hall, Juba",
+    location: "NCAA Hall, Juba",
     type: "Meeting",
     typeColor: "bg-primary",
   },

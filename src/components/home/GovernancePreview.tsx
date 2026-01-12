@@ -48,7 +48,7 @@ export const GovernancePreview = () => {
                         size="lg"
                         variant="outline"
                         className="group hover:border-primary/50 hover:bg-primary/5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                        aria-label="Learn more about NCA governance"
+                        aria-label="Learn more about NCAA governance"
                     >
                         <Link to="/governance">
                             See More
