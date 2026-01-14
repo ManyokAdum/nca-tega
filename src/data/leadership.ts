@@ -36,7 +36,7 @@ import abuolImage from "@/images/Abuol.jpeg";
 export const executiveCommittee: ExecutiveCommitteeMember[] = [
     {
         name: "Ahou Abit Arok",
-        position: "Chairperson",
+        position: "Chairlady",
         icon: Crown,
         description: "Chief executive and representative of the organization",
         color: "from-purple-500 to-pink-500",
@@ -44,9 +44,9 @@ export const executiveCommittee: ExecutiveCommitteeMember[] = [
     },
     {
         name: "Yar Kuir Mabior",
-        position: "Deputy Chairperson",
+        position: "Deputy Chairlady",
         icon: UserCircle,
-        description: "Supports chairperson and acts in their absence",
+        description: "Supports chairlady and acts in their absence",
         color: "from-blue-500 to-cyan-500",
         image: yarKuirImage
     },

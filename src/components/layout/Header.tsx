@@ -51,6 +51,7 @@ export function Header() {
       ],
     },
     { name: t("nav.documents"), href: "/documents", key: "documents" },
+    { name: "Scholarship", href: "/scholarship", key: "scholarship" },
     { name: t("nav.contact"), href: "/contact", key: "contact" },
   ];
 

@@ -1,8 +1,9 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { executiveCommittee } from "@/data/leadership";
+import { executiveCommittee, payamRepresentatives } from "@/data/leadership";
 import { AvatarModal } from "@/components/ui/avatar-modal";
 import { useState } from "react";
+import { MapPin } from "lucide-react";
 
 // Single shared gradient for all leadership accents
 const leadershipGradient = "from-[hsl(278_42%_34%)] to-[hsl(276_46%_30%)]";
@@ -46,14 +47,14 @@ const Leadership = () => {
                             </p>
                         </div>
 
-                        {/* Chairperson - Featured at Top */}
+                        {/* Chairlady - Featured at Top */}
                         {(() => {
-                            const chairperson = executiveCommittee.find(m => m.position === "Chairperson");
-                            const otherMembers = executiveCommittee.filter(m => m.position !== "Chairperson");
+                            const chairperson = executiveCommittee.find(m => m.position === "Chairlady");
+                            const otherMembers = executiveCommittee.filter(m => m.position !== "Chairlady");
                             
                             if (!chairperson) return null;
                             
-                            const ChairpersonIcon = chairperson.icon;
+                            const ChairladyIcon = chairperson.icon;
                             
                             return (
                                 <>
@@ -78,13 +79,13 @@ const Leadership = () => {
                                                         <img
                                                             src={chairperson.image}
                                                             alt={chairperson.name}
-                                                            className="h-full w-full object-cover"
-                                                            loading="eager"
-                                                        />
-                                                    </button>
-                                                ) : (
-                                                    <div className={`flex h-28 w-28 items-center justify-center rounded-lg bg-gradient-to-br ${leadershipGradient} shadow-md`}>
-                                                        <ChairpersonIcon className="h-12 w-12 text-white" />
+                                                className="h-full w-full object-cover"
+                                                loading="eager"
+                                            />
+                                        </button>
+                                    ) : (
+                                        <div className={`flex h-28 w-28 items-center justify-center rounded-lg bg-gradient-to-br ${leadershipGradient} shadow-md`}>
+                                            <ChairladyIcon className="h-12 w-12 text-white" />
                                                     </div>
                                                 )}
                                             </div>
@@ -110,7 +111,7 @@ const Leadership = () => {
                                                 </button>
                                             ) : (
                                                 <div className={`hidden w-full h-64 items-center justify-center bg-gradient-to-br ${leadershipGradient} rounded-t-2xl md:flex lg:h-72`}>
-                                                    <ChairpersonIcon className="h-20 w-20 text-white" />
+                                                    <ChairladyIcon className="h-20 w-20 text-white" />
                                                 </div>
                                             )}
 
@@ -187,7 +188,7 @@ const Leadership = () => {
                                                             <img
                                                                 src={member.image}
                                                                 alt={member.name}
-                                                                className={`h-full w-full ${member.position === "Deputy Chairperson" || member.position === "Secretary General" ? "object-cover object-top" : "object-cover"}`}
+                                                                className={`h-full w-full ${member.position === "Deputy Chairlady" || member.position === "Secretary General" ? "object-cover object-top" : "object-cover"}`}
                                                             />
                                                         </button>
                                                     ) : (
@@ -220,6 +221,52 @@ const Leadership = () => {
                                 </>
                             );
                         })()}
+                    </div>
+                </section>
+
+                {/* Council - Payam Representatives Section */}
+                <section className="py-12 md:py-20 bg-muted/30">
+                    <div className="container">
+                        <div className="mx-auto max-w-5xl">
+                            <div className="mb-8 text-center md:mb-12">
+                                <h2 className="mb-4 font-heading text-2xl font-bold md:text-3xl lg:text-4xl">
+                                    Council - Payam Representatives
+                                </h2>
+                                <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">
+                                    Our council comprises representatives from all six payams, ensuring inclusive
+                                    representation and governance across the NCAA community
+                                </p>
+                            </div>
+
+                            <div className="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
+                                {payamRepresentatives.map((rep, index) => (
+                                    <div
+                                        key={index}
+                                        className="group relative overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm transition-all duration-300 hover:shadow-md"
+                                    >
+                                        {/* Gradient overlay */}
+                                        <div className={`absolute inset-0 bg-gradient-to-br ${leadershipGradient} opacity-0 transition-opacity duration-300 group-hover:opacity-5`} />
+                                        
+                                        <div className="relative">
+                                            <div className="mb-4 flex items-center justify-center">
+                                                <div className={`flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br ${leadershipGradient}`}>
+                                                    <MapPin className="h-8 w-8 text-white" />
+                                                </div>
+                                            </div>
+                                            
+                                            <div className="text-center">
+                                                <h3 className="mb-2 font-heading text-lg font-bold">
+                                                    {rep.name}
+                                                </h3>
+                                                <p className={`text-sm font-semibold bg-gradient-to-r ${leadershipGradient} bg-clip-text text-transparent`}>
+                                                    {rep.payam} Payam
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </section>
 

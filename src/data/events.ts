@@ -50,6 +50,15 @@ export const upcomingEvents: UpcomingEvent[] = [
     attendees: 200,
     description: "Annual fundraising event to support educational scholarships for members.",
   },
+  {
+    id: 4,
+    title: "NCAA Awards 2026",
+    date: "December 20, 2026",
+    time: "5:00 PM - 10:00 PM",
+    location: "NCAA Hall, Juba",
+    attendees: 300,
+    description: "Annual NCAA Awards ceremony recognizing outstanding members, leaders, and community contributors. Join us for an evening of celebration, entertainment, and appreciation for those who have made significant contributions to our community.",
+  },
 ];
 
 export const pastEvents: PastEvent[] = [

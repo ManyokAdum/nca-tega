@@ -66,7 +66,7 @@ const Regulations = () => {
                 },
                 {
                     title: "Executive Committee",
-                    content: "Consists of 13 elected officers including Chairperson, Deputy Chairperson, Secretary General, Finance Secretary, and specialized secretaries for various portfolios."
+                    content: "Consists of 13 elected officers including Chairlady, Deputy Chairlady, Secretary General, Finance Secretary, and specialized secretaries for various portfolios."
                 },
                 {
                     title: "Council",

@@ -35,7 +35,7 @@ export const LeadershipPreview = () => {
                 <div className="space-y-6 sm:grid sm:gap-6 sm:space-y-0 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 mx-auto max-w-5xl">
                     {topThreeLeaders.map((member, index) => {
                         const Icon = member.icon;
-                        const isChairperson = member.position === "Chairperson";
+                        const isChairperson = member.position === "Chairlady";
                         return (
                             <div
                                 key={index}
@@ -85,7 +85,7 @@ export const LeadershipPreview = () => {
                                         <img
                                             src={member.image}
                                             alt={member.name}
-                                            className={`h-full w-full ${member.position === "Chairperson" || member.position === "Deputy Chairperson" || member.position === "Secretary General" ? "object-cover object-top" : "object-cover"}`}
+                                            className={`h-full w-full ${member.position === "Chairlady" || member.position === "Deputy Chairlady" || member.position === "Secretary General" ? "object-cover object-top" : "object-cover"}`}
                                         />
                                     </button>
                                 ) : (

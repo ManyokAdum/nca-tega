@@ -112,7 +112,7 @@ const Contact = () => {
                                             <p className="text-sm text-muted-foreground">secretary@nca-twiceast.org</p>
                                         </div>
                                         <div className="rounded-lg border border-border bg-card p-4">
-                                            <h4 className="font-semibold">IEC Chairperson</h4>
+                                            <h4 className="font-semibold">IEC Chairlady</h4>
                                             <p className="text-sm text-muted-foreground">iec@nca-twiceast.org</p>
                                         </div>
                                     </div>

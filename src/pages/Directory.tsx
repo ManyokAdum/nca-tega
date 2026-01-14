@@ -16,7 +16,7 @@ const Directory = () => {
         {
             id: 1,
             name: "Ahou Abit Arok",
-            role: "Chairperson",
+            role: "Chairlady",
             payam: "Ajuong",
             email: "ahou.arok@ncatwiceast.org",
             phone: "+211 912 345 001",
@@ -25,7 +25,7 @@ const Directory = () => {
         {
             id: 2,
             name: "Yar Kuir Mabior",
-            role: "Deputy Chairperson",
+            role: "Deputy Chairlady",
             payam: "Kongor",
             email: "yar.mabior@ncatwiceast.org",
             phone: "+211 912 345 002",

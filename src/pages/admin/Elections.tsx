@@ -134,7 +134,7 @@ const Elections = () => {
                                         <Label htmlFor="positions">Open Positions (comma-separated) *</Label>
                                         <Input
                                             id="positions"
-                                            placeholder="e.g., Chairperson, Deputy Chairperson, Secretary General"
+                                            placeholder="e.g., Chairlady, Deputy Chairlady, Secretary General"
                                             value={electionForm.positions}
                                             onChange={(e) => setElectionForm({ ...electionForm, positions: e.target.value })}
                                         />
