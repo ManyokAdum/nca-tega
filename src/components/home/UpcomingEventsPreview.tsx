@@ -4,8 +4,8 @@ import { Calendar, Clock, MapPin } from "lucide-react";
 import { upcomingEvents } from "@/data/events";
 
 export const UpcomingEventsPreview = () => {
-    // Show only the first 2 upcoming events
-    const previewEvents = upcomingEvents.slice(0, 2);
+    // Show only the first 3 upcoming events
+    const previewEvents = upcomingEvents.slice(0, 3);
 
     return (
         <section className="py-16 md:py-24">
