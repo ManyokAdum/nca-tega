@@ -9,7 +9,6 @@ import { MembershipPreview } from "@/components/home/MembershipPreview";
 import { ElectionsPreview } from "@/components/home/ElectionsPreview";
 import { UpcomingEventsPreview } from "@/components/home/UpcomingEventsPreview";
 import { PastEventsPreview } from "@/components/home/PastEventsPreview";
-import { DocumentsPreview } from "@/components/home/DocumentsPreview";
 import { ContactPreview } from "@/components/home/ContactPreview";
 import { CTASection } from "@/components/home/CTASection";
 
@@ -27,7 +26,6 @@ const Index = () => {
         <ElectionsPreview />
         <UpcomingEventsPreview />
         <PastEventsPreview />
-        <DocumentsPreview />
         <ContactPreview />
         <CTASection />
       </main>

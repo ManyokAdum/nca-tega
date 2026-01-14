@@ -12,7 +12,6 @@ import Leadership from "./pages/Leadership";
 import Governance from "./pages/Governance";
 import Contact from "./pages/Contact";
 import Events from "./pages/Events";
-import Documents from "./pages/Documents";
 import Membership from "./pages/Membership";
 import MembershipPayment from "./pages/MembershipPayment";
 import Scholarship from "./pages/Scholarship";
@@ -20,8 +19,6 @@ import ScholarshipApplication from "./pages/ScholarshipApplication";
 import Elections from "./pages/Elections";
 import UpcomingEvents from "./pages/UpcomingEvents";
 import PastEvents from "./pages/PastEvents";
-import Constitution from "./pages/Constitution";
-import Regulations from "./pages/Regulations";
 import MemberPortal from "./pages/MemberPortal";
 import Payments from "./pages/Payments";
 import Directory from "./pages/Directory";
@@ -69,9 +66,6 @@ const App = () => (
           <Route path="/events" element={<Events />} />
           <Route path="/events/upcoming" element={<UpcomingEvents />} />
           <Route path="/events/past" element={<PastEvents />} />
-          <Route path="/documents" element={<Documents />} />
-          <Route path="/documents/constitution" element={<Constitution />} />
-          <Route path="/documents/regulations" element={<Regulations />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/portal" element={<MemberPortal />} />
           <Route path="/payments" element={<Payments />} />

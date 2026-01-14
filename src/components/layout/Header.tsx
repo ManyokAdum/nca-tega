@@ -50,7 +50,6 @@ export function Header() {
         { name: t("nav.pastEvents"), href: "/events/past", key: "past" },
       ],
     },
-    { name: t("nav.documents"), href: "/documents", key: "documents" },
     { name: "Scholarship", href: "/scholarship", key: "scholarship" },
     { name: t("nav.contact"), href: "/contact", key: "contact" },
   ];
