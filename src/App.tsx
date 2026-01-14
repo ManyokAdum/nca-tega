@@ -16,6 +16,7 @@ import Documents from "./pages/Documents";
 import Membership from "./pages/Membership";
 import MembershipPayment from "./pages/MembershipPayment";
 import Scholarship from "./pages/Scholarship";
+import ScholarshipApplication from "./pages/ScholarshipApplication";
 import Elections from "./pages/Elections";
 import UpcomingEvents from "./pages/UpcomingEvents";
 import PastEvents from "./pages/PastEvents";
@@ -63,6 +64,7 @@ const App = () => (
           <Route path="/membership" element={<Membership />} />
           <Route path="/membership/payment" element={<MembershipPayment />} />
           <Route path="/scholarship" element={<Scholarship />} />
+          <Route path="/scholarship/apply" element={<ScholarshipApplication />} />
           <Route path="/elections" element={<Elections />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/upcoming" element={<UpcomingEvents />} />

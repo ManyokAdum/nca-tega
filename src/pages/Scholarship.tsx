@@ -334,18 +334,24 @@ const Scholarship = () => {
                                 Ready to Apply?
                             </h2>
                             <p className="mb-8 text-lg text-muted-foreground">
-                                Contact the NCAA Education Committee for application forms and additional information
+                                Submit your scholarship application online or contact us for more information
                             </p>
                             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-                                <Button size="lg" asChild>
-                                    <Link to="/contact">Contact Us</Link>
+                                <Button size="lg" asChild className="w-full sm:w-auto">
+                                    <Link to="/scholarship/apply">Apply Online Now</Link>
                                 </Button>
-                                <Button size="lg" variant="outline" asChild>
-                                    <Link to="/membership">Become a Member</Link>
+                                <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
+                                    <Link to="/contact">Contact Us</Link>
                                 </Button>
                             </div>
                             <p className="mt-6 text-sm text-muted-foreground">
                                 For inquiries: education@nca-twiceast.org
+                            </p>
+                            <p className="mt-2 text-sm text-muted-foreground">
+                                Not an NCAA member yet?{" "}
+                                <Link to="/membership" className="text-primary hover:underline">
+                                    Join our community
+                                </Link>
                             </p>
                         </div>
                     </div>
