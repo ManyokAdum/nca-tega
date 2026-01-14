@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { Calendar, MapPin, Clock, Users } from "lucide-react";
+import { Calendar, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { upcomingEvents, pastEvents } from "@/data/events";
@@ -56,10 +56,6 @@ const Events = () => {
                             <MapPin className="h-4 w-4 text-primary" />
                             <span>{event.location}</span>
                           </div>
-                          <div className="flex items-center gap-2 text-sm">
-                            <Users className="h-4 w-4 text-primary" />
-                            <span>{event.attendees} attending</span>
-                          </div>
                         </div>
                       </div>
                       <div className="flex flex-col gap-2 md:w-48">
@@ -103,10 +99,6 @@ const Events = () => {
                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
                             <MapPin className="h-4 w-4" />
                             <span>{event.location}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Users className="h-4 w-4" />
-                            <span>{event.attendees} attended</span>
                           </div>
                         </div>
                       </div>

@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { Calendar, MapPin, Clock, Users } from "lucide-react";
+import { Calendar, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { upcomingEvents } from "@/data/events";
 
@@ -45,10 +45,6 @@ const UpcomingEvents = () => {
                       <div className="flex items-center gap-2 text-sm">
                         <MapPin className="h-4 w-4 text-primary" />
                         <span>{event.location}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm">
-                        <Users className="h-4 w-4 text-primary" />
-                        <span>{event.attendees} attending</span>
                       </div>
                     </div>
                   </div>
