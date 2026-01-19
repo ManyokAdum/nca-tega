@@ -133,7 +133,7 @@ const ScholarshipApplication = () => {
                                         </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="phone">Phone Number *</Label>
-                                            <Input id="phone" type="tel" required placeholder="+211 XXX XXX XXX" />
+                                            <Input id="phone" type="tel" required placeholder="+211 920 287 970" />
                                         </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="address">Residential Address *</Label>

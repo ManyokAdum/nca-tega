@@ -129,7 +129,7 @@ const Register = () => {
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="phone">Phone Number *</Label>
-                                    <Input id="phone" name="phone" type="tel" placeholder="+211 XXX XXX XXX" required />
+                                    <Input id="phone" name="phone" type="tel" placeholder="+211 920 287 970" required />
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="dateOfBirth">Date of Birth *</Label>

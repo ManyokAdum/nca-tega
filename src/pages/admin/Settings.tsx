@@ -67,7 +67,7 @@ const Settings = () => {
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <div className="space-y-2">
                                         <Label htmlFor="phone">Phone</Label>
-                                        <Input id="phone" placeholder="+211 000 000 000" />
+                                        <Input id="phone" placeholder="+211 920 287 970" />
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="website">Website</Label>

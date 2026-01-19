@@ -33,3 +33,7 @@ ui-debug.log
 *.njsproj
 *.sln
 *.sw?
+
+# Test results
+playwright-report/
+test-results/

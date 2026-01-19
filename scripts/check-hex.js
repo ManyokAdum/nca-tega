@@ -11,6 +11,8 @@ const ignoredDirectories = new Set([
   ".storybook-cache",
   ".turbo",
   "public",
+  "playwright-report",
+  "test-results",
 ]);
 const allowedFiles = new Set(
   ["src/styles/branding.css", "design/figma-tokens.json"].map((file) => path.normalize(file))

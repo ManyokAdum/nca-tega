@@ -249,7 +249,6 @@ const Events = () => {
                                         <TableHead>Date & Time</TableHead>
                                         <TableHead>Location</TableHead>
                                         <TableHead>Type</TableHead>
-                                        <TableHead>Attendees</TableHead>
                                         <TableHead>Status</TableHead>
                                         <TableHead>Actions</TableHead>
                                     </TableRow>
@@ -279,7 +278,6 @@ const Events = () => {
                                                     <Badge variant="outline">Past</Badge>
                                                 )}
                                             </TableCell>
-                                            <TableCell>{event.attendees}</TableCell>
                                             <TableCell>
                                                 {event.status === "active" && (
                                                     <Badge className="bg-[hsl(var(--brand-secondary-100))] text-[hsl(var(--brand-secondary-800))]">Active</Badge>

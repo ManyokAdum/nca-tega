@@ -191,7 +191,7 @@ const Donate = () => {
                                                     <Input
                                                         id="donorPhone"
                                                         type="tel"
-                                                        placeholder="+211 XXX XXX XXX"
+                                                        placeholder="+211 920 287 970"
                                                         value={donorPhone}
                                                         onChange={(e) => setDonorPhone(e.target.value)}
                                                     />
@@ -348,7 +348,7 @@ const Donate = () => {
                                         </p>
                                         <div className="space-y-2 text-sm">
                                             <p><strong>Email:</strong> nyancitarialbeek.juba@gmail.com</p>
-                                            <p><strong>Phone:</strong> +211 910 900 467</p>
+                                            <p><strong>Phone:</strong> +211 920 287 970</p>
                                         </div>
                                     </CardContent>
                                 </Card>

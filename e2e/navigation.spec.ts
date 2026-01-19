@@ -123,7 +123,7 @@ test.describe('NCAA Navigation and CTA Buttons', () => {
             await page.getByLabel('First Name').fill('Jane');
             await page.getByLabel('Last Name').fill('Doe');
             await page.getByLabel('Email Address').fill('jane@example.com');
-            await page.getByLabel('Phone Number').fill('+211123456789');
+            await page.getByLabel('Phone Number').fill('+211920287970');
             await page.getByLabel('Date of Birth').fill('1990-01-01');
             await page.getByLabel('Current Location').fill('Juba, South Sudan');
             await page.getByLabel('Password', { exact: true }).fill('password123');

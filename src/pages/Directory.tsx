@@ -19,7 +19,7 @@ const Directory = () => {
             role: "Chairlady",
             payam: "Ajuong",
             email: "ahou.arok@ncatwiceast.org",
-            phone: "+211 912 345 001",
+            phone: "+211 920 287 970",
             location: "Juba"
         },
         {
@@ -28,7 +28,7 @@ const Directory = () => {
             role: "Deputy Chairlady",
             payam: "Kongor",
             email: "yar.mabior@ncatwiceast.org",
-            phone: "+211 912 345 002",
+            phone: "+211 921 159 090",
             location: "Juba"
         },
         {
@@ -37,7 +37,7 @@ const Directory = () => {
             role: "Secretary General",
             payam: "Lith",
             email: "ayak.abit@ncatwiceast.org",
-            phone: "+211 912 345 003",
+            phone: "+211 920 287 970",
             location: "Juba"
         },
         {
@@ -46,7 +46,7 @@ const Directory = () => {
             role: "Finance Secretary",
             payam: "Nyuak",
             email: "nyandeng.khot@ncatwiceast.org",
-            phone: "+211 912 345 004",
+            phone: "+211 921 159 090",
             location: "Juba"
         },
         {
@@ -55,7 +55,7 @@ const Directory = () => {
             role: "Information Secretary",
             payam: "Pakeer",
             email: "alek.majok@ncatwiceast.org",
-            phone: "+211 912 345 005",
+            phone: "+211 920 287 970",
             location: "Juba"
         },
         {
@@ -64,7 +64,7 @@ const Directory = () => {
             role: "Payam Representative",
             payam: "Pawuoi",
             email: "nyarout.gai@ncatwiceast.org",
-            phone: "+211 912 345 006",
+            phone: "+211 921 159 090",
             location: "Pawuoi"
         }
     ];

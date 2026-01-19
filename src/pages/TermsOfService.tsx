@@ -210,7 +210,7 @@ const TermsOfService = () => {
                                 </p>
                                 <div className="space-y-2 text-sm">
                                     <p><strong>Email:</strong> nyancitarialbeek.juba@gmail.com</p>
-                                    <p><strong>Phone:</strong> +211 910 900 467</p>
+                                    <p><strong>Phone:</strong> +211 920 287 970</p>
                                     <p><strong>Address:</strong> NCAA Hall, Juba, South Sudan</p>
                                 </div>
                             </div>

@@ -9,9 +9,11 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { membershipTiers } from "@/data/membership";
+import { useToast } from "@/hooks/use-toast";
 
 const Membership = () => {
     const navigate = useNavigate();
+    const { toast } = useToast();
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -29,18 +31,31 @@ const Membership = () => {
         if (!formData.firstName || !formData.lastName || !formData.email || 
             !formData.phone || !formData.payam || !formData.membershipType || 
             !formData.termsAccepted) {
+            toast({
+                title: "Validation Error",
+                description: "Please fill in all required fields and accept the terms and conditions.",
+                variant: "destructive",
+            });
             return;
         }
+
+        // Calculate amount based on membership type
+        const amount = formData.membershipType === "regular" ? 15000 : 50000;
+        const currency = "SSP";
+        const memberName = `${formData.firstName} ${formData.lastName}`;
 
         // Navigate to payment page with form data
         navigate("/membership/payment", {
             state: {
+                membershipType: formData.membershipType === "regular" ? "Regular Member" : "Executive Member",
+                amount: amount,
+                currency: currency,
+                memberName: memberName,
+                memberEmail: formData.email,
+                memberPhone: formData.phone,
                 firstName: formData.firstName,
                 lastName: formData.lastName,
-                email: formData.email,
-                phone: formData.phone,
                 payam: formData.payam,
-                membershipType: formData.membershipType,
             },
         });
     };

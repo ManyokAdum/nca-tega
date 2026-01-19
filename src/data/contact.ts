@@ -17,8 +17,8 @@ export const contactInformation: ContactInfo[] = [
     {
         icon: Phone,
         title: "Phone",
-        value: "+211 910 900 467",
-        link: "tel:+211910900467"
+        value: "+211 920 287 970",
+        link: "tel:+211920287970"
     },
     {
         icon: MapPin,
